@@ -3,24 +3,26 @@
 //!
 //! Use `create_hashes()` to prepare the hashes for a path.
 //!
-//! Then use `write_hashes()` to save it to disk, or `read_hashes()` to get the saved hashes and compare them with
-//! `compare_hashes()`.
+//! Then use `write_hashes()` to save it to disk, or `read_hashes()` to get the saved hashes, them with
+//! `compare_hashes()` and print them with `write_hash_comparison_results()`.
 
 
 mod compare;
+mod write;
 
-use tabwriter::TabWriter;
-use self::super::Algorithm;
-use self::super::hash_file;
 use std::io::{BufRead, BufReader, Write};
 use self::super::options::DepthSetting;
 use std::collections::BTreeMap;
+use self::super::Algorithm;
+use self::super::hash_file;
 use std::fs::{self, File};
+use tabwriter::TabWriter;
 use std::path::PathBuf;
 use regex::Regex;
 use std::iter;
 
-pub use self::compare::compare_hashes;
+pub use self::compare::*;
+pub use self::write::*;
 
 
 /// Create subpath->hash mappings for a given path using a given algorithm up to a given depth.
