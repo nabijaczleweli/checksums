@@ -3,19 +3,24 @@
 //!
 //! Use `create_hashes()` to prepare the hashes for a path.
 //!
-//! Then use `write_hashes()` to save it to disk, or
-//! `read_hashes()` to get the saved hashes and compare them.
+//! Then use `write_hashes()` to save it to disk, or `read_hashes()` to get the saved hashes and compare them with
+//! `compare_hashes()`.
 
+
+mod compare;
 
 use tabwriter::TabWriter;
 use self::super::Algorithm;
 use self::super::hash_file;
+use std::io::{BufRead, BufReader, Write};
 use self::super::options::DepthSetting;
 use std::collections::BTreeMap;
-use std::path::PathBuf;
-use std::iter;
 use std::fs::{self, File};
-use std::io::Write;
+use std::path::PathBuf;
+use regex::Regex;
+use std::iter;
+
+pub use self::compare::compare_hashes;
 
 
 /// Create subpath->hash mappings for a given path using a given algorithm up to a given depth.
@@ -53,4 +58,24 @@ pub fn write_hashes(out_file: &(String, PathBuf), algo: Algorithm, mut hashes: B
     }
 
     out.flush().unwrap();
+}
+
+/// Read hashes saved with `write_hashes()` from the specified path.
+pub fn read_hashes(in_file: &PathBuf) -> BTreeMap<String, String> {
+    lazy_static! {
+        static ref LINE_RGX: Regex = Regex::new(r"^(.+?)\s{2,}([[:xdigit:]-]+)$").unwrap();
+    }
+
+    let mut hashes = BTreeMap::new();
+
+    let in_file = BufReader::new(File::open(in_file).unwrap());
+    for line in in_file.lines().map(Result::unwrap) {
+        if !line.is_empty() {
+            // TODO: check if succeeded and return line number and error
+            let captures = LINE_RGX.captures(&line).unwrap();
+            hashes.insert(captures[1].to_string(), captures[2].to_string());
+        }
+    }
+
+    hashes
 }

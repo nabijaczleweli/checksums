@@ -4,7 +4,12 @@ description = "Tool for making/verifying checksums of directory trees"
 documentation = "https://cdn.rawgit.com/nabijaczleweli/checksums/doc/checksums/index.html"
 repository = "https://github.com/nabijaczleweli/checksums"
 readme = "README.md"
-keywords = ["checksums", "checksum", "directory", "verification", "hash", "md5", "crc", "sha", "sha2"]
+keywords = ["checksums", "checksum", "directory", "verification", "hash",
+            "sha", "sha1", "sha2", "sha3",
+            "blake", "blake2",
+            "crc", "crc8", "crc16", "crc32", "crc64",
+            "md", "md5",
+            "xor", "xor8"]
 license = "MIT"
 # Remember to also update in appveyor.yml
 version = "0.1.0"
@@ -14,11 +19,13 @@ exclude = ["*.enc"]
 
 [dependencies]
 blake2-rfc = { git = "https://github.com/cesarb/blake2-rfc.git", rev = "0.2.17" }
+lazy_static = "0.2"
 tiny-keccak = "1.1"
 tabwriter = "0.1"
 shaman = "0.1"
 blake = "1.0"
 crc16 = "0.3"
+regex = "0.1"
 clap = "2.10"
 crc8 = "0.1"
 crc = "1.3"
