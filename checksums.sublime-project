@@ -3,7 +3,7 @@
 	[
 		{
 			"working_dir": "$project_path",
-			"shell_cmd": "cargo test --color always",
+			"shell_cmd": "cargo build --color always && cargo test --color always",
 			"name": "Build checksums",
 
 			"target": "ansi_color_build",
