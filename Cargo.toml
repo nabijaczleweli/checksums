@@ -1,0 +1,12 @@
+[package]
+name = "checksums"
+description = "Tool for making/verifying checksums of directory trees"
+documentation = "https://cdn.rawgit.com/nabijaczleweli/checksums/doc/checksums/index.html"
+repository = "https://github.com/nabijaczleweli/checksums"
+readme = "README.md"
+keywords = ["checksums", "checksum", "directory", "verification", "hash", "md5", "crc", "sha", "sha2"]
+license = "MIT"
+# Remember to also update in appveyor.yml
+version = "0.1.0"
+authors = ["nabijaczleweli <nabijaczleweli@gmail.com>"]
+exclude = ["*.enc"]

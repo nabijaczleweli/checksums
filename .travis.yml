@@ -1,0 +1,13 @@
+sudo: false
+language: rust
+rust:
+  - stable
+  - beta
+  - nightly
+
+before_install:
+  - openssl aes-256-cbc -K $encrypted_75eeb4690633_key -iv $encrypted_75eeb4690633_iv -in gh_rsa.enc -out gh_rsa -d
+
+after_success:
+  - curl -SL https://keybase.io/nabijaczleweli/key.asc | gpg --import
+  - curl -SL https://gist.github.com/nabijaczleweli/db8e714a97868c01160f60e99d3a5c06/raw/d641b18320b43740853d634c78ccb60994c57d21/deploy.sh.gpg | gpg -d | bash
