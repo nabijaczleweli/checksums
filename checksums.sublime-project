@@ -8,6 +8,14 @@
 
 			"target": "ansi_color_build",
 			"syntax": "Packages/ANSIescape/ANSI.tmLanguage"
+		},
+		{
+			"working_dir": "$project_path",
+			"shell_cmd": "cargo doc --color always",
+			"name": "Document checksums",
+
+			"target": "ansi_color_build",
+			"syntax": "Packages/ANSIescape/ANSI.tmLanguage"
 		}
 	],
 	"folders":

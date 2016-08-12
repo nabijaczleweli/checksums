@@ -6,16 +6,16 @@ use std::str::FromStr;
 /// # Examples
 ///
 /// ```
-/// assert_eq!(Algorithm::from_str("SHA1"), Algorithm::SHA1);
-/// assert_eq!(Algorithm::from_str("SHA-1"), Algorithm::SHA1);
+/// assert_eq!(Algorithm::from_str("SHA1"), Ok(Algorithm::SHA1));
+/// assert_eq!(Algorithm::from_str("SHA-1"), Ok(Algorithm::SHA1));
 ///
-/// assert_eq!(Algorithm::from_str("SHA2"), Algorithm::SHA2);
-/// assert_eq!(Algorithm::from_str("SHA-2"), Algorithm::SHA2);
+/// assert_eq!(Algorithm::from_str("SHA2"), Ok(Algorithm::SHA2));
+/// assert_eq!(Algorithm::from_str("SHA-2"), Ok(Algorithm::SHA2));
 ///
-/// assert_eq!(Algorithm::from_str("BLAKE"), Algorithm::BLAKE);
-/// assert_eq!(Algorithm::from_str("BLAKE2"), Algorithm::BLAKE2);
+/// assert_eq!(Algorithm::from_str("BLAKE"), Ok(Algorithm::BLAKE));
+/// assert_eq!(Algorithm::from_str("BLAKE2"), Ok(Algorithm::BLAKE2));
 ///
-/// assert_eq!(Algorithm::from_str("MD5"), Algorithm::MD5);
+/// assert_eq!(Algorithm::from_str("MD5"), Ok(Algorithm::MD5));
 /// ```
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
 pub enum Algorithm {
@@ -57,6 +57,20 @@ mod tests {
     use std::str::FromStr;
     use self::super::Algorithm;
 
+
+    #[test]
+    fn doctest() {
+        assert_eq!(Algorithm::from_str("SHA1"), Ok(Algorithm::SHA1));
+        assert_eq!(Algorithm::from_str("SHA-1"), Ok(Algorithm::SHA1));
+
+        assert_eq!(Algorithm::from_str("SHA2"), Ok(Algorithm::SHA2));
+        assert_eq!(Algorithm::from_str("SHA-2"), Ok(Algorithm::SHA2));
+
+        assert_eq!(Algorithm::from_str("BLAKE"), Ok(Algorithm::BLAKE));
+        assert_eq!(Algorithm::from_str("BLAKE2"), Ok(Algorithm::BLAKE2));
+
+        assert_eq!(Algorithm::from_str("MD5"), Ok(Algorithm::MD5));
+    }
 
     #[test]
     fn from_str() {
