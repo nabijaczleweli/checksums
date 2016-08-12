@@ -11,7 +11,7 @@
 //! ```
 
 
-use clap::{App, Arg, AppSettings};
+use clap::{self, App, Arg, AppSettings};
 use self::super::Algorithm;
 use std::path::PathBuf;
 use std::str::FromStr;
@@ -29,6 +29,8 @@ pub struct Options {
     pub verify: bool,
     /// Max recursion depth. Default: `LastLevel`
     pub depth: DepthSetting,
+    /// In-/Output filename. Default: `"./INFERRED_FROM_DIRECTORY.hash"`
+    pub file: PathBuf,
 }
 
 /// Representation of how deep recursion should be.
@@ -49,7 +51,6 @@ impl Options {
     /// Parse `env`-wide command-line arguments into an `Options` instance
     pub fn parse() -> Options {
         let matches = App::new("checksums")
-            .setting(AppSettings::AllowLeadingHyphen)
             .setting(AppSettings::ColoredHelp)
             .version(crate_version!())
             .author(crate_authors!())
@@ -62,17 +63,39 @@ impl Options {
                         .validator(Options::algorithm_validator),
                     Arg::from_usage("--create -c 'Make checksums'").overrides_with("verify"),
                     Arg::from_usage("--verify -v 'Verify checksums (default)'").overrides_with("create"),
-                    Arg::from_usage("--depth=[depth] -d 'Max recursion depth. `-1` for infinite.'")
-                        .default_value("0")
+                    Arg::from_usage("--depth=[depth] -d 'Max recursion depth. `-1` for infinite.'. Default: don't recurse")
                         .validator(Options::depth_validator)
-                        .overrides_with("create")])
+                        .overrides_with("recursive"),
+                    Arg::from_usage("--recursive -r 'Infinite recursion depth.'").overrides_with("depth"),
+                    Arg::from_usage("--file=[file] -f 'File with hashes to be read/created'").validator(Options::file_validator),
+                    Arg::from_usage("--force 'Override output file'")])
             .get_matches();
 
+        let dir = fs::canonicalize(matches.value_of("DIRECTORY").unwrap()).unwrap();
+        let verify = !matches.is_present("create");
+        let file = Options::file_process(matches.value_of("file"), &dir);
+
+        if file.exists() && !verify && !matches.is_present("force") {
+            clap::Error {
+                    message: "The output file exists and was not overridden to prevent data loss.\n\
+                              Pass the --force option to suppress this error."
+                        .to_string(),
+                    kind: clap::ErrorKind::MissingRequiredArgument,
+                    info: None,
+                }
+                .exit();
+        }
+
         Options {
-            dir: fs::canonicalize(matches.value_of("DIRECTORY").unwrap()).unwrap(),
+            dir: dir,
             algorithm: Algorithm::from_str(matches.value_of("algorithm").unwrap()).unwrap(),
-            verify: !matches.is_present("create"),
-            depth: DepthSetting::from_str(matches.value_of("depth").unwrap()).unwrap(),
+            verify: verify,
+            depth: if matches.is_present("recursive") {
+                DepthSetting::Infinite
+            } else {
+                DepthSetting::from_str(matches.value_of("depth").unwrap_or("0")).unwrap()
+            },
+            file: file,
         }
     }
 
@@ -81,7 +104,7 @@ impl Options {
     }
 
     fn directory_validator(s: String) -> Result<(), String> {
-        fs::canonicalize(s).map_err(|e| e.to_string()).and_then(|p| {
+        fs::canonicalize(s).map_err(|e| format!("directory: {}", e.to_string())).and_then(|p| {
             if p.is_file() {
                 Err("DIRECTORY cannot be a file.".to_string())
             } else {
@@ -92,6 +115,50 @@ impl Options {
 
     fn depth_validator(s: String) -> Result<(), String> {
         DepthSetting::from_str(&s).map(|_| ())
+    }
+
+    fn file_validator(s: String) -> Result<(), String> {
+        let mut buf = PathBuf::from(s);
+        if buf.exists() && buf.is_dir() {
+            Err("file exists and is a directory".to_string())
+        } else {
+            buf.pop();
+
+            // Handle pathless filename
+            if buf.as_os_str().is_empty() {
+                Ok(())
+            } else {
+                buf.canonicalize().map(|_| ()).map_err(|e| format!("file: {}", e.to_string()))
+            }
+        }
+    }
+
+    fn file_process(file: Option<&str>, dir: &PathBuf) -> PathBuf {
+        match file {
+            Some(file) => {
+                let mut file = PathBuf::from(file);
+                let file_name = file.file_name().unwrap().to_os_string();
+
+                file.pop();
+                // Handle pathless filename
+                if file.as_os_str().is_empty() {
+                    file.push(".");
+                }
+
+                file.canonicalize()
+                    .map(|mut p| {
+                        p.push(file_name);
+                        p
+                    })
+                    .unwrap()
+            }
+            None => {
+                let mut file = dir.clone();
+                file.push(dir.file_name().unwrap());
+                file.set_extension("hash");
+                file
+            }
+        }
     }
 }
 
