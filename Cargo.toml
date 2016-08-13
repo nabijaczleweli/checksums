@@ -13,4 +13,5 @@ exclude = ["*.enc"]
 
 
 [dependencies]
+tabwriter = "0.1"
 clap = "2.10"

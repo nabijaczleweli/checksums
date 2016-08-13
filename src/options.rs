@@ -30,7 +30,7 @@ pub struct Options {
     /// Max recursion depth. Default: `LastLevel`
     pub depth: DepthSetting,
     /// In-/Output filename. Default: `"./INFERRED_FROM_DIRECTORY.hash"`
-    pub file: PathBuf,
+    pub file: (String, PathBuf),
 }
 
 /// Representation of how deep recursion should be.
@@ -57,7 +57,7 @@ impl Options {
             .about("Tool for making/verifying checksums of directory trees")
             .args(&[Arg::from_usage("[DIRECTORY] 'Directory to hash/verify'").default_value(".").validator(Options::directory_validator),
                     Arg::from_usage("--algorithm=[algorithm] -a 'Hashing algorithm to use. {n}\
-                                     Supported algorithms: SHA{1,2,3}, BLAKE{,2}, CRC{64,32,16,8}, MD5'")
+                                     Supported algorithms: SHA{1,2-{256,512},3-{256,512,1024,2048}}, BLAKE{,2}, CRC{64,32,16,8}, MD5, XOR8'")
                         .next_line_help(true)
                         .default_value("SHA1")
                         .validator(Options::algorithm_validator),
@@ -75,7 +75,7 @@ impl Options {
         let verify = !matches.is_present("create");
         let file = Options::file_process(matches.value_of("file"), &dir);
 
-        if file.exists() && !verify && !matches.is_present("force") {
+        if file.1.exists() && !verify && !matches.is_present("force") {
             clap::Error {
                     message: "The output file exists and was not overridden to prevent data loss.\n\
                               Pass the --force option to suppress this error."
@@ -133,7 +133,7 @@ impl Options {
         }
     }
 
-    fn file_process(file: Option<&str>, dir: &PathBuf) -> PathBuf {
+    fn file_process(file: Option<&str>, dir: &PathBuf) -> (String, PathBuf) {
         match file {
             Some(file) => {
                 let mut file = PathBuf::from(file);
@@ -145,18 +145,19 @@ impl Options {
                     file.push(".");
                 }
 
-                file.canonicalize()
+                (file_name.to_str().unwrap().to_string(),
+                 file.canonicalize()
                     .map(|mut p| {
                         p.push(file_name);
                         p
                     })
-                    .unwrap()
+                    .unwrap())
             }
             None => {
                 let mut file = dir.clone();
                 file.push(dir.file_name().unwrap());
                 file.set_extension("hash");
-                file
+                (file.file_name().unwrap().to_str().unwrap().to_string(), file)
             }
         }
     }

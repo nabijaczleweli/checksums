@@ -1,5 +1,6 @@
 #[macro_use]
 extern crate clap;
+extern crate tabwriter;
 
 mod algorithms;
 
@@ -12,12 +13,12 @@ pub use algorithms::Algorithm;
 fn main() {
     let opts = options::Options::parse();
 
-    println!("{:?}", opts);
     let hashes = ops::create_hashes(&opts.dir, opts.algorithm, opts.depth);
-    println!("{:#?}", hashes);
     if opts.verify {
         // todo
+        println!("Verification unimplemented!");
+        println!("{:#?}", hashes);
     } else {
-        //ops::create(&opts.dir, opts.algorithm, opts.depth)
+        ops::write_hashes(&opts.file, opts.algorithm, hashes);
     }
 }
