@@ -28,10 +28,6 @@ pub enum Algorithm {
     SHA3256,
     /// SHA3-512
     SHA3512,
-    /// SHA3-1024
-    SHA31024,
-    /// SHA3-2048
-    SHA32048,
     BLAKE,
     BLAKE2,
     CRC64,
@@ -58,8 +54,6 @@ impl Algorithm {
             &Algorithm::SHA3512 |
             &Algorithm::BLAKE |
             &Algorithm::BLAKE2 => 128,
-            &Algorithm::SHA31024 => 256,
-            &Algorithm::SHA32048 => 512,
         }
     }
 }
@@ -80,12 +74,6 @@ impl FromStr for Algorithm {
             }
             "SHA3" | "SHA-3" | "sha3" | "SHA3512" | "SHA3-512" | "SHA-3-512" | "SHA3_512" | "SHA-3_512" | "SHA_3-512" | "SHA_3_512" | "sha3512" |
             "sha3-512" | "sha3_512" => Ok(Algorithm::SHA3512),
-            "SHA31024" | "SHA3-1024" | "SHA-3-1024" | "SHA3_1024" | "SHA-3_1024" | "SHA_3-1024" | "SHA_3_1024" | "sha31024" | "sha3-1024" | "sha3_1024" => {
-                Ok(Algorithm::SHA31024)
-            }
-            "SHA32048" | "SHA3-2048" | "SHA-3-2048" | "SHA3_2048" | "SHA-3_2048" | "SHA_3-2048" | "SHA_3_2048" | "sha32048" | "sha3-2048" | "sha3_2048" => {
-                Ok(Algorithm::SHA32048)
-            }
             "BLAKE" | "blake" => Ok(Algorithm::BLAKE),
             "BLAKE2" | "blake2" => Ok(Algorithm::BLAKE2),
             "CRC64" | "crc64" => Ok(Algorithm::CRC64),
@@ -131,12 +119,8 @@ mod tests {
                    ("sha3", Algorithm::SHA3512),
                    ("sha3-256", Algorithm::SHA3256),
                    ("sha3-512", Algorithm::SHA3512),
-                   ("sha3-1024", Algorithm::SHA31024),
-                   ("sha3-2048", Algorithm::SHA32048),
                    ("sha3256", Algorithm::SHA3256),
                    ("sha3512", Algorithm::SHA3512),
-                   ("sha31024", Algorithm::SHA31024),
-                   ("sha32048", Algorithm::SHA32048),
                    ("blake", Algorithm::BLAKE),
                    ("blake2", Algorithm::BLAKE2),
                    ("crc64", Algorithm::CRC64),

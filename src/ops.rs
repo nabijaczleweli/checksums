@@ -3,13 +3,14 @@
 //!
 //! Use `create_hashes()` to prepare the hashes for a path.
 //!
-//! Then use `write_hashes` to save it to disk, or
-//! `read_hashes` to get the saved hashes and compare them.
+//! Then use `write_hashes()` to save it to disk, or
+//! `read_hashes()` to get the saved hashes and compare them.
 
 
 use tabwriter::TabWriter;
-use self::super::options::DepthSetting;
 use self::super::Algorithm;
+use self::super::hash_file;
+use self::super::options::DepthSetting;
 use std::collections::BTreeMap;
 use std::path::PathBuf;
 use std::iter;
@@ -26,12 +27,12 @@ pub fn create_hashes(path: &PathBuf, algo: Algorithm, remaining_depth: DepthSett
         let file_type = file.file_type().unwrap();
         let file_name_s = file.file_name().into_string().unwrap();
 
-        if file_type.is_file() {
-            hashes.insert(file_name_s, format!("{:?}", remaining_depth));  // todo
-        } else if remaining_depth.can_recurse() {
-            let mut subpath = path.clone();
-            subpath.push(file.path());
+        let mut subpath = path.clone();
+        subpath.push(file.path());
 
+        if file_type.is_file() {
+            hashes.insert(file_name_s, hash_file(&subpath, algo));
+        } else if remaining_depth.can_recurse() {
             // TODO: replace with passing prefixes as argument and `append()`ing directly once `btree_append` is stabilised
             for kv in create_hashes(&subpath, algo, remaining_depth.next_level().unwrap()) {
                 hashes.insert(format!("{}/{}", file_name_s, kv.0), kv.1);

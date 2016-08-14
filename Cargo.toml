@@ -13,5 +13,12 @@ exclude = ["*.enc"]
 
 
 [dependencies]
+blake2-rfc = { git = "https://github.com/cesarb/blake2-rfc.git", rev = "0.2.17" }
+tiny-keccak = "1.1"
 tabwriter = "0.1"
+shaman = "0.1"
+crc16 = "0.3"
 clap = "2.10"
+crc8 = "0.1"
+crc = "1.3"
+md5 = "0.2"

@@ -1,12 +1,21 @@
+extern crate md5;
+extern crate crc;
 #[macro_use]
 extern crate clap;
+extern crate crc8;
+extern crate crc16;
+extern crate shaman;
 extern crate tabwriter;
+extern crate blake2_rfc;
+extern crate tiny_keccak;
 
+mod hashing;
 mod algorithms;
 
 pub mod ops;
 pub mod options;
 
+pub use hashing::hash_file;
 pub use algorithms::Algorithm;
 
 
