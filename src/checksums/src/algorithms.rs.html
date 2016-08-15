@@ -198,6 +198,7 @@
 <span id="154">154</span>
 <span id="155">155</span>
 <span id="156">156</span>
+<span id="157">157</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>;
 
@@ -294,6 +295,7 @@
             <span class='string'>&quot;CRC16&quot;</span> <span class='op'>|</span> <span class='string'>&quot;crc16&quot;</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Algorithm</span>::<span class='ident'>CRC16</span>),
             <span class='string'>&quot;CRC8&quot;</span> <span class='op'>|</span> <span class='string'>&quot;crc8&quot;</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Algorithm</span>::<span class='ident'>CRC8</span>),
             <span class='string'>&quot;MD5&quot;</span> <span class='op'>|</span> <span class='string'>&quot;md5&quot;</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Algorithm</span>::<span class='ident'>MD5</span>),
+            <span class='string'>&quot;XOR8&quot;</span> <span class='op'>|</span> <span class='string'>&quot;xor8&quot;</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Algorithm</span>::<span class='ident'>XOR8</span>),
             _ <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{:?} is not a recognised compression algorithm&quot;</span>, <span class='ident'>s</span>)),
         }
     }

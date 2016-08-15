@@ -353,7 +353,6 @@
 <span id="309">309</span>
 <span id="310">310</span>
 <span id="311">311</span>
-<span id="312">312</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Option parsing and management.</span>
 <span class='doccomment'>//!</span>
@@ -511,11 +510,10 @@
                     .<span class='ident'>unwrap</span>())
             }
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>file_name</span> <span class='op'>=</span> <span class='ident'>dir</span>.<span class='ident'>file_name</span>().<span class='ident'>unwrap</span>();
                 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>file</span> <span class='op'>=</span> <span class='ident'>dir</span>.<span class='ident'>clone</span>();
-                <span class='ident'>file</span>.<span class='ident'>push</span>(<span class='ident'>file_name</span>);
+                <span class='ident'>file</span>.<span class='ident'>push</span>(<span class='ident'>dir</span>.<span class='ident'>file_name</span>().<span class='ident'>unwrap</span>());
                 <span class='ident'>file</span>.<span class='ident'>set_extension</span>(<span class='string'>&quot;hash&quot;</span>);
-                (<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}.hash&quot;</span>, <span class='ident'>file_name</span>.<span class='ident'>to_str</span>().<span class='ident'>unwrap</span>()), <span class='ident'>file</span>)
+                (<span class='ident'>dir</span>.<span class='ident'>file_name</span>().<span class='ident'>unwrap</span>().<span class='ident'>to_str</span>().<span class='ident'>unwrap</span>().<span class='ident'>to_string</span>(), <span class='ident'>file</span>)
             }
         }
     }
