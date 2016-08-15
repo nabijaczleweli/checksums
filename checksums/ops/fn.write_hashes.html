@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `checksums` crate.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, checksums">
+    <meta name="description" content="API documentation for the Rust `write_hashes` fn in crate `checksums`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, write_hashes">
 
-    <title>checksums - Rust</title>
+    <title>checksums::ops::write_hashes - Rust</title>
 
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
     
 
     
@@ -28,7 +28,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'></p><script>window.sidebarCurrent = {name: 'checksums', ty: 'mod', relpath: '../'};</script>
+        <p class='location'><a href='../index.html'>checksums</a>::<wbr><a href='index.html'>ops</a></p><script>window.sidebarCurrent = {name: 'write_hashes', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -42,36 +42,14 @@
         </form>
     </nav>
 
-    <section id='main' class="content mod">
-<h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>checksums</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content fn">
+<h1 class='fqn'><span class='in-band'>Function <a href='../index.html'>checksums</a>::<wbr><a href='index.html'>ops</a>::<wbr><a class='fn' href=''>write_hashes</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-0' class='srclink' href='../src/checksums/src/main.rs.html#1-24' title='goto source code'>[src]</a></span></h1>
-<h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
-<table>
-                       <tr class=' module-item'>
-                           <td><a class='mod' href='ops/index.html'
-                                  title='checksums::ops'>ops</a></td>
-                           <td class='docblock short'>
-                                <p>Main functions doing actual work.</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class='mod' href='options/index.html'
-                                  title='checksums::options'>options</a></td>
-                           <td class='docblock short'>
-                                <p>Option parsing and management.</p>
-                           </td>
-                       </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
-<table>
-                       <tr class=' module-item'>
-                           <td><a class='enum' href='enum.Algorithm.html'
-                                  title='checksums::Algorithm'>Algorithm</a></td>
-                           <td class='docblock short'>
-                                <p>A hashing algorithm.</p>
-                           </td>
-                       </tr></table></section>
+               </span><a id='src-97' class='srclink' href='../../src/checksums/src/ops.rs.html#46-55' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn write_hashes(out_file: &amp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(</a><a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='struct' href='https://doc.rust-lang.org/nightly/std/path/struct.PathBuf.html' title='std::path::PathBuf'>PathBuf</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>)</a>, algo: <a class='enum' href='../../checksums/enum.Algorithm.html' title='checksums::Algorithm'>Algorithm</a>, hashes: &amp;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/btree/map/struct.BTreeMap.html' title='collections::btree::map::BTreeMap'>BTreeMap</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;)</pre><div class='docblock'><p>Serialise the specified hashes to the specified output file.</p>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -125,13 +103,13 @@
     
 
     <script>
-        window.rootPath = "../";
+        window.rootPath = "../../";
         window.currentCrate = "checksums";
         window.playgroundUrl = "";
     </script>
-    <script src="../jquery.js"></script>
-    <script src="../main.js"></script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
     
-    <script defer src="../search-index.js"></script>
+    <script defer src="../../search-index.js"></script>
 </body>
 </html>

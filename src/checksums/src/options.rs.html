@@ -352,6 +352,8 @@
 <span id="308">308</span>
 <span id="309">309</span>
 <span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Option parsing and management.</span>
 <span class='doccomment'>//!</span>
@@ -385,7 +387,7 @@
     <span class='doccomment'>/// Max recursion depth. Default: `LastLevel`</span>
     <span class='kw'>pub</span> <span class='ident'>depth</span>: <span class='ident'>DepthSetting</span>,
     <span class='doccomment'>/// In-/Output filename. Default: `&quot;./INFERRED_FROM_DIRECTORY.hash&quot;`</span>
-    <span class='kw'>pub</span> <span class='ident'>file</span>: <span class='ident'>PathBuf</span>,
+    <span class='kw'>pub</span> <span class='ident'>file</span>: (<span class='ident'>String</span>, <span class='ident'>PathBuf</span>),
 }
 
 <span class='doccomment'>/// Representation of how deep recursion should be.</span>
@@ -412,7 +414,7 @@
             .<span class='ident'>about</span>(<span class='string'>&quot;Tool for making/verifying checksums of directory trees&quot;</span>)
             .<span class='ident'>args</span>(<span class='kw-2'>&amp;</span>[<span class='ident'>Arg</span>::<span class='ident'>from_usage</span>(<span class='string'>&quot;[DIRECTORY] &#39;Directory to hash/verify&#39;&quot;</span>).<span class='ident'>default_value</span>(<span class='string'>&quot;.&quot;</span>).<span class='ident'>validator</span>(<span class='ident'>Options</span>::<span class='ident'>directory_validator</span>),
                     <span class='ident'>Arg</span>::<span class='ident'>from_usage</span>(<span class='string'>&quot;--algorithm=[algorithm] -a &#39;Hashing algorithm to use. {n}\
-                                     Supported algorithms: SHA{1,2,3}, BLAKE{,2}, CRC{64,32,16,8}, MD5&#39;&quot;</span>)
+                                     Supported algorithms: SHA{1,2-{256,512},3-{256,512,1024,2048}}, BLAKE{,2}, CRC{64,32,16,8}, MD5, XOR8&#39;&quot;</span>)
                         .<span class='ident'>next_line_help</span>(<span class='boolvalue'>true</span>)
                         .<span class='ident'>default_value</span>(<span class='string'>&quot;SHA1&quot;</span>)
                         .<span class='ident'>validator</span>(<span class='ident'>Options</span>::<span class='ident'>algorithm_validator</span>),
@@ -430,7 +432,7 @@
         <span class='kw'>let</span> <span class='ident'>verify</span> <span class='op'>=</span> <span class='op'>!</span><span class='ident'>matches</span>.<span class='ident'>is_present</span>(<span class='string'>&quot;create&quot;</span>);
         <span class='kw'>let</span> <span class='ident'>file</span> <span class='op'>=</span> <span class='ident'>Options</span>::<span class='ident'>file_process</span>(<span class='ident'>matches</span>.<span class='ident'>value_of</span>(<span class='string'>&quot;file&quot;</span>), <span class='kw-2'>&amp;</span><span class='ident'>dir</span>);
 
-        <span class='kw'>if</span> <span class='ident'>file</span>.<span class='ident'>exists</span>() <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ident'>verify</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ident'>matches</span>.<span class='ident'>is_present</span>(<span class='string'>&quot;force&quot;</span>) {
+        <span class='kw'>if</span> <span class='ident'>file</span>.<span class='number'>1</span>.<span class='ident'>exists</span>() <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ident'>verify</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ident'>matches</span>.<span class='ident'>is_present</span>(<span class='string'>&quot;force&quot;</span>) {
             <span class='ident'>clap</span>::<span class='ident'>Error</span> {
                     <span class='ident'>message</span>: <span class='string'>&quot;The output file exists and was not overridden to prevent data loss.\n\
                               Pass the --force option to suppress this error.&quot;</span>
@@ -488,7 +490,7 @@
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>file_process</span>(<span class='ident'>file</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span>, <span class='ident'>dir</span>: <span class='kw-2'>&amp;</span><span class='ident'>PathBuf</span>) <span class='op'>-&gt;</span> <span class='ident'>PathBuf</span> {
+    <span class='kw'>fn</span> <span class='ident'>file_process</span>(<span class='ident'>file</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span>, <span class='ident'>dir</span>: <span class='kw-2'>&amp;</span><span class='ident'>PathBuf</span>) <span class='op'>-&gt;</span> (<span class='ident'>String</span>, <span class='ident'>PathBuf</span>) {
         <span class='kw'>match</span> <span class='ident'>file</span> {
             <span class='prelude-val'>Some</span>(<span class='ident'>file</span>) <span class='op'>=&gt;</span> {
                 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>file</span> <span class='op'>=</span> <span class='ident'>PathBuf</span>::<span class='ident'>from</span>(<span class='ident'>file</span>);
@@ -500,18 +502,20 @@
                     <span class='ident'>file</span>.<span class='ident'>push</span>(<span class='string'>&quot;.&quot;</span>);
                 }
 
-                <span class='ident'>file</span>.<span class='ident'>canonicalize</span>()
+                (<span class='ident'>file_name</span>.<span class='ident'>to_str</span>().<span class='ident'>unwrap</span>().<span class='ident'>to_string</span>(),
+                 <span class='ident'>file</span>.<span class='ident'>canonicalize</span>()
                     .<span class='ident'>map</span>(<span class='op'>|</span><span class='kw-2'>mut</span> <span class='ident'>p</span><span class='op'>|</span> {
                         <span class='ident'>p</span>.<span class='ident'>push</span>(<span class='ident'>file_name</span>);
                         <span class='ident'>p</span>
                     })
-                    .<span class='ident'>unwrap</span>()
+                    .<span class='ident'>unwrap</span>())
             }
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
+                <span class='kw'>let</span> <span class='ident'>file_name</span> <span class='op'>=</span> <span class='ident'>dir</span>.<span class='ident'>file_name</span>().<span class='ident'>unwrap</span>();
                 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>file</span> <span class='op'>=</span> <span class='ident'>dir</span>.<span class='ident'>clone</span>();
-                <span class='ident'>file</span>.<span class='ident'>push</span>(<span class='ident'>dir</span>.<span class='ident'>file_name</span>().<span class='ident'>unwrap</span>());
+                <span class='ident'>file</span>.<span class='ident'>push</span>(<span class='ident'>file_name</span>);
                 <span class='ident'>file</span>.<span class='ident'>set_extension</span>(<span class='string'>&quot;hash&quot;</span>);
-                <span class='ident'>file</span>
+                (<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}.hash&quot;</span>, <span class='ident'>file_name</span>.<span class='ident'>to_str</span>().<span class='ident'>unwrap</span>()), <span class='ident'>file</span>)
             }
         }
     }
