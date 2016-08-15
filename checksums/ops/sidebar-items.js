@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["create_hashes",""]]});
+initSidebarItems({"fn":[["create_hashes","Create subpath->hash mappings for a given path using a given algorithm up to a given depth."]]});

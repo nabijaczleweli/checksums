@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["Algorithm","A hashing algorithm."]],"mod":[["ops",""],["options","Option parsing and management."]]});
+initSidebarItems({"enum":[["Algorithm","A hashing algorithm."]],"mod":[["ops","Main functions doing actual work."],["options","Option parsing and management."]]});
