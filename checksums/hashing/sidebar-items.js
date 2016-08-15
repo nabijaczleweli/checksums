@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["hash_file","Hash the specified file using the specified hashing algorithm."]]});
