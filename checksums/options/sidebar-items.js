@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Options","Representation of the application's of all configurable values"]]});
+initSidebarItems({"enum":[["DepthSetting","Representation of how deep recursion should be."]],"struct":[["Options","Representation of the application's all configurable values."]]});

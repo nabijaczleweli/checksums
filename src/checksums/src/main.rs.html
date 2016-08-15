@@ -57,21 +57,37 @@
 <span id="13">13</span>
 <span id="14">14</span>
 <span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
 </pre><pre class='rust '>
 <span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>clap</span>;
 
-<span class='kw'>mod</span> <span class='ident'>options</span>;
 <span class='kw'>mod</span> <span class='ident'>algorithms</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>options</span>::<span class='ident'>Options</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>ops</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>options</span>;
+
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>algorithms</span>::<span class='ident'>Algorithm</span>;
 
 
 <span class='kw'>fn</span> <span class='ident'>main</span>() {
-    <span class='kw'>let</span> <span class='ident'>opts</span> <span class='op'>=</span> <span class='ident'>Options</span>::<span class='ident'>parse</span>();
+    <span class='kw'>let</span> <span class='ident'>opts</span> <span class='op'>=</span> <span class='ident'>options</span>::<span class='ident'>Options</span>::<span class='ident'>parse</span>();
 
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>opts</span>);
+    <span class='kw'>let</span> <span class='ident'>hashes</span> <span class='op'>=</span> <span class='ident'>ops</span>::<span class='ident'>create_hashes</span>(<span class='kw-2'>&amp;</span><span class='ident'>opts</span>.<span class='ident'>dir</span>, <span class='ident'>opts</span>.<span class='ident'>algorithm</span>, <span class='ident'>opts</span>.<span class='ident'>depth</span>);
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:#?}&quot;</span>, <span class='ident'>hashes</span>);
+    <span class='kw'>if</span> <span class='ident'>opts</span>.<span class='ident'>verify</span> {
+        <span class='comment'>// todo</span>
+    } <span class='kw'>else</span> {
+        <span class='comment'>//ops::create(&amp;opts.dir, opts.algorithm, opts.depth)</span>
+    }
 }
 </pre>
 </section>
