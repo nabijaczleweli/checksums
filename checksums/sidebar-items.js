@@ -1,1 +1,1 @@
-initSidebarItems({});
+initSidebarItems({"enum":[["Algorithm","A hashing algorithm."]],"struct":[["Options","Representation of the application's of all configurable values"]]});

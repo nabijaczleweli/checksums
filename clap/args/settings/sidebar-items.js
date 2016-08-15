@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["ArgSettings","Various settings that apply to arguments and may be set, unset, and checked via getter/setter methods [`Arg::set`], [`Arg::unset`], and [`Arg::is_set`] [`Arg::set`]: ./struct.Arg.html#method.set [`Arg::unset`]: ./struct.Arg.html#method.unset [`Arg::is_set`]: ./struct.Arg.html#method.is_set"]]});

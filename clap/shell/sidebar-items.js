@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Shell","Describes which shell to produce a completions file for"]]});

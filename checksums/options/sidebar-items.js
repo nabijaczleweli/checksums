@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Options","Representation of the application's of all configurable values"]]});
