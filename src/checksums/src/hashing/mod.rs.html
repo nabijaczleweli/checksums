@@ -99,13 +99,13 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>iter</span>::<span class='ident'>FromIterator</span>;
 <span class='kw'>use</span> <span class='self'>self</span>::<span class='kw'>super</span>::<span class='ident'>Algorithm</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>PathBuf</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>iter</span>;
 
 <span class='kw'>mod</span> <span class='ident'>md5</span>;
 <span class='kw'>mod</span> <span class='ident'>xor8</span>;
 <span class='kw'>mod</span> <span class='ident'>crc8</span>;
 <span class='kw'>mod</span> <span class='ident'>crc16</span>;
 <span class='kw'>mod</span> <span class='ident'>blake</span>;
+<span class='kw'>mod</span> <span class='ident'>blake2</span>;
 <span class='kw'>mod</span> <span class='ident'>crc32_64</span>;
 <span class='kw'>mod</span> <span class='ident'>sha3256_3512</span>;
 <span class='kw'>mod</span> <span class='ident'>sha1_2256_2512</span>;
@@ -119,8 +119,8 @@
         <span class='ident'>Algorithm</span>::<span class='ident'>SHA2512</span> <span class='op'>=&gt;</span> <span class='ident'>sha1_2256_2512</span>::<span class='ident'>sha2512</span>::<span class='ident'>hash</span>(<span class='ident'>path</span>),
         <span class='ident'>Algorithm</span>::<span class='ident'>SHA3256</span> <span class='op'>=&gt;</span> <span class='ident'>sha3256_3512</span>::<span class='ident'>sha3256</span>::<span class='ident'>hash</span>(<span class='ident'>path</span>),
         <span class='ident'>Algorithm</span>::<span class='ident'>SHA3512</span> <span class='op'>=&gt;</span> <span class='ident'>sha3256_3512</span>::<span class='ident'>sha3512</span>::<span class='ident'>hash</span>(<span class='ident'>path</span>),
-        <span class='ident'>Algorithm</span>::<span class='ident'>BLAKE</span> <span class='op'>=&gt;</span> <span class='ident'>iter</span>::<span class='ident'>repeat</span>(<span class='string'>&quot;0&quot;</span>).<span class='ident'>take</span>(<span class='ident'>algo</span>.<span class='ident'>size</span>()).<span class='ident'>collect</span>(),
-        <span class='ident'>Algorithm</span>::<span class='ident'>BLAKE2</span> <span class='op'>=&gt;</span> <span class='ident'>blake</span>::<span class='ident'>hash</span>(<span class='ident'>path</span>),
+        <span class='ident'>Algorithm</span>::<span class='ident'>BLAKE</span> <span class='op'>=&gt;</span> <span class='ident'>blake</span>::<span class='ident'>hash</span>(<span class='ident'>path</span>),
+        <span class='ident'>Algorithm</span>::<span class='ident'>BLAKE2</span> <span class='op'>=&gt;</span> <span class='ident'>blake2</span>::<span class='ident'>hash</span>(<span class='ident'>path</span>),
         <span class='ident'>Algorithm</span>::<span class='ident'>CRC64</span> <span class='op'>=&gt;</span> <span class='ident'>crc32_64</span>::<span class='ident'>crc64</span>::<span class='ident'>hash</span>(<span class='ident'>path</span>),
         <span class='ident'>Algorithm</span>::<span class='ident'>CRC32</span> <span class='op'>=&gt;</span> <span class='ident'>crc32_64</span>::<span class='ident'>crc32</span>::<span class='ident'>hash</span>(<span class='ident'>path</span>),
         <span class='ident'>Algorithm</span>::<span class='ident'>CRC16</span> <span class='op'>=&gt;</span> <span class='ident'>crc16</span>::<span class='ident'>hash</span>(<span class='ident'>path</span>),

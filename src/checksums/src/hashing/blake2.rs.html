@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `src/hashing/blake.rs`.">
+    <meta name="description" content="Source to the Rust file `src/hashing/blake2.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
-    <title>blake.rs.html -- source</title>
+    <title>blake2.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../../main.css">
@@ -66,21 +66,19 @@
 <span id="22">22</span>
 <span id="23">23</span>
 <span id="24">24</span>
-<span id="25">25</span>
-<span id="26">26</span>
 </pre><pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>blake2_rfc</span>::<span class='ident'>blake2b</span>::<span class='ident'>Blake2b</span>;
 <span class='kw'>use</span> <span class='self'>self</span>::<span class='kw'>super</span>::<span class='ident'>hash_string</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>PathBuf</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Read</span>;
-<span class='kw'>use</span> <span class='ident'>blake</span>::<span class='ident'>Blake</span>;
 
 
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>hash</span>(<span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>PathBuf</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>file</span> <span class='op'>=</span> <span class='ident'>File</span>::<span class='ident'>open</span>(<span class='ident'>path</span>).<span class='ident'>unwrap</span>();
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>buffer</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0</span>; <span class='number'>1024</span>];
 
-    <span class='kw'>let</span> <span class='ident'>blake</span> <span class='op'>=</span> <span class='ident'>Blake</span>::<span class='ident'>new</span>(<span class='number'>512</span>).<span class='ident'>unwrap</span>();
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>blake</span> <span class='op'>=</span> <span class='ident'>Blake2b</span>::<span class='ident'>new</span>(<span class='number'>64</span>);
     <span class='kw'>loop</span> {
         <span class='kw'>let</span> <span class='ident'>read</span> <span class='op'>=</span> <span class='ident'>file</span>.<span class='ident'>read</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>buffer</span>[..]).<span class='ident'>unwrap</span>();
 
@@ -91,9 +89,7 @@
         <span class='ident'>blake</span>.<span class='ident'>update</span>(<span class='kw-2'>&amp;</span><span class='ident'>buffer</span>[<span class='number'>0</span>..<span class='ident'>read</span>]);
     }
 
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>result</span> <span class='op'>=</span> [<span class='number'>0</span>; <span class='number'>64</span>];
-    <span class='ident'>blake</span>.<span class='ident'>finalise</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>result</span>);
-    <span class='ident'>hash_string</span>(<span class='kw-2'>&amp;</span><span class='ident'>result</span>)
+    <span class='ident'>hash_string</span>(<span class='ident'>blake</span>.<span class='ident'>finalize</span>().<span class='ident'>as_bytes</span>())
 }
 </pre>
 </section>

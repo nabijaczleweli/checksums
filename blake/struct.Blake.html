@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Blake` struct in crate `blake`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Blake">
+
+    <title>blake::Blake - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='index.html'>blake</a></p><script>window.sidebarCurrent = {name: 'Blake', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>blake</a>::<wbr><a class='struct' href=''>Blake</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-42' class='srclink' href='../src/blake/lib.rs.html#145-147' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Blake {
+    // some fields omitted
+}</pre><div class='docblock'><p>Hashing state for multiple data sets.</p>
+
+<h1 id='example' class='section-header'><a href='#example'>Example</a></h1>
+<p>Hashing a string split into multiple chunks.</p>
+
+<pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>state</span> <span class='op'>=</span> <span class='ident'>blake</span>::<span class='ident'>Blake</span>::<span class='ident'>new</span>(<span class='number'>256</span>).<span class='ident'>unwrap</span>();
+
+<span class='ident'>state</span>.<span class='ident'>update</span>(<span class='string'>b&quot;Abolish &quot;</span>);
+<span class='ident'>state</span>.<span class='ident'>update</span>(<span class='string'>b&quot;the &quot;</span>);
+<span class='ident'>state</span>.<span class='ident'>update</span>(<span class='string'>b&quot;bourgeoisie&quot;</span>);
+<span class='ident'>state</span>.<span class='ident'>update</span>(<span class='string'>b&quot;!&quot;</span>);
+
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>result</span> <span class='op'>=</span> [<span class='number'>0</span>; <span class='number'>32</span>];
+<span class='ident'>state</span>.<span class='ident'>finalise</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>result</span>);
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Vec</span>::<span class='ident'>from_iter</span>(<span class='ident'>result</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span><span class='ident'>i</span><span class='op'>|</span> <span class='ident'>i</span>)),
+           <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0x35</span>, <span class='number'>0xBF</span>, <span class='number'>0x9C</span>, <span class='number'>0x70</span>, <span class='number'>0xFF</span>, <span class='number'>0x63</span>, <span class='number'>0xF1</span>, <span class='number'>0x26</span>,
+                <span class='number'>0x6A</span>, <span class='number'>0xE7</span>, <span class='number'>0x2C</span>, <span class='number'>0xC9</span>, <span class='number'>0x94</span>, <span class='number'>0x6F</span>, <span class='number'>0x59</span>, <span class='number'>0xBB</span>,
+                <span class='number'>0x0B</span>, <span class='number'>0x21</span>, <span class='number'>0xD8</span>, <span class='number'>0xCC</span>, <span class='number'>0x8E</span>, <span class='number'>0x4D</span>, <span class='number'>0xBB</span>, <span class='number'>0x53</span>,
+                <span class='number'>0x24</span>, <span class='number'>0xDF</span>, <span class='number'>0x10</span>, <span class='number'>0xB7</span>, <span class='number'>0x11</span>, <span class='number'>0xF9</span>, <span class='number'>0x82</span>, <span class='number'>0x1C</span>]);</pre>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../blake/struct.Blake.html' title='blake::Blake'>Blake</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-71' class='srclink' href='../src/blake/lib.rs.html#159-346' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(hashbitlen: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>) -&gt; <a class='type' href='../blake/type.Result.html' title='blake::Result'>Result</a>&lt;<a class='struct' href='../blake/struct.Blake.html' title='blake::Blake'>Blake</a>&gt;</code></h4>
+<div class='docblock'><p>Create a new hash state and initialise it with the given bit length.</p>
+
+<p><code>hashbitlen</code> is the hash output length. <br />
+Valid values:</p>
+
+<ul>
+<li><code>224</code>,</li>
+<li><code>256</code>,</li>
+<li><code>384</code>,</li>
+<li><code>512</code>.</li>
+</ul>
+
+<p>Returns:</p>
+
+<ul>
+<li><code>Err(BlakeError::BadHashbitlen)</code> if <code>hashbitlen</code> is not any of the mentioned above, or</li>
+<li><code>Ok(Blake)</code> if initialisation succeeds.</li>
+</ul>
+
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<p>Incorrect <code>hashbitlen</code></p>
+
+<pre class='rust rust-example-rendered'>
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>blake</span>::<span class='ident'>Blake</span>::<span class='ident'>new</span>(<span class='number'>0</span>).<span class='ident'>map</span>(<span class='op'>|</span>_<span class='op'>|</span> ()), <span class='prelude-val'>Err</span>(<span class='ident'>blake</span>::<span class='ident'>BlakeError</span>::<span class='ident'>BadHashbitlen</span>));</pre>
+
+<p>Creating a 512-long state</p>
+
+<pre class='rust rust-example-rendered'>
+<span class='ident'>blake</span>::<span class='ident'>Blake</span>::<span class='ident'>new</span>(<span class='number'>512</span>).<span class='ident'>unwrap</span>();</pre>
+</div><h4 id='method.add_salt' class='method'><code>fn <a href='#method.add_salt' class='fnname'>add_salt</a>(&amp;self, salt: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; <a class='type' href='../blake/type.Result.html' title='blake::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></h4>
+<div class='docblock'><p>Add a salt to the hash function.</p>
+
+<p>Returns:</p>
+
+<ul>
+<li><code>Err(BlakeError::Fail)</code> if called after <code>Blake::update()</code>, or</li>
+<li><code>Ok(())</code>, if called before <code>Blake::update()</code>.</li>
+</ul>
+
+<p>The salt&#39;s length depends on the hash function&#39;s length.</p>
+
+<table>
+<thead>
+<tr>
+<th>hash function length</th>
+<th>salt length</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>224 bits</td>
+<td>128 bits</td>
+</tr>
+<tr>
+<td>256 bits</td>
+<td>128 bits</td>
+</tr>
+<tr>
+<td>384 bits</td>
+<td>256 bits</td>
+</tr>
+<tr>
+<td>512 bits</td>
+<td>256 bits</td>
+</tr>
+</tbody>
+</table>
+
+<h1 id='examples-1' class='section-header'><a href='#examples-1'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>result_unsalted</span> <span class='op'>=</span> [<span class='number'>0</span>; <span class='number'>64</span>];
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>result_salted</span>   <span class='op'>=</span> [<span class='number'>0</span>; <span class='number'>64</span>];
+
+<span class='kw'>let</span> <span class='ident'>state_unsalted</span> <span class='op'>=</span> <span class='ident'>blake</span>::<span class='ident'>Blake</span>::<span class='ident'>new</span>(<span class='number'>512</span>).<span class='ident'>unwrap</span>();
+<span class='kw'>let</span> <span class='ident'>state_salted</span>   <span class='op'>=</span> <span class='ident'>blake</span>::<span class='ident'>Blake</span>::<span class='ident'>new</span>(<span class='number'>512</span>).<span class='ident'>unwrap</span>();
+
+<span class='ident'>state_salted</span>.<span class='ident'>add_salt</span>(<span class='string'>b&quot;Violent  murder  of  the  proles&quot;</span>).<span class='ident'>unwrap</span>();
+
+<span class='ident'>state_unsalted</span>.<span class='ident'>update</span>(<span class='kw-2'>&amp;</span>[]);
+<span class='ident'>state_salted</span>  .<span class='ident'>update</span>(<span class='kw-2'>&amp;</span>[]);
+
+<span class='ident'>state_unsalted</span>.<span class='ident'>finalise</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>result_unsalted</span>);
+<span class='ident'>state_salted</span>  .<span class='ident'>finalise</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>result_salted</span>);
+
+<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>Vec</span>::<span class='ident'>from_iter</span>(<span class='ident'>result_unsalted</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span><span class='ident'>i</span><span class='op'>|</span> <span class='ident'>i</span>)) <span class='op'>!=</span>
+        <span class='ident'>Vec</span>::<span class='ident'>from_iter</span>(<span class='ident'>result_salted</span>  .<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span><span class='ident'>i</span><span class='op'>|</span> <span class='ident'>i</span>)))</pre>
+</div><h4 id='method.update' class='method'><code>fn <a href='#method.update' class='fnname'>update</a>(&amp;self, data: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>)</code></h4>
+<div class='docblock'><p>Append the provided data to the hash function.</p>
+
+<h1 id='examples-2' class='section-header'><a href='#examples-2'>Examples</a></h1>
+<p>Hashing a part of <a href="http://nabijaczleweli.xyz/capitalism/writing/%C5%9Awiat_to_kilka_takich_pokoi/">a short story</a></p>
+
+<pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>result</span> <span class='op'>=</span> [<span class='number'>0</span>; <span class='number'>64</span>];
+
+<span class='kw'>let</span> <span class='ident'>state</span> <span class='op'>=</span> <span class='ident'>blake</span>::<span class='ident'>Blake</span>::<span class='ident'>new</span>(<span class='number'>512</span>).<span class='ident'>unwrap</span>();
+<span class='ident'>state</span>.<span class='ident'>update</span>(<span class='string'>&quot;    Serbiańcy znowu się pochlali, ale w sumie&quot;</span>.<span class='ident'>as_bytes</span>());
+<span class='ident'>state</span>.<span class='ident'>update</span>(<span class='string'>&quot;czegoż się po wschodnich słowianach spodziewać, swoją&quot;</span>.<span class='ident'>as_bytes</span>());
+<span class='ident'>state</span>.<span class='ident'>update</span>(<span class='string'>&quot;drogą. I, jak to wszystkim homo sapiensom się dzieje&quot;</span>.<span class='ident'>as_bytes</span>());
+<span class='ident'>state</span>.<span class='ident'>update</span>(<span class='string'>&quot;filozofować poczęli.&quot;</span>.<span class='ident'>as_bytes</span>());
+<span class='ident'>state</span>.<span class='ident'>finalise</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>result</span>);
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Vec</span>::<span class='ident'>from_iter</span>(<span class='ident'>result</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span><span class='ident'>i</span><span class='op'>|</span> <span class='ident'>i</span>)),
+           <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0xA2</span>, <span class='number'>0x30</span>, <span class='number'>0x50</span>, <span class='number'>0x18</span>, <span class='number'>0x10</span>, <span class='number'>0x0D</span>, <span class='number'>0x53</span>, <span class='number'>0x61</span>,
+                <span class='number'>0xC2</span>, <span class='number'>0x2D</span>, <span class='number'>0x61</span>, <span class='number'>0x0A</span>, <span class='number'>0x23</span>, <span class='number'>0x4E</span>, <span class='number'>0xA5</span>, <span class='number'>0x28</span>,
+                <span class='number'>0x18</span>, <span class='number'>0x89</span>, <span class='number'>0xA6</span>, <span class='number'>0x44</span>, <span class='number'>0x6E</span>, <span class='number'>0xE1</span>, <span class='number'>0xC4</span>, <span class='number'>0x8A</span>,
+                <span class='number'>0xDF</span>, <span class='number'>0xD0</span>, <span class='number'>0x6A</span>, <span class='number'>0xDB</span>, <span class='number'>0x1C</span>, <span class='number'>0x00</span>, <span class='number'>0x06</span>, <span class='number'>0xA9</span>,
+                <span class='number'>0x05</span>, <span class='number'>0x0A</span>, <span class='number'>0xCE</span>, <span class='number'>0xB3</span>, <span class='number'>0x43</span>, <span class='number'>0x14</span>, <span class='number'>0xB8</span>, <span class='number'>0xB0</span>,
+                <span class='number'>0x3F</span>, <span class='number'>0xA3</span>, <span class='number'>0xB7</span>, <span class='number'>0x70</span>, <span class='number'>0x5D</span>, <span class='number'>0xFC</span>, <span class='number'>0x14</span>, <span class='number'>0xB9</span>,
+                <span class='number'>0xAA</span>, <span class='number'>0xCA</span>, <span class='number'>0xDC</span>, <span class='number'>0x5B</span>, <span class='number'>0x34</span>, <span class='number'>0x96</span>, <span class='number'>0x0B</span>, <span class='number'>0x3C</span>,
+                <span class='number'>0x87</span>, <span class='number'>0x1F</span>, <span class='number'>0x69</span>, <span class='number'>0x46</span>, <span class='number'>0xCD</span>, <span class='number'>0xC2</span>, <span class='number'>0xB2</span>, <span class='number'>0x14</span>]);</pre>
+</div><h4 id='method.finalise' class='method'><code>fn <a href='#method.finalise' class='fnname'>finalise</a>(&amp;self, hashval: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;mut [</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>)</code></h4>
+<div class='docblock'><p>Finish hashing and store the output result in the provided space.</p>
+
+<p>The provided space must not be smaller than the hash function&#39;s size,
+if the provided space is smaller than the hash function&#39;s size, the behaviour is undefined.</p>
+
+<h1 id='examples-3' class='section-header'><a href='#examples-3'>Examples</a></h1>
+<p>Storing and verifying results of all possible sizes.</p>
+
+<pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>result_224</span> <span class='op'>=</span> [<span class='number'>0</span>; <span class='number'>28</span>];
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>result_256</span> <span class='op'>=</span> [<span class='number'>0</span>; <span class='number'>32</span>];
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>result_384</span> <span class='op'>=</span> [<span class='number'>0</span>; <span class='number'>48</span>];
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>result_512</span> <span class='op'>=</span> [<span class='number'>0</span>; <span class='number'>64</span>];
+
+<span class='kw'>let</span> <span class='ident'>state_224</span> <span class='op'>=</span> <span class='ident'>blake</span>::<span class='ident'>Blake</span>::<span class='ident'>new</span>(<span class='number'>224</span>).<span class='ident'>unwrap</span>();
+<span class='kw'>let</span> <span class='ident'>state_256</span> <span class='op'>=</span> <span class='ident'>blake</span>::<span class='ident'>Blake</span>::<span class='ident'>new</span>(<span class='number'>256</span>).<span class='ident'>unwrap</span>();
+<span class='kw'>let</span> <span class='ident'>state_384</span> <span class='op'>=</span> <span class='ident'>blake</span>::<span class='ident'>Blake</span>::<span class='ident'>new</span>(<span class='number'>384</span>).<span class='ident'>unwrap</span>();
+<span class='kw'>let</span> <span class='ident'>state_512</span> <span class='op'>=</span> <span class='ident'>blake</span>::<span class='ident'>Blake</span>::<span class='ident'>new</span>(<span class='number'>512</span>).<span class='ident'>unwrap</span>();
+
+<span class='ident'>state_224</span>.<span class='ident'>update</span>(<span class='string'>b&quot;The lazy fox jumps over the lazy dog.&quot;</span>);
+<span class='ident'>state_256</span>.<span class='ident'>update</span>(<span class='string'>b&quot;The lazy fox jumps over the lazy dog.&quot;</span>);
+<span class='ident'>state_384</span>.<span class='ident'>update</span>(<span class='string'>b&quot;The lazy fox jumps over the lazy dog.&quot;</span>);
+<span class='ident'>state_512</span>.<span class='ident'>update</span>(<span class='string'>b&quot;The lazy fox jumps over the lazy dog.&quot;</span>);
+
+<span class='ident'>state_224</span>.<span class='ident'>finalise</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>result_224</span>);
+<span class='ident'>state_256</span>.<span class='ident'>finalise</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>result_256</span>);
+<span class='ident'>state_384</span>.<span class='ident'>finalise</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>result_384</span>);
+<span class='ident'>state_512</span>.<span class='ident'>finalise</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>result_512</span>);
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Vec</span>::<span class='ident'>from_iter</span>(<span class='ident'>result_224</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span><span class='ident'>i</span><span class='op'>|</span> <span class='ident'>i</span>)),
+           <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0x34</span>, <span class='number'>0x97</span>, <span class='number'>0x89</span>, <span class='number'>0x0F</span>, <span class='number'>0xBC</span>, <span class='number'>0x6A</span>, <span class='number'>0x98</span>, <span class='number'>0x1C</span>,
+                <span class='number'>0xD2</span>, <span class='number'>0x21</span>, <span class='number'>0x34</span>, <span class='number'>0x97</span>, <span class='number'>0xE4</span>, <span class='number'>0xA8</span>, <span class='number'>0x0A</span>, <span class='number'>0x66</span>,
+                <span class='number'>0xD6</span>, <span class='number'>0x5F</span>, <span class='number'>0x4C</span>, <span class='number'>0x05</span>, <span class='number'>0x3D</span>, <span class='number'>0x71</span>, <span class='number'>0x0F</span>, <span class='number'>0x7E</span>,
+                <span class='number'>0xAB</span>, <span class='number'>0x81</span>, <span class='number'>0xA4</span>, <span class='number'>0x2F</span>]);
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Vec</span>::<span class='ident'>from_iter</span>(<span class='ident'>result_256</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span><span class='ident'>i</span><span class='op'>|</span> <span class='ident'>i</span>)),
+           <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0xF2</span>, <span class='number'>0xE5</span>, <span class='number'>0xA9</span>, <span class='number'>0xD0</span>, <span class='number'>0x93</span>, <span class='number'>0xD8</span>, <span class='number'>0xAA</span>, <span class='number'>0x23</span>,
+                <span class='number'>0x4E</span>, <span class='number'>0x6C</span>, <span class='number'>0x54</span>, <span class='number'>0x50</span>, <span class='number'>0x61</span>, <span class='number'>0xE8</span>, <span class='number'>0x17</span>, <span class='number'>0xBE</span>,
+                <span class='number'>0x83</span>, <span class='number'>0x8B</span>, <span class='number'>0x57</span>, <span class='number'>0xD8</span>, <span class='number'>0x99</span>, <span class='number'>0x8F</span>, <span class='number'>0x15</span>, <span class='number'>0xDF</span>,
+                <span class='number'>0x72</span>, <span class='number'>0xE1</span>, <span class='number'>0x03</span>, <span class='number'>0x7F</span>, <span class='number'>0xBF</span>, <span class='number'>0xEB</span>, <span class='number'>0x4F</span>, <span class='number'>0xC7</span>]);
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Vec</span>::<span class='ident'>from_iter</span>(<span class='ident'>result_384</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span><span class='ident'>i</span><span class='op'>|</span> <span class='ident'>i</span>)),
+           <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0xDD</span>, <span class='number'>0x68</span>, <span class='number'>0x1E</span>, <span class='number'>0x3B</span>, <span class='number'>0x56</span>, <span class='number'>0xE4</span>, <span class='number'>0x80</span>, <span class='number'>0x01</span>,
+                <span class='number'>0x39</span>, <span class='number'>0x5A</span>, <span class='number'>0xF7</span>, <span class='number'>0xB7</span>, <span class='number'>0x36</span>, <span class='number'>0x7E</span>, <span class='number'>0x50</span>, <span class='number'>0xD2</span>,
+                <span class='number'>0x74</span>, <span class='number'>0x61</span>, <span class='number'>0x2B</span>, <span class='number'>0xC8</span>, <span class='number'>0xCB</span>, <span class='number'>0xFB</span>, <span class='number'>0x42</span>, <span class='number'>0xEE</span>,
+                <span class='number'>0x0C</span>, <span class='number'>0xEC</span>, <span class='number'>0x30</span>, <span class='number'>0x45</span>, <span class='number'>0x9C</span>, <span class='number'>0x8D</span>, <span class='number'>0x01</span>, <span class='number'>0x66</span>,
+                <span class='number'>0xFC</span>, <span class='number'>0xB5</span>, <span class='number'>0x42</span>, <span class='number'>0xE2</span>, <span class='number'>0x8C</span>, <span class='number'>0xB0</span>, <span class='number'>0x59</span>, <span class='number'>0x72</span>,
+                <span class='number'>0x8D</span>, <span class='number'>0x7B</span>, <span class='number'>0x0A</span>, <span class='number'>0x16</span>, <span class='number'>0x05</span>, <span class='number'>0x4E</span>, <span class='number'>0xB2</span>, <span class='number'>0xEB</span>]);
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Vec</span>::<span class='ident'>from_iter</span>(<span class='ident'>result_512</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span><span class='ident'>i</span><span class='op'>|</span> <span class='ident'>i</span>)),
+           <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0x9A</span>, <span class='number'>0xD4</span>, <span class='number'>0x66</span>, <span class='number'>0xCF</span>, <span class='number'>0x81</span>, <span class='number'>0x8B</span>, <span class='number'>0x46</span>, <span class='number'>0x9D</span>,
+                <span class='number'>0x29</span>, <span class='number'>0x8C</span>, <span class='number'>0x62</span>, <span class='number'>0x00</span>, <span class='number'>0xAC</span>, <span class='number'>0xD3</span>, <span class='number'>0x06</span>, <span class='number'>0xF9</span>,
+                <span class='number'>0xA2</span>, <span class='number'>0xF4</span>, <span class='number'>0xA4</span>, <span class='number'>0x9E</span>, <span class='number'>0x26</span>, <span class='number'>0x8C</span>, <span class='number'>0xA1</span>, <span class='number'>0x17</span>,
+                <span class='number'>0xB5</span>, <span class='number'>0x8F</span>, <span class='number'>0x37</span>, <span class='number'>0x84</span>, <span class='number'>0x86</span>, <span class='number'>0x35</span>, <span class='number'>0x1B</span>, <span class='number'>0x0A</span>,
+                <span class='number'>0x71</span>, <span class='number'>0x1B</span>, <span class='number'>0x60</span>, <span class='number'>0xD4</span>, <span class='number'>0x1B</span>, <span class='number'>0x68</span>, <span class='number'>0x7F</span>, <span class='number'>0xD3</span>,
+                <span class='number'>0x5F</span>, <span class='number'>0x30</span>, <span class='number'>0xBE</span>, <span class='number'>0x2E</span>, <span class='number'>0x00</span>, <span class='number'>0xA8</span>, <span class='number'>0x25</span>, <span class='number'>0xD6</span>,
+                <span class='number'>0x66</span>, <span class='number'>0x6D</span>, <span class='number'>0x9C</span>, <span class='number'>0x4C</span>, <span class='number'>0x23</span>, <span class='number'>0xA5</span>, <span class='number'>0x23</span>, <span class='number'>0xD3</span>,
+                <span class='number'>0x10</span>, <span class='number'>0xA0</span>, <span class='number'>0x58</span>, <span class='number'>0x3F</span>, <span class='number'>0x1E</span>, <span class='number'>0x7C</span>, <span class='number'>0xCC</span>, <span class='number'>0xFE</span>]);</pre>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../blake/struct.Blake.html' title='blake::Blake'>Blake</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-86' class='srclink' href='../src/blake/lib.rs.html#348-352' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.drop' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html#tymethod.drop' class='fnname'>drop</a>(&amp;mut self)</code></h4>
+<div class='docblock'><p>A method called when the value goes out of scope. <a href="https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html#tymethod.drop">Read more</a></p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "blake";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script defer src="../search-index.js"></script>
+</body>
+</html>
