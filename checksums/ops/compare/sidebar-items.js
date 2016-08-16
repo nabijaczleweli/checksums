@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["compare_hashes","Compare two provided hashes."]]});
+initSidebarItems({"enum":[["CompareError",""],["CompareFileResult",""],["CompareResult",""]],"fn":[["compare_hashes","Compare two provided hashes."]]});

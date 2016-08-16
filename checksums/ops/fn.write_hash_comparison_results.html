@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `compare_hashes` fn in crate `checksums`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, compare_hashes">
+    <meta name="description" content="API documentation for the Rust `write_hash_comparison_results` fn in crate `checksums`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, write_hash_comparison_results">
 
-    <title>checksums::ops::compare_hashes - Rust</title>
+    <title>checksums::ops::write_hash_comparison_results - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
@@ -28,7 +28,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'><a href='../index.html'>checksums</a>::<wbr><a href='index.html'>ops</a></p><script>window.sidebarCurrent = {name: 'compare_hashes', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'><a href='../index.html'>checksums</a>::<wbr><a href='index.html'>ops</a></p><script>window.sidebarCurrent = {name: 'write_hash_comparison_results', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -43,13 +43,12 @@
     </nav>
 
     <section id='main' class="content fn">
-<h1 class='fqn'><span class='in-band'>Function <a href='../index.html'>checksums</a>::<wbr><a href='index.html'>ops</a>::<wbr><a class='fn' href=''>compare_hashes</a></span><span class='out-of-band'><span id='render-detail'>
+<h1 class='fqn'><span class='in-band'>Function <a href='../index.html'>checksums</a>::<wbr><a href='index.html'>ops</a>::<wbr><a class='fn' href=''>write_hash_comparison_results</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-624' class='srclink' href='../../src/checksums/src/ops/compare.rs.html#33-80' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn compare_hashes(out_file: &amp;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>, current_hashes: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/btree/map/struct.BTreeMap.html' title='collections::btree::map::BTreeMap'>BTreeMap</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;, loaded_hashes: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/btree/map/struct.BTreeMap.html' title='collections::btree::map::BTreeMap'>BTreeMap</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(</a><a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='enum' href='../../checksums/ops/enum.CompareResult.html' title='checksums::ops::CompareResult'>CompareResult</a>&gt;, <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='enum' href='../../checksums/ops/enum.CompareFileResult.html' title='checksums::ops::CompareFileResult'>CompareFileResult</a>&gt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>)</a>, <a class='enum' href='../../checksums/ops/enum.CompareError.html' title='checksums::ops::CompareError'>CompareError</a>&gt;</pre><div class='docblock'><p>Compare two provided hashes.</p>
-</div></section>
+               </span><a id='src-676' class='srclink' href='../../src/checksums/src/ops/write.rs.html#6-55' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn write_hash_comparison_results&lt;Wo: <a class='trait' href='https://doc.rust-lang.org/nightly/std/io/trait.Write.html' title='std::io::Write'>Write</a>, We: <a class='trait' href='https://doc.rust-lang.org/nightly/std/io/trait.Write.html' title='std::io::Write'>Write</a>&gt;(output: &amp;mut Wo, error: &amp;mut We, results: <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(</a><a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='enum' href='../../checksums/ops/enum.CompareResult.html' title='checksums::ops::CompareResult'>CompareResult</a>&gt;, <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='enum' href='../../checksums/ops/enum.CompareFileResult.html' title='checksums::ops::CompareFileResult'>CompareFileResult</a>&gt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>)</a>, <a class='enum' href='../../checksums/ops/enum.CompareError.html' title='checksums::ops::CompareError'>CompareError</a>&gt;)</pre></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

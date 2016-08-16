@@ -47,14 +47,36 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-285' class='srclink' href='../../src/checksums/src/ops/mod.rs.html#1-81' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-285' class='srclink' href='../../src/checksums/src/ops/mod.rs.html#1-83' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>Main functions doing actual work.</p>
 
 <p>Use <code>create_hashes()</code> to prepare the hashes for a path.</p>
 
-<p>Then use <code>write_hashes()</code> to save it to disk, or <code>read_hashes()</code> to get the saved hashes and compare them with
-<code>compare_hashes()</code>.</p>
-</div><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<p>Then use <code>write_hashes()</code> to save it to disk, or <code>read_hashes()</code> to get the saved hashes, them with
+<code>compare_hashes()</code> and print them with <code>write_hash_comparison_results()</code>.</p>
+</div><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.CompareError.html'
+                                  title='checksums::ops::CompareError'>CompareError</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.CompareFileResult.html'
+                                  title='checksums::ops::CompareFileResult'>CompareFileResult</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.CompareResult.html'
+                                  title='checksums::ops::CompareResult'>CompareResult</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.compare_hashes.html'
@@ -75,6 +97,13 @@
                                   title='checksums::ops::read_hashes'>read_hashes</a></td>
                            <td class='docblock short'>
                                 <p>Read hashes saved with <code>write_hashes()</code> from the specified path.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.write_hash_comparison_results.html'
+                                  title='checksums::ops::write_hash_comparison_results'>write_hash_comparison_results</a></td>
+                           <td class='docblock short'>
+                                
                            </td>
                        </tr>
                        <tr class=' module-item'>

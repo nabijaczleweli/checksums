@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["vec_merge","Merges two `Vec`s."]]});
