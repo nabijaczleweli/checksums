@@ -4,12 +4,7 @@ description = "Tool for making/verifying checksums of directory trees"
 documentation = "https://cdn.rawgit.com/nabijaczleweli/checksums/doc/checksums/index.html"
 repository = "https://github.com/nabijaczleweli/checksums"
 readme = "README.md"
-keywords = ["checksums", "checksum", "directory", "verification", "hash",
-            "sha", "sha1", "sha2", "sha3",
-            "blake", "blake2",
-            "crc", "crc8", "crc16", "crc32", "crc64",
-            "md", "md5",
-            "xor", "xor8"]
+keywords = ["checksums", "checksum", "directory", "verification", "hash"]
 license = "MIT"
 # Remember to also update in appveyor.yml
 version = "0.1.0"
