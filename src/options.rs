@@ -155,11 +155,27 @@ impl Options {
             }
             None => {
                 let mut file = dir.clone();
-                file.push(dir.file_name().unwrap());
+                match dir.file_name() {
+                    Some(fname) => file.push(fname),
+                    None => file.push(Options::root_fname(dir)),
+                }
                 file.set_extension("hash");
+
                 (file.file_name().unwrap().to_str().unwrap().to_string(), file)
             }
         }
+    }
+
+    #[cfg(windows)]
+    fn root_fname(dir: &PathBuf) -> String {
+        let mut dir = dir.as_os_str().to_str().unwrap().to_string();
+
+        dir[dir.len() - 3..dir.len() - 2].to_string()
+    }
+
+    #[cfg(not(windows))]
+    fn root_fname(_: &PathBuf) -> String {
+        "root".to_string()
     }
 }
 
