@@ -4,8 +4,9 @@ use std::iter;
 
 
 pub fn write_hash_comparison_results<Wo: Write, We: Write>(output: &mut Wo, error: &mut We,
-                                                           results: Result<(Vec<CompareResult>, Vec<CompareFileResult>), CompareError>) {
-    match results {
+                                                           results: Result<(Vec<CompareResult>, Vec<CompareFileResult>), CompareError>)
+                                                           -> i32 {
+    let result = match results {
         Ok((mut compare_results, mut file_compare_results)) => {
             compare_results.sort();
             file_compare_results.sort();
@@ -31,6 +32,8 @@ pub fn write_hash_comparison_results<Wo: Write, We: Write>(output: &mut Wo, erro
                     }
                 }
             }
+
+            0
         }
         Err(CompareError::HashLengthDiffers { previous_len, current_len }) => {
             let previous_len_len = format!("{}", previous_len).len();
@@ -47,11 +50,15 @@ pub fn write_hash_comparison_results<Wo: Write, We: Write>(output: &mut Wo, erro
                     writeln!(error, "Loaded  : {}", previous_len).unwrap();
                 }
             }
+
+            2
         }
-    }
+    };
 
     output.flush().unwrap();
     error.flush().unwrap();
+
+    result
 }
 
 
