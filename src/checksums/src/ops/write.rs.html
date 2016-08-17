@@ -142,6 +142,13 @@
 <span id="98"> 98</span>
 <span id="99"> 99</span>
 <span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='self'>self</span>::<span class='kw'>super</span>::{<span class='ident'>CompareResult</span>, <span class='ident'>CompareFileResult</span>, <span class='ident'>CompareError</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Write</span>;
@@ -149,8 +156,9 @@
 
 
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>write_hash_comparison_results</span><span class='op'>&lt;</span><span class='ident'>Wo</span>: <span class='ident'>Write</span>, <span class='ident'>We</span>: <span class='ident'>Write</span><span class='op'>&gt;</span>(<span class='ident'>output</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Wo</span>, <span class='ident'>error</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>We</span>,
-                                                           <span class='ident'>results</span>: <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>CompareResult</span><span class='op'>&gt;</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>CompareFileResult</span><span class='op'>&gt;</span>), <span class='ident'>CompareError</span><span class='op'>&gt;</span>) {
-    <span class='kw'>match</span> <span class='ident'>results</span> {
+                                                           <span class='ident'>results</span>: <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>CompareResult</span><span class='op'>&gt;</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>CompareFileResult</span><span class='op'>&gt;</span>), <span class='ident'>CompareError</span><span class='op'>&gt;</span>)
+                                                           <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
+    <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>results</span> {
         <span class='prelude-val'>Ok</span>((<span class='kw-2'>mut</span> <span class='ident'>compare_results</span>, <span class='kw-2'>mut</span> <span class='ident'>file_compare_results</span>)) <span class='op'>=&gt;</span> {
             <span class='ident'>compare_results</span>.<span class='ident'>sort</span>();
             <span class='ident'>file_compare_results</span>.<span class='ident'>sort</span>();
@@ -176,6 +184,8 @@
                     }
                 }
             }
+
+            <span class='number'>0</span>
         }
         <span class='prelude-val'>Err</span>(<span class='ident'>CompareError</span>::<span class='ident'>HashLengthDiffers</span> { <span class='ident'>previous_len</span>, <span class='ident'>current_len</span> }) <span class='op'>=&gt;</span> {
             <span class='kw'>let</span> <span class='ident'>previous_len_len</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>previous_len</span>).<span class='ident'>len</span>();
@@ -192,11 +202,15 @@
                     <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>error</span>, <span class='string'>&quot;Loaded  : {}&quot;</span>, <span class='ident'>previous_len</span>).<span class='ident'>unwrap</span>();
                 }
             }
+
+            <span class='number'>2</span>
         }
-    }
+    };
 
     <span class='ident'>output</span>.<span class='ident'>flush</span>().<span class='ident'>unwrap</span>();
     <span class='ident'>error</span>.<span class='ident'>flush</span>().<span class='ident'>unwrap</span>();
+
+    <span class='ident'>result</span>
 }
 
 

@@ -47,8 +47,94 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-0' class='srclink' href='../src/checksums/src/main.rs.html#1-41' title='goto source code'>[src]</a></span></h1>
-<h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+               </span><a id='src-0' class='srclink' href='../src/checksums/src/main.rs.html#1-150' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>Tool for making/verifying checksums of directory trees.</p>
+
+<h2 id='synopsis' class='section-header'><a href='#synopsis'>SYNOPSIS</a></h2>
+<p><a href="https://github.com/nabijaczleweli/checksums"><code>checksums</code></a> [OPTIONS] [DIRECTORY]</p>
+
+<h2 id='description' class='section-header'><a href='#description'>DESCRIPTION</a></h2>
+<p>Tool for making/verifying checksums of directory trees.</p>
+
+<p>Use the generated checksums to automatically verify file/directory tree
+correctness.</p>
+
+<h2 id='options' class='section-header'><a href='#options'>OPTIONS</a></h2>
+<p>-a --algorithm &lt;algorithm&gt;</p>
+
+<pre><code class="language-text">Set the hashing algorithm to use.
+
+Supported algorithms: SHA1, SHA2-256, SHA2-512, SHA3-256, SHA3-512, BLAKE,
+                    BLAKE2, CRC8, CRC16, CRC32, CRC64, MD5, XOR8
+</code></pre>
+
+<p>-c --create</p>
+
+<pre><code class="language-text">Create directory hashes, rather than verifying them.
+
+Directory hashes are output to the output file, which, if not specified, will
+be &quot;`DIRECTORY`.hash&quot;.
+
+Will fail if the output file already exists and `--force` is not specified.
+
+Exclusive with `--verify`. Overrides `--verify`.
+</code></pre>
+
+<p>-v --verify</p>
+
+<pre><code class="language-text">Verify directory hashes. Default.
+
+Exclusive with `--create`. Overrides `--create`.
+</code></pre>
+
+<p>-d --depth &lt;depth&gt;</p>
+
+<pre><code class="language-text">Set max recursion depth to `depth`. Default: 0.
+
+Exclusive with `--recursive`. Overrides `--recursive`.
+</code></pre>
+
+<p>-r --recursive</p>
+
+<pre><code class="language-text">Set max recursion depth to infinity.
+
+Exclusive with `--depth`. Overrides `--depth`.
+</code></pre>
+
+<p>--force</p>
+
+<pre><code class="language-text">Override output file in `--create` mode. No meaning in `--verify` mode.
+</code></pre>
+
+<p>[DIRECTORY]</p>
+
+<pre><code class="language-text">Directory to create/verify hash for. Default: current workdir.
+</code></pre>
+
+<h2 id='examples' class='section-header'><a href='#examples'>EXAMPLES</a></h2>
+<p><code>examples</code> [<code>-v</code>] [<code>-f</code> <em>infile</em>]</p>
+
+<pre><code class="language-text">Verify the current directory tree against the saved hashes.
+
+`-v` is not necessary as it&#39;s the default.
+
+*infile* defaults to &quot;`DIRECTORY`.hash&quot;
+</code></pre>
+
+<p><code>examples</code> <code>-c</code> [<code>-f</code> <em>outfile</em>] [<code>--force</code>]</p>
+
+<pre><code class="language-text">Create hashes of the current directory tree for later verification.
+
+*outfile* defaults to &quot;`DIRECTORY`.hash&quot;.
+
+Use `--force` to override *outfile*.
+</code></pre>
+
+<p><code>examples</code> [<code>-d</code> <em>depth</em>] [<code>-r</code>] [<code>OTHER OPTIONS</code>]</p>
+
+<pre><code class="language-text">Recurse *depth* or infinity directories down.
+</code></pre>
+</div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
                        <tr class=' module-item'>
                            <td><a class='mod' href='ops/index.html'
