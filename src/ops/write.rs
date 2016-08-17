@@ -24,7 +24,9 @@ pub fn write_hash_comparison_results<Wo: Write, We: Write>(output: &mut Wo, erro
             } else if file_compare_results.is_empty() {
                 writeln!(output, "No files to verify").unwrap();
             } else {
-                writeln!(output, "").unwrap();
+                if !compare_results.is_empty() {
+                    writeln!(output, "").unwrap();
+                }
                 for fres in &file_compare_results {
                     match fres {
                         &CompareFileResult::FileMatches(ref file) => write_file_result_match(output, &file),
