@@ -4,6 +4,7 @@ extern crate crc;
 extern crate clap;
 extern crate crc8;
 extern crate crc16;
+extern crate blake;
 extern crate shaman;
 extern crate tabwriter;
 extern crate blake2_rfc;

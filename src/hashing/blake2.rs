@@ -1,15 +1,15 @@
+use blake2_rfc::blake2b::Blake2b;
 use self::super::hash_string;
 use std::path::PathBuf;
 use std::fs::File;
 use std::io::Read;
-use blake::Blake;
 
 
 pub fn hash(path: &PathBuf) -> String {
     let mut file = File::open(path).unwrap();
     let mut buffer = vec![0; 1024];
 
-    let blake = Blake::new(512).unwrap();
+    let mut blake = Blake2b::new(64);
     loop {
         let read = file.read(&mut buffer[..]).unwrap();
 
@@ -20,7 +20,5 @@ pub fn hash(path: &PathBuf) -> String {
         blake.update(&buffer[0..read]);
     }
 
-    let mut result = [0; 64];
-    blake.finalise(&mut result);
-    hash_string(&result)
+    hash_string(blake.finalize().as_bytes())
 }
