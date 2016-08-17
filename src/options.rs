@@ -168,8 +168,7 @@ impl Options {
 
     #[cfg(windows)]
     fn root_fname(dir: &PathBuf) -> String {
-        let mut dir = dir.as_os_str().to_str().unwrap().to_string();
-
+        let dir = dir.as_os_str().to_str().unwrap().to_string();
         dir[dir.len() - 3..dir.len() - 2].to_string()
     }
 
