@@ -8,47 +8,22 @@
 
 
 mod compare;
+mod create;
 mod write;
 
 use std::io::{BufRead, BufReader, Write};
-use self::super::options::DepthSetting;
 use std::collections::BTreeMap;
 use self::super::Algorithm;
-use self::super::hash_file;
-use std::fs::{self, File};
 use tabwriter::TabWriter;
 use std::path::PathBuf;
+use std::fs::File;
 use regex::Regex;
 use std::iter;
 
 pub use self::compare::*;
+pub use self::create::*;
 pub use self::write::*;
 
-
-/// Create subpath->hash mappings for a given path using a given algorithm up to a given depth.
-pub fn create_hashes(path: &PathBuf, algo: Algorithm, remaining_depth: DepthSetting) -> BTreeMap<String, String> {
-    let mut hashes = BTreeMap::new();
-
-    for file in fs::read_dir(&path).unwrap() {
-        let file = file.unwrap();
-        let file_type = file.file_type().unwrap();
-        let file_name_s = file.file_name().into_string().unwrap();
-
-        let mut subpath = path.clone();
-        subpath.push(file.path());
-
-        if file_type.is_file() {
-            hashes.insert(file_name_s, hash_file(&subpath, algo));
-        } else if remaining_depth.can_recurse() {
-            // TODO: replace with passing prefixes as argument and `append()`ing directly once `btree_append` is stabilised
-            for kv in create_hashes(&subpath, algo, remaining_depth.next_level().unwrap()) {
-                hashes.insert(format!("{}/{}", file_name_s, kv.0), kv.1);
-            }
-        }
-    }
-
-    hashes
-}
 
 /// Serialise the specified hashes to the specified output file.
 pub fn write_hashes(out_file: &(String, PathBuf), algo: Algorithm, mut hashes: BTreeMap<String, String>) {
