@@ -153,6 +153,23 @@ Accepted multiple times\.
 .IP "" 0
 .
 .P
+\-j \-\-jobs [jobs]
+.
+.IP "" 4
+.
+.nf
+
+Amount of threads used for hashing\. Default: # of CPU threads
+
+One thread can hash one file at a time, potentially speeding up hashing up to `jobs` times\.
+
+No/empty value: # of CPU threads\. \-1: Infinite
+.
+.fi
+.
+.IP "" 0
+.
+.P
 [DIRECTORY]
 .
 .IP "" 4
