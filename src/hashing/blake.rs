@@ -5,22 +5,13 @@ use std::io::Read;
 use blake::Blake;
 
 
-pub fn hash(path: &PathBuf) -> String {
-    let mut file = File::open(path).unwrap();
-    let mut buffer = vec![0; 1024];
+include!("hash_func.rs");
 
-    let blake = Blake::new(512).unwrap();
-    loop {
-        let read = file.read(&mut buffer[..]).unwrap();
 
-        if read == 0 {
-            break;
-        }
-
-        blake.update(&buffer[0..read]);
-    }
-
-    let mut result = [0; 64];
-    blake.finalise(&mut result);
-    hash_string(&result)
-}
+hash_func!(Blake::new(512).unwrap(),
+           |blake: &mut Blake, buffer: &[u8], read: usize| blake.update(&buffer[0..read]),
+           |blake: Blake| {
+               let mut result = [0; 64];
+               blake.finalise(&mut result);
+               hash_string(&result)
+           });

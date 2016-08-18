@@ -5,20 +5,9 @@ use std::io::Read;
 use ::Algorithm;
 
 
-pub fn hash(path: &PathBuf) -> String {
-    let mut file = File::open(path).unwrap();
-    let mut buffer = vec![0; 1024];
+include!("hash_func.rs");
 
-    let mut state: State<ARC> = State::new();
-    loop {
-        let read = file.read(&mut buffer[..]).unwrap();
 
-        if read == 0 {
-            break;
-        }
-
-        state.update(&buffer[0..read]);
-    }
-
-    format!("{:01$x}", state.get(), Algorithm::CRC16.size())
-}
+hash_func!(State::new(),
+           |state: &mut State<ARC>, buffer: &[u8], read: usize| state.update(&buffer[0..read]),
+           |state: State<ARC>| format!("{:01$x}", state.get(), Algorithm::CRC16.size()));
