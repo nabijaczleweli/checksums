@@ -54,6 +54,14 @@ correctness.
 
     Override output file in `--create` mode. No meaning in `--verify` mode.
 
+  --follow-symlinks
+
+      Recurse down symlinks. Default.
+
+  --no-follow-symlinks
+
+      Don't recurse down symlinks.
+
   [DIRECTORY]
 
     Directory to create/verify hash for. Default: current workdir.
