@@ -1,6 +1,5 @@
-use self::super::super::util::vec_merge;
+use self::super::super::util::{vec_merge, mul_str};
 use std::collections::BTreeMap;
-use std::iter;
 
 
 #[derive(Debug, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
@@ -40,7 +39,7 @@ pub fn compare_hashes(out_file: &String, mut current_hashes: BTreeMap<String, St
             current_len: current_hashes_value_len,
         });
     }
-    let placeholder_value = iter::repeat("-").take(current_hashes_value_len).collect::<String>();
+    let placeholder_value = mul_str("-", current_hashes_value_len);
     let mut file_compare_results = Vec::new();
 
     current_hashes.remove(out_file);

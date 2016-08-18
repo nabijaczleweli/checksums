@@ -1,6 +1,6 @@
+use self::super::super::util::mul_str;
 use self::super::{CompareResult, CompareFileResult, CompareError};
 use std::io::Write;
-use std::iter;
 
 
 pub fn write_hash_comparison_results<Wo: Write, We: Write>(output: &mut Wo, error: &mut We,
@@ -81,7 +81,7 @@ fn write_result<W: Write>(out: &mut W, pre: &str, fname: &String, fname_indent: 
         if fname.len() <= 80 - fname_indent {
             writeln!(out, "  {}", fname).unwrap();
         } else {
-            let indent = iter::repeat(" ").take(fname_indent).collect::<String>();
+            let indent = mul_str(" ", fname_indent);
             for fname_chunk in fname.chars().collect::<Vec<_>>().chunks(80 - fname_indent).map(|cc| cc.into_iter().map(|&c| c).collect::<String>()) {
                 writeln!(out, "{}{}", indent, fname_chunk).unwrap();
             }

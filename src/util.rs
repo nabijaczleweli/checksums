@@ -2,6 +2,7 @@
 
 
 use std::collections::BTreeMap;
+use std::iter;
 
 
 /// Merges two `Vec`s.
@@ -18,7 +19,6 @@ pub fn vec_merge<T>(mut lhs: Vec<T>, rhs: Vec<T>) -> Vec<T> {
     lhs.extend(rhs);
     lhs
 }
-
 
 // doc copied from BTreeMap::append()
 /// Moves all elements from `what` into `to`.
@@ -52,4 +52,15 @@ pub fn btreemap_append<K: Ord, V>(to: &mut BTreeMap<K, V>, what: BTreeMap<K, V>)
     for (k, v) in what {
         to.insert(k, v);
     }
+}
+
+/// Create a string consisting of `n` repetitions of `what`.
+///
+/// # Examples
+///
+/// ```
+/// assert_eq!(checksums::util::mul_str("DIE! ", 3), "DIE! DIE! DIE! ".to_string());
+/// ```
+pub fn mul_str(what: &str, n: usize) -> String{
+    iter::repeat(what).take(n).collect()
 }

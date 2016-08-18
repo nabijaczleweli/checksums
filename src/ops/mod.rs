@@ -13,12 +13,12 @@ mod write;
 
 use std::io::{BufRead, BufReader, Write};
 use std::collections::BTreeMap;
+use self::super::util::mul_str;
 use self::super::Algorithm;
 use tabwriter::TabWriter;
 use std::path::PathBuf;
 use std::fs::File;
 use regex::Regex;
-use std::iter;
 
 pub use self::compare::*;
 pub use self::create::*;
@@ -29,7 +29,7 @@ pub use self::write::*;
 pub fn write_hashes(out_file: &(String, PathBuf), algo: Algorithm, mut hashes: BTreeMap<String, String>) {
     let mut out = TabWriter::new(File::create(&out_file.1).unwrap());
 
-    hashes.insert(out_file.0.clone(), iter::repeat("-").take(algo.size()).collect::<String>());
+    hashes.insert(out_file.0.clone(), mul_str("-", algo.size()));
     for (fname, hash) in hashes {
         writeln!(&mut out, "{}\t{}", fname, hash).unwrap();
     }
