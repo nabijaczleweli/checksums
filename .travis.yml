@@ -57,7 +57,25 @@ after_success:
       rm -rf "checksums-doc-$TRAVIS_TAG";
       popd;
     fi
-  - if [ "$LANGUAGE" == "Ruby" ] && [ "$TRAVIS_TAG" ] && [ "$TRAVIS_SECURE_ENV_VARS" == "true" ]; then
+  - if [ "$LANGUAGE" == "Ruby" ] && [ "$TRAVIS_SECURE_ENV_VARS" == "true" ]; then
+      (
+        echo "Update manual for commits $TRAVIS_COMMIT_RANGE";
+        echo;
+        git log $TRAVIS_COMMIT_RANGE --pretty=oneline;
+      ) >> $TRAVIS_BUILD_DIR/../MAN_UPDATE_MSG;
+      mkdir -p ~/.ssh && cp gh_rsa ~/.ssh/id_rsa && chmod 700 ~/.ssh && chmod 600 ~/.ssh/id_rsa;
+      git clone -b man git@github.com:$TRAVIS_REPO_SLUG.git $TRAVIS_BUILD_DIR-man;
+      cp -f man/* $TRAVIS_BUILD_DIR-man;
+      pushd $TRAVIS_BUILD_DIR-man;
+      git config --global user.email "nabijaczleweli@gmail.com";
+      git config --global user.name "Nabijaczleweli Autouploader Bot";
+      git config --global push.default simple;
+      git add *;
+      git commit -F $TRAVIS_BUILD_DIR/../MAN_UPDATE_MSG;
+      git push;
+      popd;
+    fi
+  - if [ "$LANGUAGE" == "Ruby" ] && [ "$TRAVIS_TAG" ]; then
       cp -r man "$TRAVIS_BUILD_DIR/../checksums-man-$TRAVIS_TAG";
       pushd "$TRAVIS_BUILD_DIR/..";
       tar -caf "checksums-man-$TRAVIS_TAG.tbz2" "checksums-man-$TRAVIS_TAG";
