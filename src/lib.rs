@@ -95,6 +95,16 @@
 //! Don't recurse down symlinks.
 //! ```
 //!
+//! -i --ignore &lt;filename[,filename2][,filename3][,filenameN]...&gt;...
+//!
+//! ```text
+//! Add filename(s) to ignored files list. Default: none.
+//!
+//! Ignored files are marked as such.
+//!
+//! Accepted multiple times.
+//! ```
+//!
 //! --force
 //!
 //! ```text

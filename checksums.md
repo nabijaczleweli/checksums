@@ -62,6 +62,14 @@ correctness.
 
       Don't recurse down symlinks.
 
+  -i --ignore &lt;<filename[,filename2][,filename3][,filenameN]...>&gt;...
+
+    Add filename(s) to ignored files list. Default: none.
+
+    Ignored files are marked as such.
+
+    Accepted multiple times.
+
   [DIRECTORY]
 
     Directory to create/verify hash for. Default: current workdir.

@@ -1,5 +1,5 @@
-use self::super::super::util::mul_str;
 use self::super::{CompareResult, CompareFileResult, CompareError};
+use self::super::super::util::mul_str;
 use std::io::Write;
 
 

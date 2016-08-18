@@ -12,6 +12,7 @@
 
 
 use clap::{self, App, Arg, AppSettings};
+use std::collections::BTreeSet;
 use self::super::Algorithm;
 use std::path::PathBuf;
 use std::str::FromStr;
@@ -33,6 +34,8 @@ pub struct Options {
     pub file: (String, PathBuf),
     /// Whether to recurse down symlinks. Default: `true`
     pub follow_symlinks: bool,
+    /// Files/directories to ignore. Default: none
+    pub ignored_files: BTreeSet<String>,
 }
 
 /// Representation of how deep recursion should be.
@@ -72,7 +75,8 @@ impl Options {
                     Arg::from_usage("--file=[file] -f 'File with hashes to be read/created'").validator(Options::file_validator),
                     Arg::from_usage("--force 'Override output file'"),
                     Arg::from_usage("--follow-symlinks 'Recurse down symlinks. Default: yes'").overrides_with("no-follow-symlinks"),
-                    Arg::from_usage("--no-follow-symlinks 'Don\'t recurse down symlinks'").overrides_with("follow-symlinks")])
+                    Arg::from_usage("--no-follow-symlinks 'Don\'t recurse down symlinks'").overrides_with("follow-symlinks"),
+                    Arg::from_usage("-i --ignore [file]... 'Ignore specified file(s)'")])
             .get_matches();
 
         let dir = fs::canonicalize(matches.value_of("DIRECTORY").unwrap()).unwrap();
@@ -101,6 +105,7 @@ impl Options {
             },
             file: file,
             follow_symlinks: !matches.is_present("no-follow-symlinks"),
+            ignored_files: matches.values_of("ignore").map(|v| v.map(String::from).collect()).unwrap_or(BTreeSet::new()),
         }
     }
 
