@@ -2,7 +2,7 @@ macro_rules! hash_func {
     ($ctx:expr, $update:expr, $convert:expr) => {
         pub fn hash(path: &PathBuf) -> String {
             let mut file = File::open(path).unwrap();
-            let mut buffer = vec![0; 1024];
+            let mut buffer = vec![0; 4096];
 
             let mut ctx = $ctx;
             loop {
