@@ -12,7 +12,7 @@ fn main() {
 fn actual_main() -> i32 {
     let opts = checksums::options::Options::parse();
 
-    let hashes = checksums::ops::create_hashes(&opts.dir, opts.algorithm, opts.depth);
+    let hashes = checksums::ops::create_hashes(&opts.dir, opts.algorithm, opts.depth, opts.follow_symlinks);
     if opts.verify {
         let loaded_hashes = checksums::ops::read_hashes(&opts.file.1);
 

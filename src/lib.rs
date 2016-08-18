@@ -83,6 +83,18 @@
 //! Exclusive with `--depth`. Overrides `--depth`.
 //! ```
 //!
+//! --follow-symlinks
+//!
+//! ```text
+//! Recurse down symlinks. Default.
+//! ```
+//!
+//! --no-follow-symlinks
+//!
+//! ```text
+//! Don't recurse down symlinks.
+//! ```
+//!
 //! --force
 //!
 //! ```text

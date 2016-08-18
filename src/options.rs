@@ -31,6 +31,8 @@ pub struct Options {
     pub depth: DepthSetting,
     /// In-/Output filename. Default: `"./INFERRED_FROM_DIRECTORY.hash"`
     pub file: (String, PathBuf),
+    /// Whether to recurse down symlinks. Default: `true`
+    pub follow_symlinks: bool,
 }
 
 /// Representation of how deep recursion should be.
@@ -68,7 +70,9 @@ impl Options {
                         .overrides_with("recursive"),
                     Arg::from_usage("--recursive -r 'Infinite recursion depth.'").overrides_with("depth"),
                     Arg::from_usage("--file=[file] -f 'File with hashes to be read/created'").validator(Options::file_validator),
-                    Arg::from_usage("--force 'Override output file'")])
+                    Arg::from_usage("--force 'Override output file'"),
+                    Arg::from_usage("--follow-symlinks 'Recurse down symlinks. Default: yes'").overrides_with("no-follow-symlinks").group("follow-symlinks"),
+                    Arg::from_usage("--no-follow-symlinks 'Don\'t recurse down symlinks'").overrides_with("follow-symlinks").group("follow-symlinks")])
             .get_matches();
 
         let dir = fs::canonicalize(matches.value_of("DIRECTORY").unwrap()).unwrap();
@@ -96,6 +100,7 @@ impl Options {
                 DepthSetting::from_str(matches.value_of("depth").unwrap_or("0")).unwrap()
             },
             file: file,
+            follow_symlinks: !matches.is_present("no-follow-symlinks"),
         }
     }
 
