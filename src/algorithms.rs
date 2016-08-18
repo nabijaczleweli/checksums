@@ -6,16 +6,17 @@ use std::str::FromStr;
 /// # Examples
 ///
 /// ```
-/// assert_eq!(Algorithm::from_str("SHA1"), Ok(Algorithm::SHA1));
-/// assert_eq!(Algorithm::from_str("SHA-1"), Ok(Algorithm::SHA1));
+/// # use std::str::FromStr;
+/// assert_eq!(checksums::Algorithm::from_str("SHA1"), Ok(checksums::Algorithm::SHA1));
+/// assert_eq!(checksums::Algorithm::from_str("SHA-1"), Ok(checksums::Algorithm::SHA1));
 ///
-/// assert_eq!(Algorithm::from_str("SHA2"), Ok(Algorithm::SHA2512));
-/// assert_eq!(Algorithm::from_str("SHA-2"), Ok(Algorithm::SHA2512));
+/// assert_eq!(checksums::Algorithm::from_str("SHA2"), Ok(checksums::Algorithm::SHA2512));
+/// assert_eq!(checksums::Algorithm::from_str("SHA-2"), Ok(checksums::Algorithm::SHA2512));
 ///
-/// assert_eq!(Algorithm::from_str("BLAKE"), Ok(Algorithm::BLAKE));
-/// assert_eq!(Algorithm::from_str("BLAKE2"), Ok(Algorithm::BLAKE2));
+/// assert_eq!(checksums::Algorithm::from_str("BLAKE"), Ok(checksums::Algorithm::BLAKE));
+/// assert_eq!(checksums::Algorithm::from_str("BLAKE2"), Ok(checksums::Algorithm::BLAKE2));
 ///
-/// assert_eq!(Algorithm::from_str("MD5"), Ok(Algorithm::MD5));
+/// assert_eq!(checksums::Algorithm::from_str("MD5"), Ok(checksums::Algorithm::MD5));
 /// ```
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
 pub enum Algorithm {
@@ -83,59 +84,6 @@ impl FromStr for Algorithm {
             "MD5" | "md5" => Ok(Algorithm::MD5),
             "XOR8" | "xor8" => Ok(Algorithm::XOR8),
             _ => Err(format!("\"{}\" is not a recognised compression algorithm", s)),
-        }
-    }
-}
-
-
-#[cfg(test)]
-mod tests {
-    use std::str::FromStr;
-    use self::super::Algorithm;
-
-
-    #[test]
-    fn doctest() {
-        assert_eq!(Algorithm::from_str("SHA1"), Ok(Algorithm::SHA1));
-        assert_eq!(Algorithm::from_str("SHA-1"), Ok(Algorithm::SHA1));
-
-        assert_eq!(Algorithm::from_str("SHA2"), Ok(Algorithm::SHA2512));
-        assert_eq!(Algorithm::from_str("SHA-2"), Ok(Algorithm::SHA2512));
-
-        assert_eq!(Algorithm::from_str("BLAKE"), Ok(Algorithm::BLAKE));
-        assert_eq!(Algorithm::from_str("BLAKE2"), Ok(Algorithm::BLAKE2));
-
-        assert_eq!(Algorithm::from_str("MD5"), Ok(Algorithm::MD5));
-    }
-
-    #[test]
-    fn from_str() {
-        for p in &[("sha1", Algorithm::SHA1),
-                   ("sha2", Algorithm::SHA2512),
-                   ("sha2-256", Algorithm::SHA2256),
-                   ("sha2-512", Algorithm::SHA2512),
-                   ("sha2256", Algorithm::SHA2256),
-                   ("sha2512", Algorithm::SHA2512),
-                   ("sha3", Algorithm::SHA3512),
-                   ("sha3-256", Algorithm::SHA3256),
-                   ("sha3-512", Algorithm::SHA3512),
-                   ("sha3256", Algorithm::SHA3256),
-                   ("sha3512", Algorithm::SHA3512),
-                   ("blake", Algorithm::BLAKE),
-                   ("blake2", Algorithm::BLAKE2),
-                   ("crc64", Algorithm::CRC64),
-                   ("crc32", Algorithm::CRC32),
-                   ("crc16", Algorithm::CRC16),
-                   ("crc8", Algorithm::CRC8),
-                   ("md5", Algorithm::MD5)] {
-            assert_eq!(Algorithm::from_str(p.0).unwrap(), p.1);
-        }
-    }
-
-    #[test]
-    fn from_str_bad() {
-        for s in &["asdf2", "sha123", "bla", "crc", "31234"] {
-            Algorithm::from_str(s).unwrap_err();
         }
     }
 }

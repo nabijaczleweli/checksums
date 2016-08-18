@@ -10,3 +10,5 @@
 !*.md
 !src
 !src/**
+!tests
+!tests/**

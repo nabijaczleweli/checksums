@@ -187,12 +187,12 @@ impl DepthSetting {
     /// # Examples
     ///
     /// ```
-    /// assert!(DepthSetting::Infinite.can_recurse());
+    /// assert!(checksums::options::DepthSetting::Infinite.can_recurse());
     ///
-    /// assert_false!(DepthSetting::LastLevel.can_recurse());
+    /// assert!(!checksums::options::DepthSetting::LastLevel.can_recurse());
     ///
-    /// assert!(DepthSetting::NRemaining(1).can_recurse());
-    /// assert!(DepthSetting::NRemaining(100).can_recurse());
+    /// assert!(checksums::options::DepthSetting::NRemaining(1).can_recurse());
+    /// assert!(checksums::options::DepthSetting::NRemaining(100).can_recurse());
     /// ```
     pub fn can_recurse(&self) -> bool {
         match self {
@@ -210,11 +210,11 @@ impl DepthSetting {
     ///
     /// ```
     /// // Normally you'd acquire from elsewhere.
-    /// let depth = DepthSetting::NRemaining(1);
+    /// let depth = checksums::options::DepthSetting::NRemaining(1);
     ///
     /// if let Some(next) = depth.next_level() {
     ///     // Recurse into the next level...
-    ///     assert_eq!(next, DepthSetting::LastLevel);
+    ///     assert_eq!(next, checksums::options::DepthSetting::LastLevel);
     /// }
     /// ```
     pub fn next_level(&self) -> Option<Self> {
@@ -242,85 +242,6 @@ impl From<i32> for DepthSetting {
             DepthSetting::NRemaining(n as u32)
         } else {
             DepthSetting::LastLevel
-        }
-    }
-}
-
-
-#[cfg(test)]
-mod tests {
-    mod depth {
-        use self::super::super::DepthSetting;
-        use std::str::FromStr;
-
-
-        mod can_recurse {
-            use self::super::super::super::DepthSetting;
-
-
-            #[test]
-            fn doctest() {
-                assert!(DepthSetting::Infinite.can_recurse());
-
-                assert!(!DepthSetting::LastLevel.can_recurse());
-
-                assert!(DepthSetting::NRemaining(1).can_recurse());
-                assert!(DepthSetting::NRemaining(100).can_recurse());
-            }
-        }
-
-        mod next_level {
-            use self::super::super::super::DepthSetting;
-
-
-            #[test]
-            fn doctest() {
-                // Normally you'd acquire from elsewhere.
-                let depth = DepthSetting::NRemaining(1);
-
-                if let Some(next) = depth.next_level() {
-                    // Recurse into the next level...
-                    assert_eq!(next, DepthSetting::LastLevel);
-                }
-            }
-
-            #[test]
-            fn infinite() {
-                assert_eq!(DepthSetting::Infinite.next_level(), Some(DepthSetting::Infinite));
-            }
-
-            #[test]
-            fn last_level() {
-                assert_eq!(DepthSetting::LastLevel.next_level(), None);
-            }
-
-            #[test]
-            fn nremaining() {
-                assert_eq!(DepthSetting::NRemaining(1).next_level(), Some(DepthSetting::LastLevel));
-
-                assert_eq!(DepthSetting::NRemaining(2).next_level(), Some(DepthSetting::NRemaining(1)));
-                assert_eq!(DepthSetting::NRemaining(100).next_level(), Some(DepthSetting::NRemaining(99)));
-            }
-        }
-
-        #[test]
-        fn from_str() {
-
-            for p in &[("-1", DepthSetting::Infinite),
-                       ("-100", DepthSetting::Infinite),
-                       ("0", DepthSetting::LastLevel),
-                       ("1", DepthSetting::NRemaining(1)),
-                       ("2", DepthSetting::NRemaining(2)),
-                       ("100", DepthSetting::NRemaining(100))] {
-                assert_eq!(DepthSetting::from_str(p.0).unwrap(), p.1);
-            }
-        }
-
-        #[test]
-        fn from_str_bad() {
-            for s in &["a234", "1231d"] {
-                DepthSetting::from_str(s).unwrap_err();
-            }
         }
     }
 }

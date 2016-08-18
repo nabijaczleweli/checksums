@@ -39,8 +39,8 @@ pub fn hash_file(path: &PathBuf, algo: Algorithm) -> String {
 /// # Examples
 ///
 /// ```
-/// assert_eq!(hash_string(&[0x99, 0xAA, 0xBB, 0xCC]), "99AABBCC".to_string());
-/// assert_eq!(hash_string(&[0x09, 0x0A]), "090A".to_string());
+/// assert_eq!(checksums::hash_string(&[0x99, 0xAA, 0xBB, 0xCC]), "99AABBCC".to_string());
+/// assert_eq!(checksums::hash_string(&[0x09, 0x0A]), "090A".to_string());
 /// ```
 pub fn hash_string(bytes: &[u8]) -> String {
     String::from_iter(bytes.iter().map(|&i| {
