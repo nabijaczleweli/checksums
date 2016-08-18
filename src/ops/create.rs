@@ -25,13 +25,13 @@ fn create_hashes_p(path: &PathBuf, ignored_files: &BTreeSet<String>, prefix: Str
         subpath.push(file.path());
 
         if file_type.is_file() {
-            let hash = if ignored_files.contains(&file_name_s) {
+            let hash = if ignored {
                 mul_str("-", algo.size())
             } else {
                 hash_file(&subpath, algo)
             };
             hashes.insert(file_name_s, hash);
-        } else if remaining_depth.can_recurse() && (follow_symlinks || !file_type.is_symlink()) {
+        } else if !ignored && remaining_depth.can_recurse() && (follow_symlinks || !file_type.is_symlink()) {
             // TODO: replace with stock `append()` call once `btree_append` is stabilised.
             //       Tracked by https://github.com/nabijaczleweli/checksums/issues/7
             btreemap_append(&mut hashes,
