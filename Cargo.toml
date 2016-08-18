@@ -14,10 +14,13 @@ exclude = ["*.enc"]
 
 
 [dependencies]
+futures-cpupool = "0.1"
 lazy_static = "0.2"
 tiny-keccak = "1.1"
 blake2-rfc = "0.2"
 tabwriter = "0.1"
+num_cpus = "1.0"
+futures = "0.1"
 shaman = "0.1"
 blake = "1.0"
 crc16 = "0.3"

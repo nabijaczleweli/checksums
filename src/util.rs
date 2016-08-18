@@ -61,6 +61,6 @@ pub fn btreemap_append<K: Ord, V>(to: &mut BTreeMap<K, V>, what: BTreeMap<K, V>)
 /// ```
 /// assert_eq!(checksums::util::mul_str("DIE! ", 3), "DIE! DIE! DIE! ".to_string());
 /// ```
-pub fn mul_str(what: &str, n: usize) -> String{
+pub fn mul_str(what: &str, n: usize) -> String {
     iter::repeat(what).take(n).collect()
 }

@@ -155,11 +155,14 @@ extern crate crc16;
 extern crate blake;
 extern crate regex;
 extern crate shaman;
+extern crate futures;
+extern crate num_cpus;
 extern crate tabwriter;
 extern crate blake2_rfc;
 #[macro_use]
 extern crate lazy_static;
 extern crate tiny_keccak;
+extern crate futures_cpupool;
 
 mod hashing;
 mod algorithms;
