@@ -7,7 +7,6 @@ use futures::{Future, Task, Poll};
 use std::time::Duration;
 use std::path::PathBuf;
 use std::thread;
-use num_cpus;
 use std::fs;
 
 
@@ -18,10 +17,9 @@ lazy_static! {
 
 
 /// Create subpath->hash mappings for a given path using a given algorithm up to a given depth.
-pub fn create_hashes(path: &PathBuf, ignored_files: BTreeSet<String>, algo: Algorithm, remaining_depth: DepthSetting, follow_symlinks: bool)
+pub fn create_hashes(path: &PathBuf, ignored_files: BTreeSet<String>, algo: Algorithm, remaining_depth: DepthSetting, follow_symlinks: bool, jobs: u32)
                      -> BTreeMap<String, String> {
-    // TODO: customisation
-    let pool = CpuPool::new(num_cpus::get() as u32);
+    let pool = CpuPool::new(jobs);
     let mut hashes_f = BTreeMap::new();
     create_hashes_p(&mut hashes_f,
                     &path,

@@ -70,6 +70,14 @@ correctness.
 
     Accepted multiple times.
 
+  -j --jobs [jobs]
+
+    Amount of threads used for hashing. Default: # of CPU threads
+
+    One thread can hash one file at a time, potentially speeding up hashing up to `jobs` times.
+
+    No/empty value: # of CPU threads. -1: Infinite
+
   [DIRECTORY]
 
     Directory to create/verify hash for. Default: current workdir.

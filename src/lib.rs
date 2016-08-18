@@ -111,6 +111,16 @@
 //! Override output file in `--create` mode. No meaning in `--verify` mode.
 //! ```
 //!
+//! -j --jobs [jobs]
+//!
+//! ```text
+//! Amount of threads used for hashing. Default: # of CPU threads
+//!
+//! One thread can hash one file at a time, potentially speeding up hashing up to `jobs` times.
+//!
+//! No/empty value: # of CPU threads. -1: Infinite
+//! ```
+//!
 //! [DIRECTORY]
 //!
 //! ```text

@@ -16,6 +16,7 @@ use std::collections::BTreeSet;
 use self::super::Algorithm;
 use std::path::PathBuf;
 use std::str::FromStr;
+use num_cpus;
 use std::fs;
 
 
@@ -36,6 +37,8 @@ pub struct Options {
     pub follow_symlinks: bool,
     /// Files/directories to ignore. Default: none
     pub ignored_files: BTreeSet<String>,
+    /// # of threads used for hashing. Default: # of CPU threads
+    pub jobs: u32,
 }
 
 /// Representation of how deep recursion should be.
@@ -76,7 +79,10 @@ impl Options {
                     Arg::from_usage("--force 'Override output file'"),
                     Arg::from_usage("--follow-symlinks 'Recurse down symlinks. Default: yes'").overrides_with("no-follow-symlinks"),
                     Arg::from_usage("--no-follow-symlinks 'Don\'t recurse down symlinks'").overrides_with("follow-symlinks"),
-                    Arg::from_usage("-i --ignore [file]... 'Ignore specified file(s)'")])
+                    Arg::from_usage("-i --ignore [file]... 'Ignore specified file(s)'"),
+                    Arg::from_usage("-j --jobs=[jobs] '# of threads used for hashing. No/empty value: # of CPU threads. -1: Infinite'")
+                        .empty_values(true)
+                        .validator(Options::jobs_validator)])
             .get_matches();
 
         let dir = fs::canonicalize(matches.value_of("DIRECTORY").unwrap()).unwrap();
@@ -106,6 +112,15 @@ impl Options {
             file: file,
             follow_symlinks: !matches.is_present("no-follow-symlinks"),
             ignored_files: matches.values_of("ignore").map(|v| v.map(String::from).collect()).unwrap_or(BTreeSet::new()),
+            jobs: match matches.value_of("jobs") {
+                None | Some("") => num_cpus::get() as u32,
+                Some(s) => {
+                    match i32::from_str(s).unwrap() {
+                        -1 => u32::max_value(),
+                        i => i as u32,
+                    }
+                }
+            },
         }
     }
 
@@ -142,6 +157,23 @@ impl Options {
             }
         }
     }
+
+    fn jobs_validator(s: String) -> Result<(), String> {
+        if s.is_empty() {
+            Ok(())
+        } else {
+            i32::from_str(&s).map_err(|e| format!("jobs: {}", e)).and_then(|i| {
+                if i == 0 {
+                    Err("cannot execute 0 jobs".to_string())
+                } else if i < -1 {
+                    Err("cannot execute a negative amount of jobs".to_string())
+                } else {
+                    Ok(())
+                }
+            })
+        }
+    }
+
 
     fn file_process(file: Option<&str>, dir: &PathBuf) -> (String, PathBuf) {
         match file {
