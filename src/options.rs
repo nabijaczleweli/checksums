@@ -71,8 +71,8 @@ impl Options {
                     Arg::from_usage("--recursive -r 'Infinite recursion depth.'").overrides_with("depth"),
                     Arg::from_usage("--file=[file] -f 'File with hashes to be read/created'").validator(Options::file_validator),
                     Arg::from_usage("--force 'Override output file'"),
-                    Arg::from_usage("--follow-symlinks 'Recurse down symlinks. Default: yes'").overrides_with("no-follow-symlinks").group("follow-symlinks"),
-                    Arg::from_usage("--no-follow-symlinks 'Don\'t recurse down symlinks'").overrides_with("follow-symlinks").group("follow-symlinks")])
+                    Arg::from_usage("--follow-symlinks 'Recurse down symlinks. Default: yes'").overrides_with("no-follow-symlinks"),
+                    Arg::from_usage("--no-follow-symlinks 'Don\'t recurse down symlinks'").overrides_with("follow-symlinks")])
             .get_matches();
 
         let dir = fs::canonicalize(matches.value_of("DIRECTORY").unwrap()).unwrap();
