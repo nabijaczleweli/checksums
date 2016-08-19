@@ -1,7 +1,3 @@
-use std::path::PathBuf;
-use super::Algorithm;
-use std::fmt::Write;
-
 macro_rules! hash_func {
     ($ctx:expr, $update:expr, $convert:expr) => {
         pub fn hash(path: &PathBuf) -> String {
@@ -23,6 +19,11 @@ macro_rules! hash_func {
         }
     }
 }
+
+
+use std::path::PathBuf;
+use super::Algorithm;
+use std::fmt::Write;
 
 mod md5;
 mod xor8;
