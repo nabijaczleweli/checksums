@@ -11,6 +11,7 @@ mod blake2;
 mod crc32_64;
 mod sha3256_3512;
 mod sha1_2256_2512;
+mod md6128_256_512;
 
 
 /// Hash the specified file using the specified hashing algorithm.
@@ -28,6 +29,9 @@ pub fn hash_file(path: &PathBuf, algo: Algorithm) -> String {
         Algorithm::CRC16 => crc16::hash(path),
         Algorithm::CRC8 => crc8::hash(path),
         Algorithm::MD5 => md5::hash(path),
+        Algorithm::MD6128 => md6128_256_512::md6128::hash(path),
+        Algorithm::MD6256 => md6128_256_512::md6256::hash(path),
+        Algorithm::MD6512 => md6128_256_512::md6512::hash(path),
         Algorithm::XOR8 => xor8::hash(path),
     }
 }

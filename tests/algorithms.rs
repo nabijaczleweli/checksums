@@ -23,7 +23,10 @@ fn from_str() {
                ("crc32", Algorithm::CRC32),
                ("crc16", Algorithm::CRC16),
                ("crc8", Algorithm::CRC8),
-               ("md5", Algorithm::MD5)] {
+               ("md5", Algorithm::MD5),
+               ("md6-128", Algorithm::MD6128),
+               ("md6-256", Algorithm::MD6256),
+               ("md6-512", Algorithm::MD6512)] {
         assert_eq!(Algorithm::from_str(p.0).unwrap(), p.1);
     }
 }

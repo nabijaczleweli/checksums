@@ -36,6 +36,12 @@ pub enum Algorithm {
     CRC16,
     CRC8,
     MD5,
+    /// MD6-128
+    MD6128,
+    /// MD6-256
+    MD6256,
+    /// MD6-512
+    MD6512,
     XOR8,
 }
 
@@ -47,14 +53,17 @@ impl Algorithm {
             &Algorithm::CRC16 => 4,
             &Algorithm::CRC32 => 8,
             &Algorithm::CRC64 => 16,
-            &Algorithm::MD5 => 32,
+            &Algorithm::MD5 |
+            &Algorithm::MD6128 => 32,
             &Algorithm::SHA1 => 40,
             &Algorithm::SHA2256 |
-            &Algorithm::SHA3256 => 64,
+            &Algorithm::SHA3256 |
+            &Algorithm::MD6256 => 64,
             &Algorithm::SHA2512 |
             &Algorithm::SHA3512 |
             &Algorithm::BLAKE |
-            &Algorithm::BLAKE2 => 128,
+            &Algorithm::BLAKE2 |
+            &Algorithm::MD6512 => 128,
         }
     }
 }
@@ -82,6 +91,9 @@ impl FromStr for Algorithm {
             "CRC16" | "crc16" => Ok(Algorithm::CRC16),
             "CRC8" | "crc8" => Ok(Algorithm::CRC8),
             "MD5" | "md5" => Ok(Algorithm::MD5),
+            "MD6128" | "MD6-128" | "MD6_128" | "md6128" | "md6-128" | "md6_128" => Ok(Algorithm::MD6128),
+            "MD6256" | "MD6-256" | "MD6_256" | "md6256" | "md6-256" | "md6_256" => Ok(Algorithm::MD6256),
+            "MD6512" | "MD6-512" | "MD6_512" | "md6512" | "md6-512" | "md6_512" => Ok(Algorithm::MD6512),
             "XOR8" | "xor8" => Ok(Algorithm::XOR8),
             _ => Err(format!("\"{}\" is not a recognised compression algorithm", s)),
         }
