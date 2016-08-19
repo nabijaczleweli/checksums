@@ -1,6 +1,7 @@
 use std::iter::FromIterator;
-use super::Algorithm;
 use std::path::PathBuf;
+use super::Algorithm;
+use std::fmt::Write;
 
 mod md5;
 mod xor8;
@@ -45,7 +46,6 @@ pub fn hash_file(path: &PathBuf, algo: Algorithm) -> String {
 /// assert_eq!(checksums::hash_string(&[0x09, 0x0A]), "090A".to_string());
 /// ```
 pub fn hash_string(bytes: &[u8]) -> String {
-    use std::fmt::Write;
     let mut result = String::with_capacity(bytes.len() * 2);
     for b in bytes {
         write!(result, "{:02X}", b).unwrap();
