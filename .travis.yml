@@ -32,6 +32,7 @@ install:
 script:
   - if [ "$LANGUAGE" == "Rust" ]; then cargo build --verbose; fi
   - if [ "$LANGUAGE" == "Rust" ]; then cargo test  --verbose; fi
+  - if [ "$LANGUAGE" == "Rust" ]; then target/debug/checksums -cr --ignore target --ignore .git -f /dev/tty --force; fi
   - if [ "$LANGUAGE" == "Rust" ] && [ "$DEPLOY" ] && [ "$TRAVIS_TAG" ] && [ "$TRAVIS_SECURE_ENV_VARS" == "true" ]; then cargo build --verbose --release; fi
   -
   - if [ "$LANGUAGE" == "Ruby" ]; then

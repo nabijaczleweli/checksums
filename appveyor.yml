@@ -30,6 +30,7 @@ build_script:
 test: off
 test_script:
   - cargo test --verbose --release
+  - target\release\checksums -cr --ignore target --ignore .git && cat checksums.hash
 
 artifacts:
   - path: checksums-v0.4.0.exe
