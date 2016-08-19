@@ -8,8 +8,8 @@ keywords = ["checksums", "checksum", "directory", "verification", "hash"]
 license = "MIT"
 # Remember to also update in appveyor.yml
 version = "0.4.0"
-# Remember to also update in Synopsis.md
-authors = ["nabijaczleweli <nabijaczleweli@gmail.com>"]
+# Remember to also update in checksums.md
+authors = ["nabijaczleweli <nabijaczleweli@gmail.com>", "Zachary Dremann <dremann@gmail.com>"]
 exclude = ["*.enc"]
 
 

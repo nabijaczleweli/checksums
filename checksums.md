@@ -132,6 +132,7 @@ All output is wrapped to 80 columns.
 ## AUTHOR
 
 Written by nabijaczleweli &lt;<nabijaczleweli@gmail.com>&gt;
+       and Zachary Dremann &lt;<dremann@gmail.com>&gt;
 
 ## REPORTING BUGS
 
