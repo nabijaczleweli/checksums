@@ -19,6 +19,7 @@
 //!
 //! ```plaintext
 //! Options
+//! |> create_hashes()
 //! |> write_hashes()
 //! ```
 //!
