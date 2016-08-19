@@ -19,7 +19,8 @@ correctness.
     Set the hashing algorithm to use.
 
     Supported algorithms: SHA1, SHA2-256, SHA2-512, SHA3-256, SHA3-512, BLAKE,
-                          BLAKE2, CRC8, CRC16, CRC32, CRC64, MD5, XOR8
+                          BLAKE2, CRC8, CRC16, CRC32, CRC64, MD5, MD6-128,
+                          MD6-256, MD6-512, XOR8
 
   -c --create
 
