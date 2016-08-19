@@ -3,6 +3,7 @@ use self::super::super::util::mul_str;
 use std::io::Write;
 
 
+/// Write hash comparison results to the output streams in a human-consumable format
 pub fn write_hash_comparison_results<Wo: Write, We: Write>(output: &mut Wo, error: &mut We,
                                                            results: Result<(Vec<CompareResult>, Vec<CompareFileResult>), CompareError>)
                                                            -> i32 {
@@ -21,21 +22,31 @@ pub fn write_hash_comparison_results<Wo: Write, We: Write>(output: &mut Wo, erro
 
             if file_compare_results.is_empty() && compare_results.is_empty() {
                 writeln!(output, "No files left to verify").unwrap();
+                0
             } else if file_compare_results.is_empty() {
                 writeln!(output, "No files to verify").unwrap();
+                0
             } else {
                 if !compare_results.is_empty() {
                     writeln!(output, "").unwrap();
                 }
+
+                let mut differed_n = 0;
                 for fres in &file_compare_results {
                     match fres {
                         &CompareFileResult::FileMatches(ref file) => write_file_result_match(output, &file),
-                        &CompareFileResult::FileDiffers { ref file, ref was_hash, ref new_hash } => write_file_result_diff(output, &file, &was_hash, &new_hash),
+                        &CompareFileResult::FileDiffers { ref file, ref was_hash, ref new_hash } => {
+                            write_file_result_diff(output, &file, &was_hash, &new_hash);
+                            differed_n += 1;
+                        }
                     }
                 }
-            }
 
-            0
+                match differed_n {
+                    0 => 0,
+                    n => 2 + n,
+                }
+            }
         }
         Err(CompareError::HashLengthDiffers { previous_len, current_len }) => {
             let previous_len_len = format!("{}", previous_len).len();
