@@ -1,6 +1,3 @@
-include!("hash_func.rs");
-
-
 macro_rules! make_sha_mod {
     ($modname:ident, $len:expr, $keccak_new:expr) => {
         pub mod $modname {

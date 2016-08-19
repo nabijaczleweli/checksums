@@ -1,7 +1,28 @@
-use std::iter::FromIterator;
 use std::path::PathBuf;
 use super::Algorithm;
 use std::fmt::Write;
+
+macro_rules! hash_func {
+    ($ctx:expr, $update:expr, $convert:expr) => {
+        pub fn hash(path: &PathBuf) -> String {
+            let mut file = File::open(path).unwrap();
+            let mut buffer = vec![0; 4096];
+
+            let mut ctx = $ctx;
+            loop {
+                let read = file.read(&mut buffer[..]).unwrap();
+
+                if read == 0 {
+                    break;
+                }
+
+                $update(&mut ctx, &buffer, read);
+            }
+
+            $convert(ctx)
+        }
+    }
+}
 
 mod md5;
 mod xor8;
@@ -13,7 +34,6 @@ mod crc32_64;
 mod sha3256_3512;
 mod sha1_2256_2512;
 mod md6128_256_512;
-
 
 /// Hash the specified file using the specified hashing algorithm.
 pub fn hash_file(path: &PathBuf, algo: Algorithm) -> String {

@@ -1,6 +1,3 @@
-include!("hash_func.rs");
-
-
 macro_rules! make_md_mod {
     ($modname:ident, $bytesize:expr) => {
         pub mod $modname {

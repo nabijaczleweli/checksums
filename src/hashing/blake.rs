@@ -5,9 +5,6 @@ use std::io::Read;
 use blake::Blake;
 
 
-include!("hash_func.rs");
-
-
 hash_func!(Blake::new(512).unwrap(),
            |blake: &mut Blake, buffer: &[u8], read: usize| blake.update(&buffer[0..read]),
            |blake: Blake| {
