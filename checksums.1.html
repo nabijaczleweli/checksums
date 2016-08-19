@@ -85,6 +85,8 @@
 <p>Use the generated checksums to automatically verify file/directory tree
 correctness.</p>
 
+<p>All output is wrapped to 80 columns.</p>
+
 <h2 id="OPTIONS">OPTIONS</h2>
 
 <p>  -a --algorithm &lt;<var>algorithm</var>&gt;</p>
@@ -157,7 +159,8 @@ Accepted multiple times.
 
 <pre><code>Amount of threads used for hashing. Default: # of CPU threads
 
-One thread can hash one file at a time, potentially speeding up hashing up to `jobs` times.
+One thread can hash one file at a time, potentially speeding up hashing
+up to `jobs` times.
 
 No/empty value: # of CPU threads. -1: Infinite
 </code></pre>
@@ -169,32 +172,53 @@ No/empty value: # of CPU threads. -1: Infinite
 
 <h2 id="EXAMPLES">EXAMPLES</h2>
 
-<p>  <code>examples</code> [<code>-v</code>] [<code>-f</code> <em>infile</em>]</p>
+<p>  <code>checksums</code> [<code>-v</code>] [<code>-f</code> <em>infile</em>]</p>
 
 <pre><code>Verify the current directory tree against the saved hashes.
 
 `-v` is not necessary as it's the default.
 
 *infile* defaults to "`DIRECTORY`.hash"
+
+Example output:
+  File added: "file_that_was_not_here_before"
+  File removed: "file_that_was_here_before_but_not_now"
+  File ignored: "file_specified_with_ignore_now_or_during_creation"
+
+  File "file_that_did_not_change" matches
+  File "changed_file" doesn't match
+    Was: 8313958F86F7B15D4775D12886D479C1CFAAA111
+    Is : FCFC1548B30B5ACB25A7421D068E12F07DF74DCC
 </code></pre>
 
-<p>  <code>examples</code> <code>-c</code> [<code>-f</code> <em>outfile</em>] [<code>--force</code>]</p>
+<p>  <code>checksums</code> <code>-c</code> [<code>-f</code> <em>outfile</em>] [<code>--force</code>]</p>
 
 <pre><code>Create hashes of the current directory tree for later verification.
 
 *outfile* defaults to "`DIRECTORY`.hash".
 
 Use `--force` to override *outfile*.
+
+Example output: none; hashes file creation does not output any data.
+*outfile* contents:
+  a_file.txt      8313958F86F7B15D4775D12886D479C1CFAAA111
+  *outfile*.hash  ----------------------------------------
+  different_file  8D742C1F2D39434771039E98AD854C72F91FCCA5
 </code></pre>
 
-<p>  <code>examples</code> [<code>-d</code> <em>depth</em>] [<code>-r</code>] [<code>OTHER OPTIONS</code>]</p>
+<p>  <code>checksums</code> [<code>-d</code> <em>depth</em>] [<code>-r</code>] [<code>OTHER OPTIONS</code>]</p>
 
 <pre><code>Recurse *depth* or infinity directories down.
+
+Example output for *depth*=2:
+  File "dir1/dir2/file" matches
+  File "dir1/file" matches
+  File "file" matches
 </code></pre>
 
 <h2 id="AUTHOR">AUTHOR</h2>
 
-<p>Written by nabijaczleweli &lt;<a href="&#x6d;&#x61;&#x69;&#108;&#116;&#111;&#58;&#x6e;&#x61;&#98;&#x69;&#x6a;&#x61;&#x63;&#122;&#x6c;&#x65;&#119;&#x65;&#x6c;&#x69;&#64;&#103;&#x6d;&#97;&#105;&#x6c;&#46;&#99;&#x6f;&#x6d;" data-bare-link="true">&#x6e;&#x61;&#98;&#x69;&#x6a;&#97;&#x63;&#122;&#108;&#x65;&#119;&#x65;&#108;&#x69;&#x40;&#x67;&#x6d;&#x61;&#105;&#108;&#46;&#x63;&#x6f;&#x6d;</a>&gt;</p>
+<p>Written by nabijaczleweli &lt;<a href="&#109;&#97;&#105;&#108;&#116;&#x6f;&#58;&#x6e;&#97;&#98;&#105;&#106;&#x61;&#x63;&#122;&#x6c;&#101;&#119;&#x65;&#x6c;&#x69;&#64;&#x67;&#x6d;&#97;&#x69;&#108;&#x2e;&#99;&#x6f;&#109;" data-bare-link="true">&#110;&#97;&#x62;&#105;&#106;&#97;&#99;&#x7a;&#108;&#x65;&#119;&#101;&#108;&#x69;&#64;&#x67;&#109;&#x61;&#105;&#x6c;&#46;&#99;&#x6f;&#109;</a>&gt;</p>
 
 <h2 id="REPORTING-BUGS">REPORTING BUGS</h2>
 

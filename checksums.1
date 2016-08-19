@@ -15,6 +15,9 @@ Tool for making/verifying checksums of directory trees\.
 .P
 Use the generated checksums to automatically verify file/directory tree correctness\.
 .
+.P
+All output is wrapped to 80 columns\.
+.
 .SH "OPTIONS"
 \-a \-\-algorithm <\fIalgorithm\fR>
 .
@@ -162,7 +165,8 @@ Accepted multiple times\.
 
 Amount of threads used for hashing\. Default: # of CPU threads
 
-One thread can hash one file at a time, potentially speeding up hashing up to `jobs` times\.
+One thread can hash one file at a time, potentially speeding up hashing
+up to `jobs` times\.
 
 No/empty value: # of CPU threads\. \-1: Infinite
 .
@@ -184,7 +188,7 @@ Directory to create/verify hash for\. Default: current workdir\.
 .IP "" 0
 .
 .SH "EXAMPLES"
-\fBexamples\fR [\fB\-v\fR] [\fB\-f\fR \fIinfile\fR]
+\fBchecksums\fR [\fB\-v\fR] [\fB\-f\fR \fIinfile\fR]
 .
 .IP "" 4
 .
@@ -195,13 +199,23 @@ Verify the current directory tree against the saved hashes\.
 `\-v` is not necessary as it\'s the default\.
 
 *infile* defaults to "`DIRECTORY`\.hash"
+
+Example output:
+  File added: "file_that_was_not_here_before"
+  File removed: "file_that_was_here_before_but_not_now"
+  File ignored: "file_specified_with_ignore_now_or_during_creation"
+
+  File "file_that_did_not_change" matches
+  File "changed_file" doesn\'t match
+    Was: 8313958F86F7B15D4775D12886D479C1CFAAA111
+    Is : FCFC1548B30B5ACB25A7421D068E12F07DF74DCC
 .
 .fi
 .
 .IP "" 0
 .
 .P
-\fBexamples\fR \fB\-c\fR [\fB\-f\fR \fIoutfile\fR] [\fB\-\-force\fR]
+\fBchecksums\fR \fB\-c\fR [\fB\-f\fR \fIoutfile\fR] [\fB\-\-force\fR]
 .
 .IP "" 4
 .
@@ -212,19 +226,30 @@ Create hashes of the current directory tree for later verification\.
 *outfile* defaults to "`DIRECTORY`\.hash"\.
 
 Use `\-\-force` to override *outfile*\.
+
+Example output: none; hashes file creation does not output any data\.
+*outfile* contents:
+  a_file\.txt      8313958F86F7B15D4775D12886D479C1CFAAA111
+  *outfile*\.hash  \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+  different_file  8D742C1F2D39434771039E98AD854C72F91FCCA5
 .
 .fi
 .
 .IP "" 0
 .
 .P
-\fBexamples\fR [\fB\-d\fR \fIdepth\fR] [\fB\-r\fR] [\fBOTHER OPTIONS\fR]
+\fBchecksums\fR [\fB\-d\fR \fIdepth\fR] [\fB\-r\fR] [\fBOTHER OPTIONS\fR]
 .
 .IP "" 4
 .
 .nf
 
 Recurse *depth* or infinity directories down\.
+
+Example output for *depth*=2:
+  File "dir1/dir2/file" matches
+  File "dir1/file" matches
+  File "file" matches
 .
 .fi
 .
