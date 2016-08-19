@@ -36,6 +36,8 @@
 //! Use the generated checksums to automatically verify file/directory tree
 //! correctness.
 //!
+//! All output is wrapped to 80 columns.
+//!
 //! ## OPTIONS
 //!
 //! -a --algorithm &lt;algorithm&gt;
@@ -118,7 +120,8 @@
 //! ```text
 //! Amount of threads used for hashing. Default: # of CPU threads
 //!
-//! One thread can hash one file at a time, potentially speeding up hashing up to `jobs` times.
+//! One thread can hash one file at a time, potentially speeding up hashing
+//! up to `jobs` times.
 //!
 //! No/empty value: # of CPU threads. -1: Infinite
 //! ```
@@ -131,7 +134,7 @@
 //!
 //! ## EXAMPLES
 //!
-//! `examples` [`-v`] [`-f` *infile*]
+//! `checksums` [`-v`] [`-f` *infile*]
 //!
 //! ```text
 //! Verify the current directory tree against the saved hashes.
@@ -139,6 +142,16 @@
 //! `-v` is not necessary as it's the default.
 //!
 //! *infile* defaults to "`DIRECTORY`.hash"
+//!
+//! Example output:
+//!   File added: "file_that_was_not_here_before"
+//!   File removed: "file_that_was_here_before_but_not_now"
+//!   File ignored: "file_specified_with_ignore_now_or_during_creation"
+//!
+//!   File "file_that_did_not_change" matches
+//!   File "changed_file" doesn't match
+//!     Was: 8313958F86F7B15D4775D12886D479C1CFAAA111
+//!     Is : FCFC1548B30B5ACB25A7421D068E12F07DF74DCC
 //! ```
 //!
 //! `examples` `-c` [`-f` *outfile*] [`--force`]
@@ -149,12 +162,23 @@
 //! *outfile* defaults to "`DIRECTORY`.hash".
 //!
 //! Use `--force` to override *outfile*.
+//!
+//! Example output: none; hashes file creation does not output any data.
+//! *outfile* contents:
+//!   a_file.txt      8313958F86F7B15D4775D12886D479C1CFAAA111
+//!   *outfile*.hash  ----------------------------------------
+//!   different_file  8D742C1F2D39434771039E98AD854C72F91FCCA5
 //! ```
 //!
 //! `examples` [`-d` *depth*] [`-r`] [`OTHER OPTIONS`]
 //!
 //! ```text
 //! Recurse *depth* or infinity directories down.
+//!
+//! Example output for *depth*=2:
+//!   File "dir1/dir2/file" matches
+//!   File "dir1/file" matches
+//!   File "file" matches
 //! ```
 
 
