@@ -29,7 +29,7 @@ pub use self::write::*;
 pub fn write_hashes(out_file: &(String, PathBuf), algo: Algorithm, mut hashes: BTreeMap<String, String>) {
     let mut out = TabWriter::new(File::create(&out_file.1).unwrap());
 
-    hashes.insert(out_file.0.clone(), mul_str("-", algo.size()));
+    hashes.insert(out_file.0.clone(), mul_str("-", algo.hexlen()));
     for (fname, hash) in hashes {
         writeln!(&mut out, "{}\t{}", fname, hash).unwrap();
     }

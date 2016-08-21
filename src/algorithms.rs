@@ -47,7 +47,7 @@ pub enum Algorithm {
 
 impl Algorithm {
     /// Length, in bytes, of the algorithm's output hex string
-    pub fn size(&self) -> usize {
+    pub fn hexlen(&self) -> usize {
         match self {
             &Algorithm::XOR8 | &Algorithm::CRC8 => 2,
             &Algorithm::CRC16 => 4,

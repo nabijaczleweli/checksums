@@ -83,7 +83,7 @@ fn create_hashes_p(hashes: &mut BTreeMap<String, CpuFuture<String>>, path: &Path
         if file_type.is_file() {
             let hash = if ignored {
                 // TODO: ideally, this'd be a futures::done() but I was unable to generalise it to do both CpuFuture and Future
-                pool.execute(move || mul_str("-", algo.size()))
+                pool.execute(move || mul_str("-", algo.hexlen()))
             } else {
                 pool.execute(move || hash_file(&subpath, algo))
             };
