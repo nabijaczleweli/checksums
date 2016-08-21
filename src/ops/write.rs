@@ -44,7 +44,7 @@ pub fn write_hash_comparison_results<Wo: Write, We: Write>(output: &mut Wo, erro
 
                 match differed_n {
                     0 => 0,
-                    n => 2 + n,
+                    n => 3 + n,
                 }
             }
         }

@@ -37,22 +37,30 @@ pub fn write_hashes(out_file: &(String, PathBuf), algo: Algorithm, mut hashes: B
     out.flush().unwrap();
 }
 
-/// Read hashes saved with `write_hashes()` from the specified path.
-pub fn read_hashes(in_file: &Path) -> BTreeMap<String, String> {
+/// Read hashes saved with `write_hashes()` from the specified path or fail with line numbers not matching pattern.
+pub fn read_hashes(in_file: &Path) -> Result<BTreeMap<String, String>, Vec<usize>> {
     lazy_static! {
         static ref LINE_RGX: Regex = Regex::new(r"^(.+?)\s{2,}([[:xdigit:]-]+)$").unwrap();
     }
 
     let mut hashes = BTreeMap::new();
+    let mut wrong_lines = Vec::new();
 
     let in_file = BufReader::new(File::open(in_file).unwrap());
-    for line in in_file.lines().map(Result::unwrap) {
+    for (n, line) in in_file.lines().map(Result::unwrap).enumerate() {
         if !line.is_empty() {
-            // TODO: check if succeeded and return line number and error
-            let captures = LINE_RGX.captures(&line).unwrap();
-            hashes.insert(captures[1].to_string(), captures[2].to_string());
+            match LINE_RGX.captures(&line) {
+                Some(captures) => {
+                    hashes.insert(captures[1].to_string(), captures[2].to_string());
+                }
+                None => wrong_lines.push(n),
+            };
         }
     }
 
-    hashes
+    if wrong_lines.is_empty() {
+        Ok(hashes)
+    } else {
+        Err(wrong_lines)
+    }
 }

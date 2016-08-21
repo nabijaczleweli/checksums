@@ -1,5 +1,6 @@
 extern crate checksums;
 
+use std::io::Write;
 use std::process::exit;
 use std::io::{stdout, stderr};
 
@@ -14,10 +15,19 @@ fn actual_main() -> i32 {
 
     let hashes = checksums::ops::create_hashes(&opts.dir, opts.ignored_files, opts.algorithm, opts.depth, opts.follow_symlinks, opts.jobs);
     if opts.verify {
-        let loaded_hashes = checksums::ops::read_hashes(&opts.file.1);
+        match checksums::ops::read_hashes(&opts.file.1) {
+            Ok(loaded_hashes) => {
+                let compare_result = checksums::ops::compare_hashes(&opts.file.0, hashes, loaded_hashes);
+                checksums::ops::write_hash_comparison_results(&mut stdout(), &mut stderr(), compare_result)
+            }
+            Err(lines) => {
+                for l in lines {
+                    writeln!(stderr(), "{}:{}: Line doesn't match accepted pattern", opts.file.0, l).unwrap();
+                }
+                3
+            }
+        }
 
-        let compare_result = checksums::ops::compare_hashes(&opts.file.0, hashes, loaded_hashes);
-        checksums::ops::write_hash_comparison_results(&mut stdout(), &mut stderr(), compare_result)
     } else {
         checksums::ops::write_hashes(&opts.file, opts.algorithm, hashes);
         0
