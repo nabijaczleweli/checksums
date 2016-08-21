@@ -13,10 +13,10 @@ mod write;
 
 use std::io::{BufRead, BufReader, Write};
 use std::collections::BTreeMap;
+use std::path::{Path, PathBuf};
 use self::super::util::mul_str;
 use self::super::Algorithm;
 use tabwriter::TabWriter;
-use std::path::PathBuf;
 use std::fs::File;
 use regex::Regex;
 
@@ -38,7 +38,7 @@ pub fn write_hashes(out_file: &(String, PathBuf), algo: Algorithm, mut hashes: B
 }
 
 /// Read hashes saved with `write_hashes()` from the specified path.
-pub fn read_hashes(in_file: &PathBuf) -> BTreeMap<String, String> {
+pub fn read_hashes(in_file: &Path) -> BTreeMap<String, String> {
     lazy_static! {
         static ref LINE_RGX: Regex = Regex::new(r"^(.+?)\s{2,}([[:xdigit:]-]+)$").unwrap();
     }

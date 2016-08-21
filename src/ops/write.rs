@@ -75,11 +75,11 @@ pub fn write_hash_comparison_results<Wo: Write, We: Write>(output: &mut Wo, erro
 }
 
 
-fn write_compare_result<W: Write>(out: &mut W, pre: &str, fname: &String) {
+fn write_compare_result<W: Write>(out: &mut W, pre: &str, fname: &str) {
     write_result(out, pre, fname, 2, true)
 }
 
-fn write_result<W: Write>(out: &mut W, pre: &str, fname: &String, fname_indent: usize, quote: bool) {
+fn write_result<W: Write>(out: &mut W, pre: &str, fname: &str, fname_indent: usize, quote: bool) {
     if pre.len() + quote as usize + fname.len() + quote as usize <= 80 {
         let quote_s = if quote {
             "\""
@@ -100,7 +100,7 @@ fn write_result<W: Write>(out: &mut W, pre: &str, fname: &String, fname_indent: 
     }
 }
 
-fn write_file_result_match<W: Write>(out: &mut W, fname: &String) {
+fn write_file_result_match<W: Write>(out: &mut W, fname: &str) {
     if 15 + fname.len() <= 80 {
         writeln!(out, "File \"{}\" matches", fname).unwrap();
     } else {
@@ -108,7 +108,7 @@ fn write_file_result_match<W: Write>(out: &mut W, fname: &String) {
     }
 }
 
-fn write_file_result_diff<W: Write>(out: &mut W, fname: &String, lhash: &String, chash: &String) {
+fn write_file_result_diff<W: Write>(out: &mut W, fname: &str, lhash: &str, chash: &str) {
     if 21 + fname.len() <= 80 {
         writeln!(out, "File \"{}\" doesn't match", fname).unwrap();
     } else {

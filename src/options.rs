@@ -13,8 +13,8 @@
 
 use clap::{self, App, Arg, AppSettings};
 use std::collections::BTreeSet;
+use std::path::{Path, PathBuf};
 use self::super::Algorithm;
-use std::path::PathBuf;
 use std::str::FromStr;
 use num_cpus;
 use std::fs;
@@ -209,13 +209,13 @@ impl Options {
     }
 
     #[cfg(windows)]
-    fn root_fname(dir: &PathBuf) -> String {
+    fn root_fname(dir: &Path) -> String {
         let dir = dir.as_os_str().to_str().unwrap().to_string();
         dir[dir.len() - 3..dir.len() - 2].to_string()
     }
 
     #[cfg(not(windows))]
-    fn root_fname(_: &PathBuf) -> String {
+    fn root_fname(_: &Path) -> String {
         "root".to_string()
     }
 }
