@@ -114,11 +114,13 @@ All output is wrapped to 80 columns.
 
     Use `--force` to override *outfile*.
 
-    Example output: none; hashes file creation does not output any data.
-    *outfile* contents:
-      a_file.txt      8313958F86F7B15D4775D12886D479C1CFAAA111
-      *outfile*.hash  ----------------------------------------
-      different_file  8D742C1F2D39434771039E98AD854C72F91FCCA5
+     Example output:
+       FILE 722 / 722 [===============================================] 100.00 %
+
+     *outfile* contents:
+       a_file.txt      8313958F86F7B15D4775D12886D479C1CFAAA111
+       *outfile*.hash  ----------------------------------------
+       different_file  8D742C1F2D39434771039E98AD854C72F91FCCA5
 
   `checksums` [`-d` *depth*] [`-r`] [`OTHER OPTIONS`]
 
