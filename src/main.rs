@@ -13,8 +13,11 @@ fn main() {
 fn actual_main() -> i32 {
     let opts = checksums::options::Options::parse();
 
-    let hashes = checksums::ops::create_hashes(&opts.dir, opts.ignored_files, opts.algorithm, opts.depth, opts.follow_symlinks, opts.jobs);
+    let hashes = checksums::ops::create_hashes(&opts.dir, opts.ignored_files, opts.algorithm, opts.depth, opts.follow_symlinks, opts.jobs, stdout());
     if opts.verify {
+        // Progress bar separator
+        println!("");
+
         match checksums::ops::read_hashes(&opts.file.1) {
             Ok(loaded_hashes) => {
                 let compare_result = checksums::ops::compare_hashes(&opts.file.0, hashes, loaded_hashes);

@@ -6,6 +6,8 @@ use self::super::super::util::mul_str;
 use futures::{Future, Task, Poll};
 use std::time::Duration;
 use std::path::PathBuf;
+use pbr::ProgressBar;
+use std::io::Write;
 use std::thread;
 use std::fs;
 
@@ -17,8 +19,11 @@ lazy_static! {
 
 
 /// Create subpath->hash mappings for a given path using a given algorithm up to a given depth.
-pub fn create_hashes(path: &PathBuf, ignored_files: BTreeSet<String>, algo: Algorithm, remaining_depth: DepthSetting, follow_symlinks: bool, jobs: u32)
-                     -> BTreeMap<String, String> {
+pub fn create_hashes<W>(path: &PathBuf, ignored_files: BTreeSet<String>, algo: Algorithm, remaining_depth: DepthSetting, follow_symlinks: bool, jobs: u32,
+                        pb_out: W)
+                        -> BTreeMap<String, String>
+    where W: Write
+{
     let pool = CpuPool::new(jobs);
     let mut hashes_f = BTreeMap::new();
     create_hashes_p(&mut hashes_f,
@@ -30,19 +35,39 @@ pub fn create_hashes(path: &PathBuf, ignored_files: BTreeSet<String>, algo: Algo
                     remaining_depth,
                     follow_symlinks);
 
-    hashes_f.into_iter()
+    let mut pb = ProgressBar::on(pb_out, hashes_f.len() as u64);
+    pb.set_width(Some(80));
+    pb.show_speed = false;
+    pb.show_tick = true;
+
+    let hashes = hashes_f.into_iter()
         .map(|(k, mut f)| {
+            pb.message(&format!("{} ", k));
+            pb.inc();
+
             let mut task = Task::new();
 
-            loop {
+            for i in 0.. {
                 match f.poll(&mut task) {
-                    Poll::NotReady => thread::sleep(*SLEEP_LEN),
+                    Poll::NotReady => {
+                        thread::sleep(*SLEEP_LEN);
+                        if i % 100 == 0 {
+                            pb.tick();
+                        }
+                    }
                     Poll::Ok(result) => return (k, result),
                     Poll::Err(error) => panic!("Failed to hash file \"{}\": {:?}", k, error),
                 }
             }
+
+            unreachable!();
         })
-        .collect()
+        .collect();
+
+    pb.show_tick = false;
+    pb.tick();
+    pb.finish_print("");
+    hashes
 }
 
 fn create_hashes_p(hashes: &mut BTreeMap<String, CpuFuture<String>>, path: &PathBuf, ignored_files: &BTreeSet<String>, prefix: String, pool: &CpuPool,

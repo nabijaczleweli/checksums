@@ -163,7 +163,9 @@
 //!
 //! Use `--force` to override *outfile*.
 //!
-//! Example output: none; hashes file creation does not output any data.
+//! Example output:
+//!   FILENAME 722 / 722 [===============================================] 100.00 %
+//!
 //! *outfile* contents:
 //!   a_file.txt      8313958F86F7B15D4775D12886D479C1CFAAA111
 //!   *outfile*.hash  ----------------------------------------
@@ -184,6 +186,7 @@
 
 extern crate md5;
 extern crate md6;
+extern crate pbr;
 extern crate crc;
 #[macro_use]
 extern crate clap;
