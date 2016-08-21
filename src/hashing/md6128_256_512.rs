@@ -2,9 +2,6 @@ macro_rules! make_md_mod {
     ($modname:ident, $bytesize:expr) => {
         pub mod $modname {
             use self::super::super::hash_string;
-            use std::path::PathBuf;
-            use std::fs::File;
-            use std::io::Read;
             use md6::Md6;
 
 

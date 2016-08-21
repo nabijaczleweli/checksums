@@ -1,7 +1,4 @@
 use crc16::{State, ARC};
-use std::path::PathBuf;
-use std::fs::File;
-use std::io::Read;
 use ::Algorithm;
 
 

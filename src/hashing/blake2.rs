@@ -1,8 +1,5 @@
 use blake2_rfc::blake2b::Blake2b;
 use self::super::hash_string;
-use std::path::PathBuf;
-use std::fs::File;
-use std::io::Read;
 
 
 hash_func!(Blake2b::new(64),

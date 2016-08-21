@@ -3,9 +3,6 @@ macro_rules! make_sha_mod {
         pub mod $modname {
             use self::super::super::hash_string;
             use tiny_keccak::Keccak;
-            use std::path::PathBuf;
-            use std::fs::File;
-            use std::io::Read;
 
 
             hash_func!($keccak_new(),

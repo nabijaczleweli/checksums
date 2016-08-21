@@ -3,9 +3,6 @@ macro_rules! make_sha_mod {
         pub mod $modname {
             use shaman::digest::Digest;
             use shaman;
-            use std::path::PathBuf;
-            use std::fs::File;
-            use std::io::Read;
 
 
             hash_func!($sha_new(),

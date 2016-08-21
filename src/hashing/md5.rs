@@ -1,7 +1,4 @@
 use self::super::hash_string;
-use std::path::PathBuf;
-use std::fs::File;
-use std::io::Read;
 use md5::Context;
 
 
