@@ -1,5 +1,5 @@
-use self::super::hash_string;
 use std::io::{BufReader, Read};
+use self::super::hash_string;
 
 
 // Pseudocode: https://en.wikipedia.org/wiki/Longitudinal_redundancy_check
