@@ -29,8 +29,8 @@ pub struct Options {
     pub algorithm: Algorithm,
     /// Whether to verify or create checksums. Default: yes
     pub verify: bool,
-    /// Max recursion depth. Default: `LastLevel`
-    pub depth: DepthSetting,
+    /// Max recursion depth. Infinite if None. Default: `1`
+    pub depth: Option<usize>,
     /// In-/Output filename. Default: `"./INFERRED_FROM_DIRECTORY.hash"`
     pub file: (String, PathBuf),
     /// Whether to recurse down symlinks. Default: `true`
@@ -40,20 +40,6 @@ pub struct Options {
     /// # of threads used for hashing. Default: # of CPU threads
     pub jobs: u32,
 }
-
-/// Representation of how deep recursion should be.
-#[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
-pub enum DepthSetting {
-    /// Infinite allowed recursion, `-1` in argument
-    Infinite,
-    /// Last recursion level, go no further. `0` in argument. The default
-    LastLevel,
-    /// Another `N` recursion levels remaining.
-    ///
-    /// Entering a value `<= 0` here yields unspecified behaviour.
-    NRemaining(u32),
-}
-
 
 impl Options {
     /// Parse `env`-wide command-line arguments into an `Options` instance
@@ -105,9 +91,14 @@ impl Options {
             algorithm: Algorithm::from_str(matches.value_of("algorithm").unwrap()).unwrap(),
             verify: verify,
             depth: if matches.is_present("recursive") {
-                DepthSetting::Infinite
+                None
             } else {
-                DepthSetting::from_str(matches.value_of("depth").unwrap_or("0")).unwrap()
+                let i = matches.value_of("depth").map(|s| s.parse::<isize>().unwrap()).unwrap_or(1);
+                if i <= 0 {
+                    None
+                } else {
+                    Some(i as usize)
+                }
             },
             file: file,
             follow_symlinks: !matches.is_present("no-follow-symlinks"),
@@ -139,7 +130,7 @@ impl Options {
     }
 
     fn depth_validator(s: String) -> Result<(), String> {
-        DepthSetting::from_str(&s).map(|_| ())
+        s.parse::<isize>().map(|_| ()).map_err(|e| e.to_string())
     }
 
     fn file_validator(s: String) -> Result<(), String> {
@@ -217,73 +208,5 @@ impl Options {
     #[cfg(not(windows))]
     fn root_fname(_: &Path) -> String {
         "root".to_string()
-    }
-}
-
-
-impl DepthSetting {
-    /// Check if this depth can go one level deeper.
-    ///
-    /// If so, `next_level()` will return `Some`, otherwise, `None`.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// assert!(checksums::options::DepthSetting::Infinite.can_recurse());
-    ///
-    /// assert!(!checksums::options::DepthSetting::LastLevel.can_recurse());
-    ///
-    /// assert!(checksums::options::DepthSetting::NRemaining(1).can_recurse());
-    /// assert!(checksums::options::DepthSetting::NRemaining(100).can_recurse());
-    /// ```
-    pub fn can_recurse(&self) -> bool {
-        match self {
-            &DepthSetting::Infinite |
-            &DepthSetting::NRemaining(_) => true,
-            &DepthSetting::LastLevel => false,
-        }
-    }
-
-    /// Get the next recursion level, if one exists.
-    ///
-    /// The next recursion level does *not* exist only for `LastLevel`.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// // Normally you'd acquire from elsewhere.
-    /// let depth = checksums::options::DepthSetting::NRemaining(1);
-    ///
-    /// if let Some(next) = depth.next_level() {
-    ///     // Recurse into the next level...
-    ///     assert_eq!(next, checksums::options::DepthSetting::LastLevel);
-    /// }
-    /// ```
-    pub fn next_level(&self) -> Option<Self> {
-        match self {
-            &DepthSetting::Infinite => Some(DepthSetting::Infinite),
-            &DepthSetting::NRemaining(n) => Some(Self::from(n as i32 - 1)),
-            &DepthSetting::LastLevel => None,
-        }
-    }
-}
-
-impl FromStr for DepthSetting {
-    type Err = String;
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        i32::from_str(&s).map(DepthSetting::from).map_err(|e| e.to_string())
-    }
-}
-
-impl From<i32> for DepthSetting {
-    fn from(n: i32) -> Self {
-        if n < 0 {
-            DepthSetting::Infinite
-        } else if n > 0 {
-            DepthSetting::NRemaining(n as u32)
-        } else {
-            DepthSetting::LastLevel
-        }
     }
 }

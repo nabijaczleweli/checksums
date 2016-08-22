@@ -1,15 +1,15 @@
 use self::super::super::{Algorithm, hash_file};
-use self::super::super::options::DepthSetting;
 use std::collections::{BTreeSet, BTreeMap};
 use futures_cpupool::{CpuPool, CpuFuture};
 use self::super::super::util::mul_str;
 use futures::{Future, Task, Poll};
 use std::time::Duration;
 use std::path::PathBuf;
+use std::ffi::OsStr;
 use pbr::ProgressBar;
 use std::io::Write;
 use std::thread;
-use std::fs;
+use walkdir::{WalkDir, WalkDirIterator};
 
 
 lazy_static! {
@@ -19,28 +19,53 @@ lazy_static! {
 
 
 /// Create subpath->hash mappings for a given path using a given algorithm up to a given depth.
-pub fn create_hashes<W>(path: &PathBuf, ignored_files: BTreeSet<String>, algo: Algorithm, remaining_depth: DepthSetting, follow_symlinks: bool, jobs: u32,
+pub fn create_hashes<W>(path: &PathBuf, ignored_files: BTreeSet<String>, algo: Algorithm, depth: Option<usize>, follow_symlinks: bool, jobs: u32,
                         pb_out: W)
                         -> BTreeMap<String, String>
     where W: Write
 {
     let pool = CpuPool::new(jobs);
-    let mut hashes_f = BTreeMap::new();
-    create_hashes_p(&mut hashes_f,
-                    &path,
-                    &ignored_files,
-                    String::new(),
-                    &pool,
-                    algo,
-                    remaining_depth,
-                    follow_symlinks);
+    let mut hashes_f: BTreeMap<String, CpuFuture<String>> = BTreeMap::new();
+    let mut walkdir = WalkDir::new(path).min_depth(1).follow_links(follow_symlinks);
+    if let Some(depth) = depth {
+        walkdir = walkdir.max_depth(depth);
+    }
+
+    let is_ignored = |filename: &OsStr| {
+        if let Some(filename) = filename.to_str() {
+            ignored_files.contains(filename)
+        } else {
+            false
+        }
+    };
+
+    let mut hashes = BTreeMap::new();
+
+    let mut walkdir = walkdir.into_iter();
+    while let Some(entry) = walkdir.next() {
+        // panic on symlink loops
+        let entry = entry.unwrap();
+        if entry.file_type().is_file() {
+            let filename_string = entry.path().strip_prefix(path).unwrap().to_str().unwrap().to_string();
+            if is_ignored(entry.file_name()) {
+                hashes.insert(filename_string, mul_str("-", algo.hexlen()));
+            } else {
+                hashes_f.insert(filename_string, pool.execute(move || hash_file(entry.path(), algo)));
+            }
+        } else if entry.file_type().is_dir() {
+            if is_ignored(entry.file_name()) {
+                walkdir.skip_current_dir();
+            }
+            continue;
+        }
+    }
 
     let mut pb = ProgressBar::on(pb_out, hashes_f.len() as u64);
     pb.set_width(Some(80));
     pb.show_speed = false;
     pb.show_tick = true;
 
-    let hashes = hashes_f.into_iter()
+    hashes.extend(hashes_f.into_iter()
         .map(|(k, mut f)| {
             pb.message(&format!("{} ", k));
             pb.inc();
@@ -61,42 +86,10 @@ pub fn create_hashes<W>(path: &PathBuf, ignored_files: BTreeSet<String>, algo: A
             }
 
             unreachable!();
-        })
-        .collect();
+        }));
 
     pb.show_tick = false;
     pb.tick();
     pb.finish_print("");
     hashes
-}
-
-fn create_hashes_p(hashes: &mut BTreeMap<String, CpuFuture<String>>, path: &PathBuf, ignored_files: &BTreeSet<String>, prefix: String, pool: &CpuPool,
-                   algo: Algorithm, remaining_depth: DepthSetting, follow_symlinks: bool) {
-    for file in fs::read_dir(&path).unwrap().map(Result::unwrap) {
-        let file_type = file.file_type().unwrap();
-        let file_name_s = prefix.clone() + file.file_name().to_str().unwrap();
-        let ignored = ignored_files.contains(&file_name_s);
-
-        let mut subpath = path.clone();
-        subpath.push(file.path());
-
-        if file_type.is_file() {
-            let hash = if ignored {
-                // TODO: ideally, this'd be a futures::done() but I was unable to generalise it to do both CpuFuture and Future
-                pool.execute(move || mul_str("-", algo.hexlen()))
-            } else {
-                pool.execute(move || hash_file(&subpath, algo))
-            };
-            hashes.insert(file_name_s, hash);
-        } else if !ignored && remaining_depth.can_recurse() && (follow_symlinks || !file_type.is_symlink()) {
-            create_hashes_p(hashes,
-                            &subpath,
-                            ignored_files,
-                            file_name_s + "/",
-                            pool,
-                            algo,
-                            remaining_depth.next_level().unwrap(),
-                            follow_symlinks)
-        }
-    }
 }

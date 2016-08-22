@@ -196,6 +196,7 @@ extern crate blake;
 extern crate regex;
 extern crate shaman;
 extern crate futures;
+extern crate walkdir;
 extern crate num_cpus;
 extern crate tabwriter;
 extern crate blake2_rfc;
