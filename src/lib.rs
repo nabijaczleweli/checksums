@@ -206,11 +206,12 @@ extern crate tiny_keccak;
 extern crate futures_cpupool;
 
 mod hashing;
+mod options;
 mod algorithms;
 
 pub mod ops;
 pub mod util;
-pub mod options;
 
 pub use hashing::*;
+pub use options::Options;
 pub use algorithms::Algorithm;
