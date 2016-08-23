@@ -29,7 +29,7 @@ pub struct Options {
     pub algorithm: Algorithm,
     /// Whether to verify or create checksums. Default: yes
     pub verify: bool,
-    /// Max recursion depth. Infinite if None. Default: `1`
+    /// Max recursion depth. Infinite if None. Default: `0`
     pub depth: Option<usize>,
     /// In-/Output filename. Default: `"./INFERRED_FROM_DIRECTORY.hash"`
     pub file: (String, PathBuf),
@@ -93,8 +93,8 @@ impl Options {
             depth: if matches.is_present("recursive") {
                 None
             } else {
-                let i = matches.value_of("depth").map(|s| s.parse::<isize>().unwrap()).unwrap_or(1);
-                if i <= 0 {
+                let i = matches.value_of("depth").map(|s| s.parse::<isize>().unwrap()).unwrap_or(0);
+                if i < 0 {
                     None
                 } else {
                     Some(i as usize)

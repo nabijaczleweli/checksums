@@ -1,15 +1,14 @@
 use self::super::super::{Algorithm, hash_file};
 use std::collections::{BTreeSet, BTreeMap};
-use futures_cpupool::{CpuPool, CpuFuture};
+use walkdir::{WalkDir, WalkDirIterator};
 use self::super::super::util::mul_str;
 use futures::{Future, Task, Poll};
+use futures_cpupool::CpuPool;
 use std::time::Duration;
 use std::path::PathBuf;
-use std::ffi::OsStr;
 use pbr::ProgressBar;
 use std::io::Write;
 use std::thread;
-use walkdir::{WalkDir, WalkDirIterator};
 
 
 lazy_static! {
@@ -19,44 +18,35 @@ lazy_static! {
 
 
 /// Create subpath->hash mappings for a given path using a given algorithm up to a given depth.
-pub fn create_hashes<W>(path: &PathBuf, ignored_files: BTreeSet<String>, algo: Algorithm, depth: Option<usize>, follow_symlinks: bool, jobs: u32,
-                        pb_out: W)
+pub fn create_hashes<W>(path: &PathBuf, ignored_files: BTreeSet<String>, algo: Algorithm, depth: Option<usize>, follow_symlinks: bool, jobs: u32, pb_out: W)
                         -> BTreeMap<String, String>
     where W: Write
 {
-    let pool = CpuPool::new(jobs);
-    let mut hashes_f: BTreeMap<String, CpuFuture<String>> = BTreeMap::new();
-    let mut walkdir = WalkDir::new(path).min_depth(1).follow_links(follow_symlinks);
+    let mut walkdir = WalkDir::new(path).follow_links(follow_symlinks);
     if let Some(depth) = depth {
-        walkdir = walkdir.max_depth(depth);
+        walkdir = walkdir.max_depth(depth + 1);
     }
 
-    let is_ignored = |filename: &OsStr| {
-        if let Some(filename) = filename.to_str() {
-            ignored_files.contains(filename)
-        } else {
-            false
-        }
-    };
-
     let mut hashes = BTreeMap::new();
+    let mut hashes_f = BTreeMap::new();
 
+    let pool = CpuPool::new(jobs);
     let mut walkdir = walkdir.into_iter();
     while let Some(entry) = walkdir.next() {
-        // panic on symlink loops
+        // TODO: don't panic on symlink loops
         let entry = entry.unwrap();
+        let ignored = entry.file_name().to_str().map(|f| ignored_files.contains(f)).unwrap_or(false);
+
         if entry.file_type().is_file() {
             let filename_string = entry.path().strip_prefix(path).unwrap().to_str().unwrap().to_string();
-            if is_ignored(entry.file_name()) {
+
+            if ignored {
                 hashes.insert(filename_string, mul_str("-", algo.hexlen()));
             } else {
                 hashes_f.insert(filename_string, pool.execute(move || hash_file(entry.path(), algo)));
             }
-        } else if entry.file_type().is_dir() {
-            if is_ignored(entry.file_name()) {
-                walkdir.skip_current_dir();
-            }
-            continue;
+        } else if entry.file_type().is_dir() && ignored {
+            walkdir.skip_current_dir();
         }
     }
 
