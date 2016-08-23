@@ -11,6 +11,7 @@
 //! ```plaintext
 //! Options
 //! |> create_hashes()
+//! |> load_hashes()
 //! |> compare_hashes()
 //! |> write_hash_comparison_results()
 //! ```
