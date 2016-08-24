@@ -10,16 +10,16 @@
 mod compare;
 mod write;
 
+use self::super::util::{relative_name, mul_str};
 use std::collections::{BTreeSet, BTreeMap};
 use std::io::{BufRead, BufReader, Write};
 use self::super::{Algorithm, hash_file};
 use walkdir::{WalkDir, WalkDirIterator};
 use futures::{Future, Task, Poll};
-use self::super::util::mul_str;
+use std::path::{PathBuf, Path};
 use futures_cpupool::CpuPool;
 use tabwriter::TabWriter;
 use std::time::Duration;
-use std::path::PathBuf;
 use pbr::ProgressBar;
 use std::fs::File;
 use regex::Regex;
@@ -36,9 +36,11 @@ lazy_static! {
 
 
 /// Create subpath->hash mappings for a given path using a given algorithm up to a given depth.
-pub fn create_hashes<W>(path: &PathBuf, ignored_files: BTreeSet<String>, algo: Algorithm, depth: Option<usize>, follow_symlinks: bool, jobs: u32, pb_out: W)
-                        -> BTreeMap<String, String>
-    where W: Write
+pub fn create_hashes<Wo, We>(path: &Path, ignored_files: BTreeSet<String>, algo: Algorithm, depth: Option<usize>, follow_symlinks: bool, jobs: u32, pb_out: Wo,
+                             pb_err: &mut We)
+                             -> BTreeMap<String, String>
+    where Wo: Write,
+          We: Write
 {
     let mut walkdir = WalkDir::new(path).follow_links(follow_symlinks);
     if let Some(depth) = depth {
@@ -48,25 +50,38 @@ pub fn create_hashes<W>(path: &PathBuf, ignored_files: BTreeSet<String>, algo: A
     let mut hashes = BTreeMap::new();
     let mut hashes_f = BTreeMap::new();
 
+    let mut errored = false;
     let pool = CpuPool::new(jobs);
+
     let mut walkdir = walkdir.into_iter();
     while let Some(entry) = walkdir.next() {
-        // TODO: don't panic on symlink loops
-        let entry = entry.unwrap();
-        let ignored = entry.file_name().to_str().map(|f| ignored_files.contains(f)).unwrap_or(false);
+        match entry {
+            Ok(entry) => {
+                let file_type = entry.file_type();
+                let filename = relative_name(path, &entry.path());
+                let ignored = ignored_files.contains(&filename);
 
-        if entry.file_type().is_file() {
-            let filename_string = entry.path().strip_prefix(path).unwrap().to_str().unwrap().to_string();
-
-            if ignored {
-                hashes.insert(filename_string, mul_str("-", algo.hexlen()));
-            } else {
-                hashes_f.insert(filename_string, pool.execute(move || hash_file(entry.path(), algo)));
+                if file_type.is_file() {
+                    if ignored {
+                        hashes.insert(filename, mul_str("-", algo.hexlen()));
+                    } else {
+                        hashes_f.insert(filename, pool.execute(move || hash_file(entry.path(), algo)));
+                    }
+                } else if ignored {
+                    walkdir.skip_current_dir();
+                }
             }
-        } else if entry.file_type().is_dir() && ignored {
-            walkdir.skip_current_dir();
+            Err(error) => {
+                errored = true;
+                writeln!(pb_err, "Symlink loop detected at {}", relative_name(path, &error.path().unwrap())).unwrap();
+            }
         }
     }
+
+    if errored {
+        writeln!(pb_err, "").unwrap();
+    }
+
 
     let mut pb = ProgressBar::on(pb_out, hashes_f.len() as u64);
     pb.set_width(Some(80));

@@ -12,7 +12,14 @@ fn main() {
 fn actual_main() -> i32 {
     let opts = checksums::Options::parse();
 
-    let hashes = checksums::ops::create_hashes(&opts.dir, opts.ignored_files, opts.algorithm, opts.depth, opts.follow_symlinks, opts.jobs, stdout());
+    let hashes = checksums::ops::create_hashes(&opts.dir,
+                                               opts.ignored_files,
+                                               opts.algorithm,
+                                               opts.depth,
+                                               opts.follow_symlinks,
+                                               opts.jobs,
+                                               stdout(),
+                                               &mut stderr());
     if opts.verify {
         // Progress bar separator
         println!("");

@@ -1,6 +1,7 @@
 //! Module containing various utility functions
 
 
+use std::path::Path;
 use std::iter;
 
 
@@ -28,4 +29,17 @@ pub fn vec_merge<T>(mut lhs: Vec<T>, rhs: Vec<T>) -> Vec<T> {
 /// ```
 pub fn mul_str(what: &str, n: usize) -> String {
     iter::repeat(what).take(n).collect()
+}
+
+/// Create a user-usable path to `what` from `prefix`.
+///
+/// # Examples
+///
+/// ```
+/// # use std::path::Path;
+/// assert_eq!(checksums::util::relative_name(Path::new("/usr"), Path::new("/usr/bin/checksums")),
+///            "bin/checksums".to_string());
+/// ```
+pub fn relative_name(prefix: &Path, what: &Path) -> String {
+    what.strip_prefix(prefix).unwrap().to_str().unwrap().replace("\\", "/")
 }
