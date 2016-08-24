@@ -36,4 +36,5 @@ md5 = "0.2"
 
 [[bin]]
 name = "checksums"
+test = false
 doc = false

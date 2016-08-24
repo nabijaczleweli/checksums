@@ -7,7 +7,7 @@
 //!
 //! ```skip
 //! let opts = Options::parse();
-//! println!("{:?}", opts);
+//! println!("{:#?}", opts);
 //! ```
 
 

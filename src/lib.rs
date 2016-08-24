@@ -215,6 +215,7 @@ extern crate lazy_static;
 extern crate tiny_keccak;
 extern crate futures_cpupool;
 
+mod error;
 mod hashing;
 mod options;
 mod algorithms;
@@ -224,4 +225,5 @@ pub mod util;
 
 pub use hashing::*;
 pub use options::Options;
+pub use error::Error;
 pub use algorithms::Algorithm;

@@ -1,12 +1,13 @@
 use self::super::{CompareResult, CompareFileResult, CompareError};
 use self::super::super::util::mul_str;
+use self::super::super::Error;
 use std::io::Write;
 
 
 /// Write hash comparison results to the output streams in a human-consumable format
 pub fn write_hash_comparison_results<Wo: Write, We: Write>(output: &mut Wo, error: &mut We,
                                                            results: Result<(Vec<CompareResult>, Vec<CompareFileResult>), CompareError>)
-                                                           -> i32 {
+                                                           -> Error {
     let result = match results {
         Ok((mut compare_results, mut file_compare_results)) => {
             compare_results.sort();
@@ -22,10 +23,10 @@ pub fn write_hash_comparison_results<Wo: Write, We: Write>(output: &mut Wo, erro
 
             if file_compare_results.is_empty() && compare_results.is_empty() {
                 writeln!(output, "No files left to verify").unwrap();
-                0
+                Error::NoError
             } else if file_compare_results.is_empty() {
                 writeln!(output, "No files to verify").unwrap();
-                0
+                Error::NoError
             } else {
                 if !compare_results.is_empty() {
                     writeln!(output, "").unwrap();
@@ -43,8 +44,8 @@ pub fn write_hash_comparison_results<Wo: Write, We: Write>(output: &mut Wo, erro
                 }
 
                 match differed_n {
-                    0 => 0,
-                    n => 3 + n,
+                    0 => Error::NoError,
+                    n => Error::NFilesDiffer(n),
                 }
             }
         }
@@ -64,7 +65,7 @@ pub fn write_hash_comparison_results<Wo: Write, We: Write>(output: &mut Wo, erro
                 }
             }
 
-            2
+            Error::HashLengthDiffers
         }
     };
 

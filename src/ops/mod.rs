@@ -20,6 +20,7 @@ use std::path::{PathBuf, Path};
 use futures_cpupool::CpuPool;
 use tabwriter::TabWriter;
 use std::time::Duration;
+use self::super::Error;
 use pbr::ProgressBar;
 use std::fs::File;
 use regex::Regex;
@@ -130,7 +131,7 @@ pub fn write_hashes(out_file: &(String, PathBuf), algo: Algorithm, mut hashes: B
 }
 
 /// Read hashes saved with `write_hashes()` from the specified path or fail with line numbers not matching pattern.
-pub fn read_hashes(err: &mut Write, file: &(String, PathBuf)) -> Result<BTreeMap<String, String>, i32> {
+pub fn read_hashes(err: &mut Write, file: &(String, PathBuf)) -> Result<BTreeMap<String, String>, Error> {
     lazy_static! {
         static ref LINE_RGX: Regex = Regex::new(r"^(.+?)\s{2,}([[:xdigit:]-]+)$").unwrap();
     }
@@ -156,6 +157,6 @@ pub fn read_hashes(err: &mut Write, file: &(String, PathBuf)) -> Result<BTreeMap
     if !failed {
         Ok(hashes)
     } else {
-        Err(3)
+        Err(Error::HashesFileParsingFailure)
     }
 }

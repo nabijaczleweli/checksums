@@ -30,8 +30,7 @@ fn actual_main() -> i32 {
                 checksums::ops::write_hash_comparison_results(&mut stdout(), &mut stderr(), compare_result)
             }
             Err(rval) => rval,
-        }
-
+        }.exit_value()
     } else {
         checksums::ops::write_hashes(&opts.file, opts.algorithm, hashes);
         0
