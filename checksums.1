@@ -18,6 +18,22 @@ Use the generated checksums to automatically verify file/directory tree correctn
 .P
 All output is wrapped to 80 columns\.
 .
+.P
+Exit values and possible errors:
+.
+.IP "" 4
+.
+.nf
+
+1   \- option parsing error
+2   \- hash lengths differ between selected and saved
+3   \- failed to parse hashes file
+N+3 \- N files didn\'t match
+.
+.fi
+.
+.IP "" 0
+.
 .SH "OPTIONS"
 \-a \-\-algorithm <\fIalgorithm\fR>
 .

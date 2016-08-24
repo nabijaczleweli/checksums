@@ -14,6 +14,13 @@ correctness.
 
 All output is wrapped to 80 columns.
 
+Exit values and possible errors:
+
+    1   - option parsing error
+    2   - hash lengths differ between selected and saved
+    3   - failed to parse hashes file
+    N+3 - N files didn't match
+
 ## OPTIONS
 
   -a --algorithm &lt;<algorithm>&gt;
