@@ -224,6 +224,6 @@ pub mod ops;
 pub mod util;
 
 pub use hashing::*;
-pub use options::Options;
 pub use error::Error;
+pub use options::Options;
 pub use algorithms::Algorithm;
