@@ -26,6 +26,15 @@
 //!
 //! # Executable manpage
 //!
+//! Exit values and possible errors:
+//!
+//! ```text
+//! 1   - option parsing error
+//! 2   - hash lengths differ between selected and saved
+//! 3   - failed to parse hashes file
+//! N+3 - N files didn't match
+//! ```
+//!
 //! ## SYNOPSIS
 //!
 //! [`checksums`](https://github.com/nabijaczleweli/checksums) [OPTIONS] [DIRECTORY]
