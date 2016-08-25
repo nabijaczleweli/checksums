@@ -3,5 +3,5 @@ use self::super::hash_string;
 
 
 hash_func!(Blake2b::new(64),
-           |blake: &mut Blake2b, buffer: &[u8], read: usize| blake.update(&buffer[0..read]),
+           |blake: &mut Blake2b, buffer: &[u8]| blake.update(buffer),
            |blake: Blake2b| hash_string(blake.finalize().as_bytes()));

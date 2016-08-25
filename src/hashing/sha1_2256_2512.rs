@@ -6,7 +6,7 @@ macro_rules! make_sha_mod {
 
 
             hash_func!($sha_new(),
-                       |sha: &mut $tpe, buffer: &[u8], read: usize| sha.input(&buffer[0..read]),
+                       |sha: &mut $tpe, buffer: &[u8]| sha.input(buffer),
                        |mut sha: $tpe| sha.result_str().to_uppercase());
         }
     }

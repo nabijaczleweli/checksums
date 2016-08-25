@@ -3,7 +3,7 @@ use blake::Blake;
 
 
 hash_func!(Blake::new(512).unwrap(),
-           |blake: &mut Blake, buffer: &[u8], read: usize| blake.update(&buffer[0..read]),
+           |blake: &mut Blake, buffer: &[u8]| blake.update(buffer),
            |blake: Blake| {
                let mut result = [0; 64];
                blake.finalise(&mut result);

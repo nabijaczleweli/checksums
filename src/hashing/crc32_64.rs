@@ -6,7 +6,7 @@ macro_rules! make_crc_mod {
 
 
             hash_func!($digest_new($poly),
-                       |digest: &mut $digest, buffer: &[u8], read: usize| $hasher_write(digest, &buffer[0..read]),
+                       |digest: &mut $digest, buffer: &[u8]| $hasher_write(digest, buffer),
                        |digest: $digest| format!("{:01$X}", $hasher_sum(&digest), $algo.hexlen()));
         }
     }

@@ -6,7 +6,7 @@ macro_rules! make_sha_mod {
 
 
             hash_func!($keccak_new(),
-                       |keccak: &mut Keccak, buffer: &[u8], read: usize| keccak.update(&buffer[0..read]),
+                       |keccak: &mut Keccak, buffer: &[u8]| keccak.update(buffer),
                        |keccak: Keccak| {
                            let mut output = [0u8; $len];
                            keccak.finalize(&mut output);

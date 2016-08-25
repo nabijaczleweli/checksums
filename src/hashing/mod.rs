@@ -14,7 +14,7 @@ macro_rules! hash_func {
                     break;
                 }
 
-                $update(&mut ctx, &buffer, read);
+                $update(&mut ctx, &buffer[..read]);
             }
 
             $convert(ctx)
