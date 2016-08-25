@@ -48,22 +48,22 @@ pub enum Algorithm {
 impl Algorithm {
     /// Length, in bytes, of the algorithm's output hex string
     pub fn hexlen(&self) -> usize {
-        match self {
-            &Algorithm::XOR8 | &Algorithm::CRC8 => 2,
-            &Algorithm::CRC16 => 4,
-            &Algorithm::CRC32 => 8,
-            &Algorithm::CRC64 => 16,
-            &Algorithm::MD5 |
-            &Algorithm::MD6128 => 32,
-            &Algorithm::SHA1 => 40,
-            &Algorithm::SHA2256 |
-            &Algorithm::SHA3256 |
-            &Algorithm::MD6256 => 64,
-            &Algorithm::SHA2512 |
-            &Algorithm::SHA3512 |
-            &Algorithm::BLAKE |
-            &Algorithm::BLAKE2 |
-            &Algorithm::MD6512 => 128,
+        match *self {
+            Algorithm::XOR8 | Algorithm::CRC8 => 2,
+            Algorithm::CRC16 => 4,
+            Algorithm::CRC32 => 8,
+            Algorithm::CRC64 => 16,
+            Algorithm::MD5 |
+            Algorithm::MD6128 => 32,
+            Algorithm::SHA1 => 40,
+            Algorithm::SHA2256 |
+            Algorithm::SHA3256 |
+            Algorithm::MD6256 => 64,
+            Algorithm::SHA2512 |
+            Algorithm::SHA3512 |
+            Algorithm::BLAKE |
+            Algorithm::BLAKE2 |
+            Algorithm::MD6512 => 128,
         }
     }
 }

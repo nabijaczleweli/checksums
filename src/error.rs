@@ -10,12 +10,12 @@ pub enum Error {
 
 impl Error {
     pub fn exit_value(&self) -> i32 {
-        match self {
-            &Error::NoError => 0,
-            &Error::OptionParsingError => 1,
-            &Error::HashLengthDiffers => 2,
-            &Error::HashesFileParsingFailure => 3,
-            &Error::NFilesDiffer(i) => i + 3,
+        match *self {
+            Error::NoError => 0,
+            Error::OptionParsingError => 1,
+            Error::HashLengthDiffers => 2,
+            Error::HashesFileParsingFailure => 3,
+            Error::NFilesDiffer(i) => i + 3,
         }
     }
 }

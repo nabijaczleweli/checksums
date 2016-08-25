@@ -14,10 +14,10 @@ pub fn write_hash_comparison_results<Wo: Write, We: Write>(output: &mut Wo, erro
             file_compare_results.sort();
 
             for res in &compare_results {
-                match res {
-                    &CompareResult::FileAdded(ref file) => write_compare_result(output, "File added: ", &file),
-                    &CompareResult::FileRemoved(ref file) => write_compare_result(output, "File removed: ", &file),
-                    &CompareResult::FileIgnored(ref file) => write_compare_result(output, "File ignored, skipping: ", &file),
+                match *res {
+                    CompareResult::FileAdded(ref file) => write_compare_result(output, "File added: ", file),
+                    CompareResult::FileRemoved(ref file) => write_compare_result(output, "File removed: ", file),
+                    CompareResult::FileIgnored(ref file) => write_compare_result(output, "File ignored, skipping: ", file),
                 }
             }
 
@@ -34,10 +34,10 @@ pub fn write_hash_comparison_results<Wo: Write, We: Write>(output: &mut Wo, erro
 
                 let mut differed_n = 0;
                 for fres in &file_compare_results {
-                    match fres {
-                        &CompareFileResult::FileMatches(ref file) => write_file_result_match(output, &file),
-                        &CompareFileResult::FileDiffers { ref file, ref was_hash, ref new_hash } => {
-                            write_file_result_diff(output, &file, &was_hash, &new_hash);
+                    match *fres {
+                        CompareFileResult::FileMatches(ref file) => write_file_result_match(output, file),
+                        CompareFileResult::FileDiffers { ref file, ref was_hash, ref new_hash } => {
+                            write_file_result_diff(output, file, was_hash, new_hash);
                             differed_n += 1;
                         }
                     }
@@ -90,7 +90,7 @@ fn write_result<W: Write>(out: &mut W, pre: &str, fname: &str, fname_indent: usi
             writeln!(out, "  {}", fname).unwrap();
         } else {
             let indent = mul_str(" ", fname_indent);
-            for fname_chunk in fname.chars().collect::<Vec<_>>().chunks(80 - fname_indent).map(|cc| cc.into_iter().map(|&c| c).collect::<String>()) {
+            for fname_chunk in fname.chars().collect::<Vec<_>>().chunks(80 - fname_indent).map(|cc| cc.into_iter().cloned().collect::<String>()) {
                 writeln!(out, "{}{}", indent, fname_chunk).unwrap();
             }
         }

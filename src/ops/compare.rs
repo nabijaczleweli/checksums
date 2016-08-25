@@ -29,7 +29,7 @@ pub enum CompareError {
 
 
 /// Compare two provided hashes.
-pub fn compare_hashes(out_file: &String, mut current_hashes: BTreeMap<String, String>, mut loaded_hashes: BTreeMap<String, String>)
+pub fn compare_hashes(out_file: &str, mut current_hashes: BTreeMap<String, String>, mut loaded_hashes: BTreeMap<String, String>)
                       -> Result<(Vec<CompareResult>, Vec<CompareFileResult>), CompareError> {
     let current_hashes_value_len = current_hashes.iter().next().unwrap().1.len();
     let loaded_hashes_value_len = loaded_hashes.iter().next().unwrap().1.len();
@@ -62,7 +62,7 @@ pub fn compare_hashes(out_file: &String, mut current_hashes: BTreeMap<String, St
 
     if !current_hashes.is_empty() {
         for (key, loaded_value) in loaded_hashes {
-            let ref current_value = current_hashes[&key];
+            let current_value = &current_hashes[&key];
             if *current_value == loaded_value {
                 file_compare_results.push(CompareFileResult::FileMatches(key));
             } else {
@@ -80,7 +80,7 @@ pub fn compare_hashes(out_file: &String, mut current_hashes: BTreeMap<String, St
 
 
 fn process_ignores<F, Rc, Rl>(f: F, cres: Rc, lres: Rl, ch: &mut BTreeMap<String, String>, lh: &mut BTreeMap<String, String>) -> Vec<CompareResult>
-    where F: Fn(&String, &String, &BTreeMap<String, String>) -> bool,
+    where F: Fn(&str, &str, &BTreeMap<String, String>) -> bool,
           Rc: Fn(String) -> CompareResult,
           Rl: Fn(String) -> CompareResult
 {
@@ -100,7 +100,7 @@ fn process_ignores<F, Rc, Rl>(f: F, cres: Rc, lres: Rl, ch: &mut BTreeMap<String
 
 fn process_ignores_iter<F, R>(f: &F, res: &R, curr: &BTreeMap<String, String>, other: &BTreeMap<String, String>, keys_to_remove: &mut Vec<String>,
                               results: &mut Vec<CompareResult>)
-    where F: Fn(&String, &String, &BTreeMap<String, String>) -> bool,
+    where F: Fn(&str, &str, &BTreeMap<String, String>) -> bool,
           R: Fn(String) -> CompareResult
 {
     for (key, value) in curr {

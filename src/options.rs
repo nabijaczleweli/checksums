@@ -98,7 +98,7 @@ impl Options {
             },
             file: file,
             follow_symlinks: !matches.is_present("no-follow-symlinks"),
-            ignored_files: matches.values_of("ignore").map(|v| v.map(String::from).collect()).unwrap_or(BTreeSet::new()),
+            ignored_files: matches.values_of("ignore").map(|v| v.map(String::from).collect()).unwrap_or_default(),
             jobs: match matches.value_of("jobs") {
                 None | Some("") => num_cpus::get() as u32,
                 Some(s) => {

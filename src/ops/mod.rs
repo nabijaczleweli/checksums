@@ -59,7 +59,7 @@ pub fn create_hashes<Wo, We>(path: &Path, ignored_files: BTreeSet<String>, algo:
         match entry {
             Ok(entry) => {
                 let file_type = entry.file_type();
-                let filename = relative_name(path, &entry.path());
+                let filename = relative_name(path, entry.path());
                 let ignored = ignored_files.contains(&filename);
 
                 if file_type.is_file() {
