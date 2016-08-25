@@ -37,8 +37,8 @@ lazy_static! {
 
 
 /// Create subpath->hash mappings for a given path using a given algorithm up to a given depth.
-pub fn create_hashes<Wo, We>(path: &Path, ignored_files: BTreeSet<String>, algo: Algorithm, depth: Option<usize>, follow_symlinks: bool, jobs: u32, pb_out: Wo,
-                             pb_err: &mut We)
+pub fn create_hashes<Wo, We>(path: &Path, ignored_files: BTreeSet<String>, algo: Algorithm, depth: Option<usize>, follow_symlinks: bool, jobs: u32,
+                             pb_out: Wo, pb_err: &mut We)
                              -> BTreeMap<String, String>
     where Wo: Write,
           We: Write

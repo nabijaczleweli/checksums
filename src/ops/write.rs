@@ -82,11 +82,7 @@ fn write_compare_result<W: Write>(out: &mut W, pre: &str, fname: &str) {
 
 fn write_result<W: Write>(out: &mut W, pre: &str, fname: &str, fname_indent: usize, quote: bool) {
     if pre.len() + quote as usize + fname.len() + quote as usize <= 80 {
-        let quote_s = if quote {
-            "\""
-        } else {
-            ""
-        };
+        let quote_s = if quote { "\"" } else { "" };
         writeln!(out, "{}{2}{}{2}", pre, fname, quote_s).unwrap();
     } else {
         writeln!(out, "{}", pre).unwrap();

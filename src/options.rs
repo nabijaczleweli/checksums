@@ -94,11 +94,7 @@ impl Options {
                 None
             } else {
                 let i = matches.value_of("depth").map(|s| s.parse::<isize>().unwrap()).unwrap_or(0);
-                if i < 0 {
-                    None
-                } else {
-                    Some(i as usize)
-                }
+                if i < 0 { None } else { Some(i as usize) }
             },
             file: file,
             follow_symlinks: !matches.is_present("no-follow-symlinks"),
