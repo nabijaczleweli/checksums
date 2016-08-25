@@ -93,12 +93,12 @@ impl Options {
             depth: if matches.is_present("recursive") {
                 None
             } else {
-                let i = matches.value_of("depth").map(|s| s.parse::<isize>().unwrap()).unwrap_or(0);
+                let i = matches.value_of("depth").map_or(0, |s| s.parse::<isize>().unwrap());
                 if i < 0 { None } else { Some(i as usize) }
             },
             file: file,
             follow_symlinks: !matches.is_present("no-follow-symlinks"),
-            ignored_files: matches.values_of("ignore").map(|v| v.map(String::from).collect()).unwrap_or(BTreeSet::new()),
+            ignored_files: matches.values_of("ignore").map(|v| v.map(String::from).collect()).unwrap_or_default(),
             jobs: match matches.value_of("jobs") {
                 None | Some("") => num_cpus::get() as u32,
                 Some(s) => {
