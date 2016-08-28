@@ -1,14 +1,20 @@
 /// Enum representing each way the appication can fail.
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
 pub enum Error {
+    /// No errors occured, everything executed correctly.
     NoError,
+    /// Parsing of command-line options failed.
     OptionParsingError,
+    /// Selected and saved hash lengths differ.
     HashLengthDiffers,
+    /// Parsing the hashes file failed.
     HashesFileParsingFailure,
+    /// The specified amount of files do not match.
     NFilesDiffer(i32),
 }
 
 impl Error {
+    /// Get the executable exit value from an `Error` instance.
     pub fn exit_value(&self) -> i32 {
         match *self {
             Error::NoError => 0,
