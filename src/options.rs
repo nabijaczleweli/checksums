@@ -38,7 +38,7 @@ pub struct Options {
     /// Files/directories to ignore. Default: none
     pub ignored_files: BTreeSet<String>,
     /// # of threads used for hashing. Default: # of CPU threads
-    pub jobs: u32,
+    pub jobs: usize,
 }
 
 impl Options {
@@ -100,11 +100,11 @@ impl Options {
             follow_symlinks: !matches.is_present("no-follow-symlinks"),
             ignored_files: matches.values_of("ignore").map(|v| v.map(String::from).collect()).unwrap_or_default(),
             jobs: match matches.value_of("jobs") {
-                None | Some("") => num_cpus::get() as u32,
+                None | Some("") => num_cpus::get() as usize,
                 Some(s) => {
                     match i32::from_str(s).unwrap() {
-                        -1 => u32::max_value(),
-                        i => i as u32,
+                        -1 => usize::max_value(),
+                        i => i as usize,
                     }
                 }
             },

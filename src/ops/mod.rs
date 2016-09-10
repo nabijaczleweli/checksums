@@ -12,32 +12,24 @@ mod write;
 
 use self::super::util::{relative_name, mul_str};
 use std::collections::{BTreeSet, BTreeMap};
+use futures_cpupool::{CpuFuture, CpuPool};
 use std::io::{BufRead, BufReader, Write};
 use self::super::{Algorithm, hash_file};
 use walkdir::{WalkDir, WalkDirIterator};
-use futures::{Future, Task, Poll};
 use std::path::{PathBuf, Path};
-use futures_cpupool::CpuPool;
 use tabwriter::TabWriter;
-use std::time::Duration;
 use self::super::Error;
 use pbr::ProgressBar;
+use futures::Future;
 use std::fs::File;
 use regex::Regex;
-use std::thread;
 
 pub use self::compare::*;
 pub use self::write::*;
 
 
-lazy_static! {
-    // TODO: customisation point?
-    static ref SLEEP_LEN: Duration = Duration::from_millis(1);
-}
-
-
 /// Create subpath->hash mappings for a given path using a given algorithm up to a given depth.
-pub fn create_hashes<Wo, We>(path: &Path, ignored_files: BTreeSet<String>, algo: Algorithm, depth: Option<usize>, follow_symlinks: bool, jobs: u32,
+pub fn create_hashes<Wo, We>(path: &Path, ignored_files: BTreeSet<String>, algo: Algorithm, depth: Option<usize>, follow_symlinks: bool, jobs: usize,
                              pb_out: Wo, pb_err: &mut We)
                              -> BTreeMap<String, String>
     where Wo: Write,
@@ -49,7 +41,7 @@ pub fn create_hashes<Wo, We>(path: &Path, ignored_files: BTreeSet<String>, algo:
     }
 
     let mut hashes = BTreeMap::new();
-    let mut hashes_f = BTreeMap::new();
+    let mut hashes_f: BTreeMap<String, CpuFuture<String, ()>> = BTreeMap::new();
 
     let mut errored = false;
     let pool = CpuPool::new(jobs);
@@ -66,7 +58,7 @@ pub fn create_hashes<Wo, We>(path: &Path, ignored_files: BTreeSet<String>, algo:
                     if ignored {
                         hashes.insert(filename, mul_str("-", algo.hexlen()));
                     } else {
-                        hashes_f.insert(filename, pool.execute(move || hash_file(entry.path(), algo)));
+                        hashes_f.insert(filename, pool.spawn_fn(move || Ok(hash_file(entry.path(), algo))));
                     }
                 } else if ignored {
                     walkdir.skip_current_dir();
@@ -90,26 +82,14 @@ pub fn create_hashes<Wo, We>(path: &Path, ignored_files: BTreeSet<String>, algo:
     pb.show_tick = true;
 
     hashes.extend(hashes_f.into_iter()
-        .map(|(k, mut f)| {
+        .map(|(k, f)| {
             pb.message(&format!("{} ", k));
             pb.inc();
 
-            let mut task = Task::new();
-
-            for i in 0.. {
-                match f.poll(&mut task) {
-                    Poll::NotReady => {
-                        thread::sleep(*SLEEP_LEN);
-                        if i % 100 == 0 {
-                            pb.tick();
-                        }
-                    }
-                    Poll::Ok(result) => return (k, result),
-                    Poll::Err(error) => panic!("Failed to hash file \"{}\": {:?}", k, error),
-                }
+            match f.wait() {
+                Ok(result) => return (k, result),
+                Err(error) => panic!("Failed to hash file \"{}\": {:?}", k, error),
             }
-
-            unreachable!();
         }));
 
     pb.show_tick = false;
