@@ -84,6 +84,14 @@ impl Options {
                     info: None,
                 }
                 .exit();
+        } else if !file.1.exists() && verify {
+            clap::Error {
+                    message: format!("Can't find checksums file \"{}\".\n\
+                                      Did you mean to create it with -c?", file.0),
+                    kind: clap::ErrorKind::InvalidValue,
+                    info: None,
+                }
+                .exit();
         }
 
         Options {
