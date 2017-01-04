@@ -4,4 +4,4 @@ use md5::Context;
 
 hash_func!(Context::new(),
            |ctx: &mut Context, buffer: &[u8]| ctx.consume(buffer),
-           |ctx: Context| hash_string(&ctx.compute()));
+           |ctx: Context| hash_string(&*ctx.compute()));
