@@ -22,6 +22,19 @@ macro_rules! hash_func {
     }
 }
 
+macro_rules! hash_func_write {
+    ($ctx:expr, $convert:expr) => {
+        use std::io::{self, Read};
+
+
+        pub fn hash<R: Read>(reader: &mut R) -> String {
+            let mut ctx = $ctx;
+            io::copy(reader, &mut ctx).unwrap();
+            $convert(ctx)
+        }
+    }
+}
+
 
 use super::Algorithm;
 use std::path::Path;
