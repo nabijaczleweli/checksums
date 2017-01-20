@@ -5,6 +5,7 @@ documentation = "https://cdn.rawgit.com/nabijaczleweli/checksums/doc/checksums/i
 repository = "https://github.com/nabijaczleweli/checksums"
 readme = "README.md"
 keywords = ["checksums", "checksum", "directory", "verification", "hash"]
+categories = ["authentication", "filesystem"]
 license = "MIT"
 # Remember to also update in appveyor.yml
 version = "0.5.3"
