@@ -23,7 +23,7 @@ use std::fs;
 /// Representation of the application's all configurable values.
 #[derive(Debug, Clone, Hash, PartialEq, Eq)]
 pub struct Options {
-    /// Directory to hach/verify. Default: `"."`
+    /// Directory to hash/verify. Default: `"."`
     pub dir: PathBuf,
     /// Hashing algorithm to use. Default: `"SHA1"`
     pub algorithm: Algorithm,
@@ -47,7 +47,7 @@ impl Options {
         let matches = App::new("checksums")
             .setting(AppSettings::ColoredHelp)
             .version(crate_version!())
-            .author(crate_authors!())
+            .author(crate_authors!("\n"))
             .about("Tool for making/verifying checksums of directory trees")
             .args(&[Arg::from_usage("[DIRECTORY] 'Directory to hash/verify'").default_value(".").validator(Options::directory_validator),
                     Arg::from_usage("--algorithm=[algorithm] -a 'Hashing algorithm to use. {n}\
