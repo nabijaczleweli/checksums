@@ -37,7 +37,9 @@ pub struct Options {
     pub follow_symlinks: bool,
     /// Files/directories to ignore. Default: none
     pub ignored_files: BTreeSet<String>,
-    /// # of threads used for hashing. Default: # of CPU threads
+    /// # of threads used for hashing.
+    ///
+    /// Default: 1
     pub jobs: usize,
 }
 
