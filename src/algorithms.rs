@@ -97,7 +97,7 @@ impl FromStr for Algorithm {
             "md6256" | "md6-256" => Ok(Algorithm::MD6256),
             "md6512" | "md6-512" => Ok(Algorithm::MD6512),
             "xor8" => Ok(Algorithm::XOR8),
-            _ => Err(format!("\"{}\" is not a recognised compression algorithm", s)),
+            _ => Err(format!("\"{}\" is not a recognised hashing algorithm", s)),
         }
     }
 }
