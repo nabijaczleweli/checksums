@@ -21,8 +21,12 @@ use std::str::FromStr;
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
 pub enum Algorithm {
     SHA1,
+    /// SHA2-224
+    SHA2224,
     /// SHA2-256
     SHA2256,
+    /// SHA2-384
+    SHA2384,
     /// SHA2-512
     SHA2512,
     /// SHA3-256
@@ -53,9 +57,11 @@ impl Algorithm {
             Algorithm::CRC16 => 4,
             Algorithm::CRC32 => 8,
             Algorithm::CRC64 => 16,
+            Algorithm::SHA2224 => 28,
             Algorithm::MD5 |
             Algorithm::MD6128 => 32,
             Algorithm::SHA1 => 40,
+            Algorithm::SHA2384 => 48,
             Algorithm::SHA2256 |
             Algorithm::SHA3256 |
             Algorithm::MD6256 => 64,
@@ -75,6 +81,8 @@ impl FromStr for Algorithm {
         match &s.replace("_", "-").to_lowercase()[..] {
             "sha-1" | "sha1" => Ok(Algorithm::SHA1),
             "sha2256" | "sha2-256" | "sha-2-256" => Ok(Algorithm::SHA2256),
+            "sha2224" | "sha2-224" | "sha-2-224" => Ok(Algorithm::SHA2224),
+            "sha2384" | "sha2-384" | "sha-2-384" => Ok(Algorithm::SHA2384),
             "sha2" | "sha-2" | "sha2512" | "sha2-512" | "sha-2-512" => Ok(Algorithm::SHA2512),
             "sha3256" | "sha3-256" | "sha-3-256" => Ok(Algorithm::SHA3256),
             "sha3" | "sha-3" | "sha3512" | "sha3-512" | "sha-3-512" => Ok(Algorithm::SHA3512),

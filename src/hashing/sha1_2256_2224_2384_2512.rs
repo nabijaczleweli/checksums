@@ -14,5 +14,7 @@ macro_rules! make_sha_mod {
 
 
 make_sha_mod!(sha1, shaman::sha1::Sha1, shaman::sha1::Sha1::new);
+make_sha_mod!(sha2224, shaman::sha2::Sha224, shaman::sha2::Sha224::new);
 make_sha_mod!(sha2256, shaman::sha2::Sha256, shaman::sha2::Sha256::new);
+make_sha_mod!(sha2384, shaman::sha2::Sha384, shaman::sha2::Sha384::new);
 make_sha_mod!(sha2512, shaman::sha2::Sha512, shaman::sha2::Sha512::new);

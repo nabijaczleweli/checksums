@@ -8,7 +8,9 @@ use std::str::FromStr;
 fn from_str() {
     for p in &[("sha1", Algorithm::SHA1),
                ("sha2", Algorithm::SHA2512),
+               ("sha2-224", Algorithm::SHA2224),
                ("sha2-256", Algorithm::SHA2256),
+               ("sha2-384", Algorithm::SHA2384),
                ("sha2-512", Algorithm::SHA2512),
                ("sha2256", Algorithm::SHA2256),
                ("sha2512", Algorithm::SHA2512),

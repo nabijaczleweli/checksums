@@ -49,17 +49,19 @@ mod blake;
 mod blake2;
 mod crc32_64;
 mod sha3256_3512;
-mod sha1_2256_2512;
 mod md6128_256_512;
+mod sha1_2256_2224_2384_2512;
 
 
 /// Hash the specified file using the specified hashing algorithm.
 pub fn hash_file(path: &Path, algo: Algorithm) -> String {
     let mut file = File::open(path).unwrap();
     match algo {
-        Algorithm::SHA1 => sha1_2256_2512::sha1::hash(&mut file),
-        Algorithm::SHA2256 => sha1_2256_2512::sha2256::hash(&mut file),
-        Algorithm::SHA2512 => sha1_2256_2512::sha2512::hash(&mut file),
+        Algorithm::SHA1 => sha1_2256_2224_2384_2512::sha1::hash(&mut file),
+        Algorithm::SHA2224 => sha1_2256_2224_2384_2512::sha2224::hash(&mut file),
+        Algorithm::SHA2256 => sha1_2256_2224_2384_2512::sha2256::hash(&mut file),
+        Algorithm::SHA2384 => sha1_2256_2224_2384_2512::sha2384::hash(&mut file),
+        Algorithm::SHA2512 => sha1_2256_2224_2384_2512::sha2512::hash(&mut file),
         Algorithm::SHA3256 => sha3256_3512::sha3256::hash(&mut file),
         Algorithm::SHA3512 => sha3256_3512::sha3512::hash(&mut file),
         Algorithm::BLAKE => blake::hash(&mut file),
