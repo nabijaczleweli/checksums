@@ -4,5 +4,5 @@ Tool for making/verifying checksums of directory trees.
 Use the generated checksums to automatically verify file/directory tree
 correctness.
 
-## [Manpage](https://cdn.rawgit.com/nabijaczleweli/checksums/man/checksums.1.html)
-## [Docs](https://cdn.rawgit.com/nabijaczleweli/checksums/doc/checksums/index.html)
+## [Manpage](https://rawcdn.githack.com/nabijaczleweli/checksums/man/checksums.1.html)
+## [Docs](https://rawcdn.githack.com/nabijaczleweli/checksums/doc/checksums/index.html)
