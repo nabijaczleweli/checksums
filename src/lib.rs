@@ -204,6 +204,7 @@ extern crate crc8;
 extern crate crc16;
 extern crate blake;
 extern crate regex;
+extern crate crc32c;
 extern crate shaman;
 extern crate futures;
 extern crate walkdir;

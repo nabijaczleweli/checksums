@@ -47,6 +47,7 @@ mod crc8;
 mod crc16;
 mod blake;
 mod blake2;
+mod crc32c;
 mod crc32_64;
 mod sha3256_3512;
 mod md6128_256_512;
@@ -68,6 +69,7 @@ pub fn hash_file(path: &Path, algo: Algorithm) -> String {
         Algorithm::BLAKE2 => blake2::hash(&mut file),
         Algorithm::CRC64 => crc32_64::crc64::hash(&mut file),
         Algorithm::CRC32 => crc32_64::crc32::hash(&mut file),
+        Algorithm::CRC32C => crc32c::hash(&mut file),
         Algorithm::CRC16 => crc16::hash(&mut file),
         Algorithm::CRC8 => crc8::hash(&mut file),
         Algorithm::MD5 => md5::hash(&mut file),

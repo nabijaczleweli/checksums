@@ -22,6 +22,7 @@ fn from_str() {
                ("blake", Algorithm::BLAKE),
                ("blake2", Algorithm::BLAKE2),
                ("crc64", Algorithm::CRC64),
+               ("crc32c", Algorithm::CRC32C),
                ("crc32", Algorithm::CRC32),
                ("crc16", Algorithm::CRC16),
                ("crc8", Algorithm::CRC8),

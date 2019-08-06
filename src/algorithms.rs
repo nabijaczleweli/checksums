@@ -37,6 +37,8 @@ pub enum Algorithm {
     BLAKE2,
     CRC64,
     CRC32,
+    /// CRC-32-Castagnoli
+    CRC32C,
     CRC16,
     CRC8,
     MD5,
@@ -55,6 +57,7 @@ impl Algorithm {
         match *self {
             Algorithm::XOR8 | Algorithm::CRC8 => 2,
             Algorithm::CRC16 => 4,
+            Algorithm::CRC32C |
             Algorithm::CRC32 => 8,
             Algorithm::CRC64 => 16,
             Algorithm::SHA2224 => 28,
@@ -89,6 +92,10 @@ impl FromStr for Algorithm {
             "blake" => Ok(Algorithm::BLAKE),
             "blake2" => Ok(Algorithm::BLAKE2),
             "crc64" => Ok(Algorithm::CRC64),
+            "crc32c" |
+            "crc32-c" |
+            "crc32castagnoli" |
+            "crc32-castagnoli" => Ok(Algorithm::CRC32C),
             "crc32" => Ok(Algorithm::CRC32),
             "crc16" => Ok(Algorithm::CRC16),
             "crc8" => Ok(Algorithm::CRC8),
