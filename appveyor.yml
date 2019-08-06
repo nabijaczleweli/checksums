@@ -1,4 +1,4 @@
-version: 0.5.5-{build}
+version: 0.6.0-{build}
 
 branches:
   except:
@@ -24,8 +24,8 @@ build: off
 build_script:
   - git submodule update --init --recursive
   - cargo build --verbose --release
-  - cp target\release\checksums.exe checksums-v0.5.5.exe
-  - strip --strip-all --remove-section=.comment --remove-section=.note checksums-v0.5.5.exe
+  - cp target\release\checksums.exe checksums-v0.6.0.exe
+  - strip --strip-all --remove-section=.comment --remove-section=.note checksums-v0.6.0.exe
 
 test: off
 test_script:
@@ -33,11 +33,11 @@ test_script:
   - target\release\checksums -cr --ignore target --ignore .git && cat checksums.hash
 
 artifacts:
-  - path: checksums-v0.5.5.exe
+  - path: checksums-v0.6.0.exe
 
 deploy:
   provider: GitHub
-  artifact: checksums-v0.5.5.exe
+  artifact: checksums-v0.6.0.exe
   auth_token:
     secure: zc/M0k0pSOFA3H9GhgTOFhYmOj6M88rfqwfjDhvhlzz/oa8P9JL+7XR4LmDHajJp
   on:
