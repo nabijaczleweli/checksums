@@ -17,6 +17,8 @@ install:
   - curl -SL http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz -oC:\msys2-keyring.txz
   - pacman --noconfirm -U C:\msys2-keyring.txz
   - bash -lc "pacman --needed --noconfirm -Sy pacman-mirrors"
+  - bash -lc "pacman --noconfirm -Sy pacman"
+  - bash -lc "pacman --noconfirm -Su"
   - bash -lc "pacman --noconfirm -Sy"
   - bash -lc "pacman --noconfirm -S mingw-w64-x86_64-toolchain"
   -
