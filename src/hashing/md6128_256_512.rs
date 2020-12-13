@@ -6,7 +6,7 @@ macro_rules! make_md_mod {
 
 
             hash_func_write!(Md6::new($bytesize * 8).unwrap(),
-                             |md6: Md6| {
+                             |mut md6: Md6| {
                                  let mut result = [0; $bytesize];
                                  md6.finalise(&mut result);
                                  hash_string(&result)
