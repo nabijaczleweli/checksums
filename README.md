@@ -6,3 +6,10 @@ correctness.
 
 ## [Manpage](https://rawcdn.githack.com/nabijaczleweli/checksums/man/checksums.1.html)
 ## [Docs](https://rawcdn.githack.com/nabijaczleweli/checksums/doc/checksums/index.html)
+
+## Special thanks
+
+To all who support further development on Patreon, in particular:
+
+  * ThePhD
+  * Embark Studios

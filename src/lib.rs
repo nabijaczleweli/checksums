@@ -192,6 +192,13 @@
 //!   File "dir1/file" matches
 //!   File "file" matches
 //! ```
+//!
+//! # Special thanks
+//!
+//! To all who support further development on [Patreon](https://patreon.com/nabijaczleweli), in particular:
+//!
+//!   * ThePhD
+//!   * Embark Studios
 
 
 extern crate md5;
