@@ -140,8 +140,9 @@ Exit values and possible errors:
 
 ## AUTHOR
 
-Written by nabijaczleweli &lt;<nabijaczleweli@gmail.com>&gt;
-       and Zachary Dremann &lt;<dremann@gmail.com>&gt;
+Written by nabijaczleweli &lt;<nabijaczleweli@gmail.com>&gt;,
+           Zachary Dremann &lt;<dremann@gmail.com>&gt;,
+       and Chris Moore
 
 ## REPORTING BUGS
 
