@@ -40,6 +40,7 @@ use super::Algorithm;
 use std::path::Path;
 use std::fmt::Write;
 use std::fs::File;
+use std::io::Read;
 
 mod md5;
 mod xor8;
@@ -56,27 +57,31 @@ mod sha1_2256_2224_2384_2512;
 
 /// Hash the specified file using the specified hashing algorithm.
 pub fn hash_file(path: &Path, algo: Algorithm) -> String {
-    let mut file = File::open(path).unwrap();
+    hash_reader(&mut File::open(path).unwrap(), algo)
+}
+
+/// Hash the specified byte stream using the specified hashing algorithm.
+pub fn hash_reader<R: Read>(data: &mut R, algo: Algorithm) -> String {
     match algo {
-        Algorithm::SHA1 => sha1_2256_2224_2384_2512::sha1::hash(&mut file),
-        Algorithm::SHA2224 => sha1_2256_2224_2384_2512::sha2224::hash(&mut file),
-        Algorithm::SHA2256 => sha1_2256_2224_2384_2512::sha2256::hash(&mut file),
-        Algorithm::SHA2384 => sha1_2256_2224_2384_2512::sha2384::hash(&mut file),
-        Algorithm::SHA2512 => sha1_2256_2224_2384_2512::sha2512::hash(&mut file),
-        Algorithm::SHA3256 => sha3256_3512::sha3256::hash(&mut file),
-        Algorithm::SHA3512 => sha3256_3512::sha3512::hash(&mut file),
-        Algorithm::BLAKE => blake::hash(&mut file),
-        Algorithm::BLAKE2 => blake2::hash(&mut file),
-        Algorithm::CRC64 => crc32_64::crc64::hash(&mut file),
-        Algorithm::CRC32 => crc32_64::crc32::hash(&mut file),
-        Algorithm::CRC32C => crc32c::hash(&mut file),
-        Algorithm::CRC16 => crc16::hash(&mut file),
-        Algorithm::CRC8 => crc8::hash(&mut file),
-        Algorithm::MD5 => md5::hash(&mut file),
-        Algorithm::MD6128 => md6128_256_512::md6128::hash(&mut file),
-        Algorithm::MD6256 => md6128_256_512::md6256::hash(&mut file),
-        Algorithm::MD6512 => md6128_256_512::md6512::hash(&mut file),
-        Algorithm::XOR8 => xor8::hash(&mut file),
+        Algorithm::SHA1 => sha1_2256_2224_2384_2512::sha1::hash(data),
+        Algorithm::SHA2224 => sha1_2256_2224_2384_2512::sha2224::hash(data),
+        Algorithm::SHA2256 => sha1_2256_2224_2384_2512::sha2256::hash(data),
+        Algorithm::SHA2384 => sha1_2256_2224_2384_2512::sha2384::hash(data),
+        Algorithm::SHA2512 => sha1_2256_2224_2384_2512::sha2512::hash(data),
+        Algorithm::SHA3256 => sha3256_3512::sha3256::hash(data),
+        Algorithm::SHA3512 => sha3256_3512::sha3512::hash(data),
+        Algorithm::BLAKE => blake::hash(data),
+        Algorithm::BLAKE2 => blake2::hash(data),
+        Algorithm::CRC64 => crc32_64::crc64::hash(data),
+        Algorithm::CRC32 => crc32_64::crc32::hash(data),
+        Algorithm::CRC32C => crc32c::hash(data),
+        Algorithm::CRC16 => crc16::hash(data),
+        Algorithm::CRC8 => crc8::hash(data),
+        Algorithm::MD5 => md5::hash(data),
+        Algorithm::MD6128 => md6128_256_512::md6128::hash(data),
+        Algorithm::MD6256 => md6128_256_512::md6256::hash(data),
+        Algorithm::MD6512 => md6128_256_512::md6512::hash(data),
+        Algorithm::XOR8 => xor8::hash(data),
     }
 }
 
