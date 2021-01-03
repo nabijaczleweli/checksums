@@ -218,10 +218,9 @@ extern crate walkdir;
 extern crate num_cpus;
 extern crate tabwriter;
 extern crate blake2_rfc;
-#[macro_use]
-extern crate lazy_static;
 extern crate tiny_keccak;
 extern crate futures_cpupool;
+extern crate once_cell;
 
 mod error;
 mod hashing;
