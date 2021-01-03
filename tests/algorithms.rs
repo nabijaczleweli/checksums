@@ -1,4 +1,4 @@
-extern crate checksums;
+use checksums;
 
 use self::checksums::Algorithm;
 use std::str::FromStr;

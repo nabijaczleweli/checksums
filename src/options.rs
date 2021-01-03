@@ -11,7 +11,7 @@
 //! ```
 
 
-use clap::{self, App, Arg, AppSettings};
+use clap::{self, App, Arg, AppSettings, crate_authors, crate_version};
 use std::collections::BTreeSet;
 use std::path::{Path, PathBuf};
 use self::super::Algorithm;

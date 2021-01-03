@@ -1,7 +1,7 @@
 macro_rules! make_crc_mod {
     ($modname:ident, $algo:expr, $digest:ty, $digest_new:expr, $hasher_write:expr, $hasher_sum:expr, $poly:expr) => {
         pub mod $modname {
-            use ::Algorithm;
+            use crate::Algorithm;
             use crc;
 
 

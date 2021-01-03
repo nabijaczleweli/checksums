@@ -1,4 +1,4 @@
-extern crate checksums;
+use checksums;
 
 use std::process::exit;
 use std::io::{stdout, stderr};
