@@ -23,6 +23,7 @@ use pbr::ProgressBar;
 use futures::Future;
 use std::fs::File;
 use regex::Regex;
+use once_cell::sync::Lazy;
 
 pub use self::compare::*;
 pub use self::write::*;
@@ -112,9 +113,7 @@ pub fn write_hashes(out_file: &(String, PathBuf), algo: Algorithm, mut hashes: B
 
 /// Read hashes saved with `write_hashes()` from the specified path or fail with line numbers not matching pattern.
 pub fn read_hashes(err: &mut Write, file: &(String, PathBuf)) -> Result<BTreeMap<String, String>, Error> {
-    lazy_static! {
-        static ref LINE_RGX: Regex = Regex::new(r"^(.+?)\s{2,}([[:xdigit:]-]+)$").unwrap();
-    }
+    static LINE_RGX: Lazy<Regex> = Lazy::new(|| Regex::new(r"^(.+?)\s{2,}([[:xdigit:]-]+)$").unwrap());
 
     let mut hashes = BTreeMap::new();
     let mut failed = false;
