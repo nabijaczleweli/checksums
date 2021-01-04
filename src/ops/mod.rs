@@ -112,7 +112,7 @@ pub fn write_hashes(out_file: &(String, PathBuf), algo: Algorithm, mut hashes: B
 }
 
 /// Read hashes saved with `write_hashes()` from the specified path or fail with line numbers not matching pattern.
-pub fn read_hashes(err: &mut Write, file: &(String, PathBuf)) -> Result<BTreeMap<String, String>, Error> {
+pub fn read_hashes(err: &mut dyn Write, file: &(String, PathBuf)) -> Result<BTreeMap<String, String>, Error> {
     static LINE_RGX: Lazy<Regex> = Lazy::new(|| Regex::new(r"^(.+?)\s{2,}([[:xdigit:]-]+)$").unwrap());
 
     let mut hashes = BTreeMap::new();
