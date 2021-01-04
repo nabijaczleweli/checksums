@@ -48,7 +48,7 @@ deploy:
   provider: GitHub
   artifact: checksums-v0.7.1.exe
   auth_token:
-    secure: zc/M0k0pSOFA3H9GhgTOFhYmOj6M88rfqwfjDhvhlzz/oa8P9JL+7XR4LmDHajJp
+    secure: zK12oe/FpM3ohZeCRfm/yD7EaLGQhxH9Tfn/Uh4VPIixnq+qJ/8ZLd/LsIeVDwro
   on:
     appveyor_repo_tag: true
 
