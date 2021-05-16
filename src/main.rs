@@ -1,5 +1,3 @@
-use checksums;
-
 use std::process::exit;
 use std::io::{stdout, stderr};
 
@@ -22,7 +20,7 @@ fn actual_main() -> i32 {
                                                &mut stderr());
     if opts.verify {
         // Progress bar separator
-        println!("");
+        println!();
 
         match checksums::ops::read_hashes(&mut stderr(), &opts.file) {
             Ok(loaded_hashes) => {

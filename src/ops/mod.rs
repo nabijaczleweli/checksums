@@ -88,7 +88,7 @@ pub fn create_hashes<Wo, We>(path: &Path, ignored_files: BTreeSet<String>, algo:
             pb.inc();
 
             match f.wait() {
-                Ok(result) => return (k, result),
+                Ok(result) => (k, result),
                 Err(error) => panic!("Failed to hash file \"{}\": {:?}", k, error),
             }
         }));
