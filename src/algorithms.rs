@@ -15,6 +15,8 @@ use std::str::FromStr;
 ///
 /// assert_eq!(checksums::Algorithm::from_str("BLAKE"), Ok(checksums::Algorithm::BLAKE));
 /// assert_eq!(checksums::Algorithm::from_str("BLAKE2"), Ok(checksums::Algorithm::BLAKE2));
+/// assert_eq!(checksums::Algorithm::from_str("BLAKE2"), Ok(checksums::Algorithm::BLAKE2B));
+/// assert_eq!(checksums::Algorithm::from_str("BLAKE2B"), Ok(checksums::Algorithm::BLAKE2B));
 ///
 /// assert_eq!(checksums::Algorithm::from_str("MD5"), Ok(checksums::Algorithm::MD5));
 /// ```
@@ -34,7 +36,9 @@ pub enum Algorithm {
     /// SHA3-512
     SHA3512,
     BLAKE,
-    BLAKE2,
+    BLAKE2B,
+    BLAKE2S,
+    BLAKE3,
     CRC64,
     CRC32,
     /// CRC-32-Castagnoli
@@ -49,6 +53,11 @@ pub enum Algorithm {
     /// MD6-512
     MD6512,
     XOR8,
+}
+
+impl Algorithm {
+    /// Compatibility alias.
+    pub const BLAKE2: Algorithm = Algorithm::BLAKE2B;
 }
 
 impl Algorithm {
@@ -67,11 +76,13 @@ impl Algorithm {
             Algorithm::SHA2384 => 48,
             Algorithm::SHA2256 |
             Algorithm::SHA3256 |
+            Algorithm::BLAKE2S |
+            Algorithm::BLAKE3 |
             Algorithm::MD6256 => 64,
             Algorithm::SHA2512 |
             Algorithm::SHA3512 |
             Algorithm::BLAKE |
-            Algorithm::BLAKE2 |
+            Algorithm::BLAKE2B |
             Algorithm::MD6512 => 128,
         }
     }
@@ -90,7 +101,9 @@ impl FromStr for Algorithm {
             "sha3256" | "sha3-256" | "sha-3-256" => Ok(Algorithm::SHA3256),
             "sha3" | "sha-3" | "sha3512" | "sha3-512" | "sha-3-512" => Ok(Algorithm::SHA3512),
             "blake" => Ok(Algorithm::BLAKE),
-            "blake2" => Ok(Algorithm::BLAKE2),
+            "blake2" | "blake2b" => Ok(Algorithm::BLAKE2B),
+            "blake2s" => Ok(Algorithm::BLAKE2S),
+            "blake3" => Ok(Algorithm::BLAKE3),
             "crc64" => Ok(Algorithm::CRC64),
             "crc32c" |
             "crc32-c" |

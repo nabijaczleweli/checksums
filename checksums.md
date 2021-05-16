@@ -25,11 +25,13 @@ Exit values and possible errors:
 
   -a --algorithm &lt;<algorithm>&gt;
 
-    Set the hashing algorithm to use.
+    Set the hashing algorithm to use, case-insensitive.
 
     Supported algorithms: SHA1, SHA2-256, SHA2-512, SHA3-256, SHA3-512, BLAKE,
-                          BLAKE2, CRC8, CRC16, CRC32, CRC64, MD5, MD6-128,
-                          MD6-256, MD6-512, XOR8
+                          BLAKE2B, BLAKE2S, BLAKE3, CRC8, CRC16, CRC32, CRC64,
+                          MD5, MD6-128, MD6-256, MD6-512, XOR8
+
+    BLAKE2 is equivalent to BLAKE2B for compatibility.
 
   -c --create
 
