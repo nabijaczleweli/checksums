@@ -12,7 +12,7 @@ version = "0.7.1"
 # Remember to also update in checksums.md
 authors = ["nabijaczleweli <nabijaczleweli@gmail.com>", "Zachary Dremann <dremann@gmail.com>", "Chris Moore", "Daniel Alley <dalley@redhat.com>, Paul Bragin <zeusmods@protonmail.com>"]
 exclude = ["*.enc"]
-
+edition = "2018"
 
 [dependencies]
 futures-cpupool = "0.1.8"

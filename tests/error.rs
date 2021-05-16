@@ -1,5 +1,4 @@
-extern crate checksums;
-
+use checksums;
 use checksums::Error;
 
 

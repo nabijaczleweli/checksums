@@ -200,29 +200,6 @@
 //!   * ThePhD
 //!   * Embark Studios
 
-
-extern crate md-5;
-extern crate md6;
-extern crate pbr;
-extern crate crc;
-#[macro_use]
-extern crate clap;
-extern crate crc8;
-extern crate crc16;
-extern crate blake;
-extern crate regex;
-extern crate crc32c;
-extern crate shaman;
-extern crate futures;
-extern crate walkdir;
-extern crate num_cpus;
-extern crate tabwriter;
-extern crate blake2;
-extern crate blake3;
-extern crate tiny_keccak;
-extern crate futures_cpupool;
-extern crate once_cell;
-
 mod error;
 mod hashing;
 mod options;
@@ -231,7 +208,7 @@ mod algorithms;
 pub mod ops;
 pub mod util;
 
-pub use hashing::*;
-pub use error::Error;
-pub use options::Options;
-pub use algorithms::Algorithm;
+pub use crate::hashing::*;
+pub use crate::error::Error;
+pub use crate::options::Options;
+pub use crate::algorithms::Algorithm;

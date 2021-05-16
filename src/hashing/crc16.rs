@@ -1,5 +1,5 @@
 use crc16::{State, ARC};
-use ::Algorithm;
+use crate::Algorithm;
 
 
 hash_func!(State::new(),
