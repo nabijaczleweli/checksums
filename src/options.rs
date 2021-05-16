@@ -53,7 +53,7 @@ impl Options {
             .about("Tool for making/verifying checksums of directory trees")
             .args(&[Arg::from_usage("[DIRECTORY] 'Directory to hash/verify'").default_value(".").validator(Options::directory_validator),
                     Arg::from_usage("--algorithm=[algorithm] -a 'Hashing algorithm to use. {n}\
-                                     Supported algorithms: SHA{1,2-{224,256,384,512},3-{256,512}}, BLAKE{,2}, CRC{64,32{,C},16,8}, MD{5,6-{128,256,512}}, XOR8'")
+                                     Supported algorithms: SHA{1,2-{224,256,384,512},3-{256,512}}, BLAKE{,2B,2S,3}, CRC{64,32{,C},16,8}, MD{5,6-{128,256,512}}, XOR8'")
                         .next_line_help(true)
                         .default_value("SHA1")
                         .validator(Options::algorithm_validator),

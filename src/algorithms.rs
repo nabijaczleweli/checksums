@@ -34,7 +34,9 @@ pub enum Algorithm {
     /// SHA3-512
     SHA3512,
     BLAKE,
-    BLAKE2,
+    BLAKE2B,
+    BLAKE2S,
+    BLAKE3,
     CRC64,
     CRC32,
     /// CRC-32-Castagnoli
@@ -71,8 +73,10 @@ impl Algorithm {
             Algorithm::SHA2512 |
             Algorithm::SHA3512 |
             Algorithm::BLAKE |
-            Algorithm::BLAKE2 |
             Algorithm::MD6512 => 128,
+            Algorithm::BLAKE2B => 128,
+            Algorithm::BLAKE2S => 64,
+            Algorithm::BLAKE3 => 64,
         }
     }
 }
@@ -90,7 +94,9 @@ impl FromStr for Algorithm {
             "sha3256" | "sha3-256" | "sha-3-256" => Ok(Algorithm::SHA3256),
             "sha3" | "sha-3" | "sha3512" | "sha3-512" | "sha-3-512" => Ok(Algorithm::SHA3512),
             "blake" => Ok(Algorithm::BLAKE),
-            "blake2" => Ok(Algorithm::BLAKE2),
+            "blake2b" => Ok(Algorithm::BLAKE2B),
+            "blake2s" => Ok(Algorithm::BLAKE2S),
+            "blake3" => Ok(Algorithm::BLAKE3),
             "crc64" => Ok(Algorithm::CRC64),
             "crc32c" |
             "crc32-c" |

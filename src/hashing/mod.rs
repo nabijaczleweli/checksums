@@ -47,7 +47,9 @@ mod xor8;
 mod crc8;
 mod crc16;
 mod blake;
-mod blake2;
+mod blake2b;
+mod blake2s;
+mod blake3;
 mod crc32c;
 mod crc32_64;
 mod sha3256_3512;
@@ -71,7 +73,9 @@ pub fn hash_reader<R: Read>(data: &mut R, algo: Algorithm) -> String {
         Algorithm::SHA3256 => sha3256_3512::sha3256::hash(data),
         Algorithm::SHA3512 => sha3256_3512::sha3512::hash(data),
         Algorithm::BLAKE => blake::hash(data),
-        Algorithm::BLAKE2 => blake2::hash(data),
+        Algorithm::BLAKE2B => blake2b::hash(data),
+        Algorithm::BLAKE2S => blake2s::hash(data),
+        Algorithm::BLAKE3 => blake3::hash(data),
         Algorithm::CRC64 => crc32_64::crc64::hash(data),
         Algorithm::CRC32 => crc32_64::crc32::hash(data),
         Algorithm::CRC32C => crc32c::hash(data),

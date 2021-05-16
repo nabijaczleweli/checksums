@@ -201,7 +201,7 @@
 //!   * Embark Studios
 
 
-extern crate md5;
+extern crate md-5;
 extern crate md6;
 extern crate pbr;
 extern crate crc;
@@ -217,7 +217,8 @@ extern crate futures;
 extern crate walkdir;
 extern crate num_cpus;
 extern crate tabwriter;
-extern crate blake2_rfc;
+extern crate blake2;
+extern crate blake3;
 extern crate tiny_keccak;
 extern crate futures_cpupool;
 extern crate once_cell;
