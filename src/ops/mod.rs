@@ -73,7 +73,7 @@ pub fn create_hashes<Wo, We>(path: &Path, ignored_files: BTreeSet<String>, algo:
     }
 
     if errored {
-        writeln!(pb_err, "").unwrap();
+        writeln!(pb_err).unwrap();
     }
 
 

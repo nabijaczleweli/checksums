@@ -29,7 +29,7 @@ pub fn write_hash_comparison_results<Wo: Write, We: Write>(output: &mut Wo, erro
                 Error::NoError
             } else {
                 if !compare_results.is_empty() {
-                    writeln!(output, "").unwrap();
+                    writeln!(output).unwrap();
                 }
 
                 let mut differed_n = 0;
@@ -90,7 +90,7 @@ fn write_result<W: Write>(out: &mut W, pre: &str, fname: &str, fname_indent: usi
             writeln!(out, "  {}", fname).unwrap();
         } else {
             let indent = mul_str(" ", fname_indent);
-            for fname_chunk in fname.chars().collect::<Vec<_>>().chunks(80 - fname_indent).map(|cc| cc.into_iter().cloned().collect::<String>()) {
+            for fname_chunk in fname.chars().collect::<Vec<_>>().chunks(80 - fname_indent).map(|cc| cc.iter().cloned().collect::<String>()) {
                 writeln!(out, "{}{}", indent, fname_chunk).unwrap();
             }
         }

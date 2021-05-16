@@ -16,7 +16,6 @@ use std::collections::BTreeSet;
 use std::path::{Path, PathBuf};
 use self::super::Algorithm;
 use std::str::FromStr;
-use num_cpus;
 use std::fs;
 
 
@@ -97,16 +96,16 @@ impl Options {
         }
 
         Options {
-            dir: dir,
+            dir,
             algorithm: Algorithm::from_str(matches.value_of("algorithm").unwrap()).unwrap(),
-            verify: verify,
+            verify,
             depth: if matches.is_present("recursive") {
                 None
             } else {
                 let i = matches.value_of("depth").map(|s| s.parse::<isize>().unwrap()).unwrap_or(0);
                 if i < 0 { None } else { Some(i as usize) }
             },
-            file: file,
+            file,
             follow_symlinks: !matches.is_present("no-follow-symlinks"),
             ignored_files: matches.values_of("ignore").map(|v| v.map(String::from).collect()).unwrap_or_default(),
             jobs: match matches.value_of("jobs") {
@@ -193,7 +192,7 @@ impl Options {
                     .unwrap())
             }
             None => {
-                let mut file = dir.clone();
+                let mut file = dir.to_path_buf();
                 match dir.file_name() {
                     Some(fname) => file.push(fname),
                     None => file.push(Options::root_fname(dir)),
