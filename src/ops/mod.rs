@@ -111,7 +111,7 @@ pub fn write_hashes(out_file: &(String, PathBuf), algo: Algorithm, mut hashes: B
     out.flush().unwrap();
 }
 
-/// Read hashes saved with `write_hashes()` from the specified path or fail with line numbers not matching pattern.
+/// Read upper-cased hashes saved with `write_hashes()` from the specified path or fail with line numbers not matching pattern.
 pub fn read_hashes(err: &mut dyn Write, file: &(String, PathBuf)) -> Result<BTreeMap<String, String>, Error> {
     static LINE_RGX: Lazy<Regex> = Lazy::new(|| Regex::new(r"^(.+?)\s{2,}([[:xdigit:]-]+)$").unwrap());
 
@@ -123,7 +123,7 @@ pub fn read_hashes(err: &mut dyn Write, file: &(String, PathBuf)) -> Result<BTre
         if !line.is_empty() {
             match LINE_RGX.captures(&line) {
                 Some(captures) => {
-                    hashes.insert(captures[1].to_string(), captures[2].to_string());
+                    hashes.insert(captures[1].to_string(), captures[2].to_uppercase());
                 }
                 None => {
                     failed = true;
