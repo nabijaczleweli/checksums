@@ -145,7 +145,8 @@ Exit values and possible errors:
 Written by nabijaczleweli &lt;<nabijaczleweli@gmail.com>&gt;,
            Zachary Dremann &lt;<dremann@gmail.com>&gt;,
            Chris Moore,
-       and Daniel Alley &lt;<dalley@redhat.com>&gt;
+           Daniel Alley &lt;<dalley@redhat.com>&gt;,
+       and Paul Bragin &lt;<zeusmods@protonmail.com>&gt;
 
 ## REPORTING BUGS
 
