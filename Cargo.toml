@@ -8,7 +8,7 @@ keywords = ["checksums", "checksum", "directory", "verification", "hash"]
 categories = ["authentication", "filesystem"]
 license = "MIT"
 # Remember to also update in appveyor.yml
-version = "0.8.0"
+version = "0.8.1"
 # Remember to also update in checksums.md
 authors = ["nabijaczleweli <nabijaczleweli@gmail.com>",
            "Zachary Dremann <dremann@gmail.com>",
