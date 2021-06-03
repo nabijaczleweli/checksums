@@ -33,7 +33,9 @@ fn from_str() {
                ("md5", Algorithm::MD5),
                ("md6-128", Algorithm::MD6128),
                ("md6-256", Algorithm::MD6256),
-               ("md6-512", Algorithm::MD6512)] {
+               ("md6-512", Algorithm::MD6512),
+               ("whirlpool", Algorithm::WHIRLPOOL),
+               ("xor8", Algorithm::XOR8)] {
         assert_eq!(Algorithm::from_str(p.0).unwrap(), p.1);
     }
 }

@@ -52,6 +52,7 @@ pub enum Algorithm {
     MD6256,
     /// MD6-512
     MD6512,
+    WHIRLPOOL,
     XOR8,
 }
 
@@ -83,7 +84,8 @@ impl Algorithm {
             Algorithm::SHA3512 |
             Algorithm::BLAKE |
             Algorithm::BLAKE2B |
-            Algorithm::MD6512 => 128,
+            Algorithm::MD6512 |
+            Algorithm::WHIRLPOOL => 128,
         }
     }
 }
@@ -116,6 +118,7 @@ impl FromStr for Algorithm {
             "md6128" | "md6-128" => Ok(Algorithm::MD6128),
             "md6256" | "md6-256" => Ok(Algorithm::MD6256),
             "md6512" | "md6-512" => Ok(Algorithm::MD6512),
+            "whirlpool" => Ok(Algorithm::WHIRLPOOL),
             "xor8" => Ok(Algorithm::XOR8),
             _ => Err(format!("\"{}\" is not a recognised hashing algorithm", s)),
         }

@@ -22,6 +22,7 @@ exclude = ["*.enc"]
 futures-cpupool = "0.1"
 once_cell = "1.7"
 tabwriter = "1.2"
+whirlpool = "0.9"
 num_cpus = "1.13"
 futures = "0.1"
 walkdir = "2.3"

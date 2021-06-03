@@ -53,11 +53,13 @@
 //! -a --algorithm &lt;algorithm&gt;
 //!
 //! ```text
-//! Set the hashing algorithm to use.
+//! Set the hashing algorithm to use, case-insensitive.
 //!
 //! Supported algorithms: SHA1, SHA2-256, SHA2-512, SHA3-256, SHA3-512, BLAKE,
-//!                       BLAKE2, CRC8, CRC16, CRC32, CRC64, MD5, MD6-128,
-//!                       MD6-256, MD6-512, XOR8
+//!                       BLAKE2B, BLAKE2S, BLAKE3, CRC8, CRC16, CRC32, CRC64,
+//!                       MD5, MD6-128, MD6-256, MD6-512, XOR8
+//!
+//! BLAKE2 is equivalent to BLAKE2B for compatibility.
 //! ```
 //!
 //! -c --create
@@ -218,10 +220,11 @@ extern crate shaman;
 extern crate futures;
 extern crate walkdir;
 extern crate num_cpus;
+extern crate once_cell;
 extern crate tabwriter;
+extern crate whirlpool;
 extern crate tiny_keccak;
 extern crate futures_cpupool;
-extern crate once_cell;
 
 mod error;
 mod hashing;

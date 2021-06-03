@@ -52,6 +52,7 @@ mod blake2s;
 mod blake3;
 mod crc32c;
 mod crc32_64;
+mod whirlpool;
 mod sha3256_3512;
 mod md6128_256_512;
 mod sha1_2256_2224_2384_2512;
@@ -85,6 +86,7 @@ pub fn hash_reader<R: Read>(data: &mut R, algo: Algorithm) -> String {
         Algorithm::MD6128 => md6128_256_512::md6128::hash(data),
         Algorithm::MD6256 => md6128_256_512::md6256::hash(data),
         Algorithm::MD6512 => md6128_256_512::md6512::hash(data),
+        Algorithm::WHIRLPOOL => whirlpool::hash(data),
         Algorithm::XOR8 => xor8::hash(data),
     }
 }
