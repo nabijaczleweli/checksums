@@ -146,7 +146,8 @@ Written by nabijaczleweli &lt;<nabijaczleweli@gmail.com>&gt;,
            Zachary Dremann &lt;<dremann@gmail.com>&gt;,
            Chris Moore,
            Daniel Alley &lt;<dalley@redhat.com>&gt;,
-       and Paul Bragin &lt;<zeusmods@protonmail.com>&gt;
+           Paul Bragin &lt;<zeusmods@protonmail.com>&gt;,
+       and Jack O'Connor
 
 ## REPORTING BUGS
 
