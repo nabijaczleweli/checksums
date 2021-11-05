@@ -201,6 +201,7 @@
 //!
 //!   * ThePhD
 //!   * Embark Studios
+//!   * Jasper Bekkers
 
 
 extern crate md5;
